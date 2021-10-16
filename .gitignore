@@ -71,7 +71,10 @@ env/
 venv/ 
 ENV/ 
 env.bak/ 
-venv.bak/ 
+venv.bak/
+
+#node_modules
+node_modules/
 
 # mkdocs documentation 
 /site 

@@ -1,0 +1,9 @@
+{
+  "name": "computing_environment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/SzymonJankowski98/computing_environment.git",
+  "author": "'SzymonJankowski98' <'jankowski.szymon.98@gmail.com'>",
+  "license": "MIT",
+  "dependencies": {}
+}
