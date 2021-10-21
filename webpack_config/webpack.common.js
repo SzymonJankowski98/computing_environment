@@ -25,9 +25,9 @@ module.exports = {
             },
          },
          {
-            test: /\.css$/i,
+            test: /\.(sa|sc|c)ss$/,
             include: path.resolve(__dirname,'..', 'assets','style'),
-            use: ['style-loader', 'css-loader', 'postcss-loader'],
+            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
          },
       ]
    },
