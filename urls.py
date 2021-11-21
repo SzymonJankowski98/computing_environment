@@ -14,7 +14,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from computing_environment.views import *
+
+from computing_environment.apps import ComputingEnvironmentConfig
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', landing, name='index'),
+    path('sign_in', sign_in, name='sign_in')
 ]
