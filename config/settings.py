@@ -95,8 +95,12 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': env('DB_NAME')
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST':  env('DB_HOST'),
+        'PORT': env('DB_PORT')
     }
 }
 
@@ -149,3 +153,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'computing_environment.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
