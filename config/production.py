@@ -1,5 +1,4 @@
 import environ
-import os
 
 env = environ.Env(
     # set casting, default value

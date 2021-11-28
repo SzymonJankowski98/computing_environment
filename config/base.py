@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     # Third party apps
     'allauth',
     'allauth.account',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    'invitations'
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'computing_environment.User'
+
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
