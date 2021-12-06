@@ -21,6 +21,5 @@ from computing_environment.apps import ComputingEnvironmentConfig
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing, name='index'),
-    path('accounts/', include('allauth.urls')),
-    path('invitations/', include('invitations.urls', namespace='invitations'))
+    path('accounts/', include('allauth.urls'))
 ]
