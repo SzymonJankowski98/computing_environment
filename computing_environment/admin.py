@@ -3,6 +3,9 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import User
 
+from .models import Invitation
+from .forms.invitation import InvitationAdminAddForm
+
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password', 'name', 'last_login')}),
@@ -31,3 +34,14 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ('groups', 'user_permissions',)
 
 admin.site.register(User, UserAdmin)
+
+class InvitationAdmin(admin.ModelAdmin):
+    list_display = ('email', 'accepted')
+
+    def get_form(self, request, obj=None, **kwargs):
+        kwargs['form'] = InvitationAdminAddForm
+        kwargs['form'].user = request.user
+        kwargs['form'].request = request
+        return super(InvitationAdmin, self).get_form(request, obj,  **kwargs)
+
+admin.site.register(Invitation, InvitationAdmin)

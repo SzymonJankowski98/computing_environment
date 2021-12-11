@@ -52,8 +52,7 @@ INSTALLED_APPS = [
     # Third party apps
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'invitations'
+    'allauth.socialaccount'
 ]
 
 MIDDLEWARE = [

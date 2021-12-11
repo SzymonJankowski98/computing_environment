@@ -14,3 +14,16 @@ class Invitation(models.Model):
     inviter = models.ForeignKey(User, null=True, blank=True, on_delete=SET_NULL) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @classmethod
+    def create(cls, email, inviter=None, **kwargs):
+        token = get_random_string(64).lower()
+        instance = cls._default_manager.create(
+            email=email,
+            token=token,
+            inviter=inviter,
+            **kwargs)
+        return instance
+
+    def __str__(self):
+        return "Invite: {0}".format(self.email)

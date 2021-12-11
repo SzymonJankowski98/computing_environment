@@ -8,7 +8,6 @@ django = "*"
 django-environ = "*"
 psycopg2 = "*"
 django-allauth = "*"
-django-invitations = "*"
 
 [dev-packages]
 
