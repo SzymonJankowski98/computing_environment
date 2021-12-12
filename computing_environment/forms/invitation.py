@@ -51,6 +51,7 @@ class InvitationAdminAddForm(forms.ModelForm, CleanEmailMixin):
         if cleaned_data.get("inviter"):
             params['inviter'] = cleaned_data.get("inviter")
         instance = Invitation.create(**params)
+        instance.send_invitation(self.request)
         super(InvitationAdminAddForm, self).save(*args, **kwargs)
         return instance
 

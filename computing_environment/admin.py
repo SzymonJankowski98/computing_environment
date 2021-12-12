@@ -36,7 +36,7 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 class InvitationAdmin(admin.ModelAdmin):
-    list_display = ('email', 'accepted')
+    list_display = ('email', 'sent', 'accepted')
 
     def get_form(self, request, obj=None, **kwargs):
         kwargs['form'] = InvitationAdminAddForm
