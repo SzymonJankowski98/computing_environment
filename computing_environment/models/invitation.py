@@ -34,7 +34,7 @@ class Invitation(models.Model):
 
     def send_invitation(self, request, **kwargs):
         current_site = kwargs.pop('site', Site.objects.get_current())
-        invite_url = reverse('account_sign_up', args=[self.token])
+        invite_url = reverse('account_signup', args=[self.token])
         invite_url = request.build_absolute_uri(invite_url)
         ctx = kwargs
         ctx.update({

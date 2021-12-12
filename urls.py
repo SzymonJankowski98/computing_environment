@@ -16,11 +16,9 @@ from django.contrib import admin
 from django.urls import path, include
 from computing_environment.views import *
 
-from allauth.account.views import SignupView
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', landing, name='index'),
-    path("accounts/signup/<str:token>", view=SignupView, name='account_sign_up'),
+    path('', landing, name='landing'),
+    path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),
     path('accounts/', include('allauth.urls'))
 ]
