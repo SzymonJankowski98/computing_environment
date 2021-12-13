@@ -14,11 +14,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.urls.conf import re_path
 from computing_environment.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing, name='landing'),
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),
-    path('accounts/', include('allauth.urls'))
+    path('accounts/', include('allauth.urls')),
+
+    re_path(r'.*', error_404, name='error_404')     # Don't add path below that
 ]

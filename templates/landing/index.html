@@ -1,7 +1,19 @@
 {% extends 'layouts/main.html' %}
+{% load static %}
 
 {% block content %}
-  <h1>Home page</h1>
-  </br>
-  <a href="{% url 'account_login' %}">Sign in</a>
+  <div class="relative flex flex-col items-center text-center">
+    <div class="w-1/2 z-10 pr-10 pl-10 pb-12 mt-40 absolute  bg-gradient-to-r from-slate-100/70 hover:from-slate-200/85
+    to-slate-200/70 hover:via-slate-300/80 hover:to-slate-400/85 rounded-3xl">
+      <h1 class="mb-10 mt-6 font-bold text-3xl">Home Page</h1>
+      <p class="mb-12 font-semibold ">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+         In faucibus velit sed felis maximus ullamcorper. Nulla consequat fermentum metus non scelerisque. 
+         Etiam semper nulla a commodo vestibulum. Aliquam tortor velit, scelerisque at ex non, molestie tincidunt lectus.
+          Sed metus urna, tempus vel turpis eget, rhoncus pellentesque nisl. Vestibulum venenatis quam sed erat efficitur, 
+          ut euismod sem convallis. Vivamus mauris felis, ultricies ac arcu eget, ullamcorper ornare ante.</p>
+      <a class="pt-4 pb-4 pr-10 pl-10 bg-gradient-to-r from-slate-800 to-slate-500 hover:to-slate-600 hover:from-lime-600 
+        text-white rounded-3xl" href="{% url 'account_login' %}">Sign in</a>
+    </div>
+    <img class="w-screen h-screen z-0 opacity-50" src="{% static 'images/put.jpg' %}" alt="Not Working Pic"/>
+  </div>
 {% endblock %}
