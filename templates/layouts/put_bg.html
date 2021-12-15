@@ -1,0 +1,12 @@
+{% extends 'layouts/main.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="relative flex flex-col items-center text-center">
+
+        {% block panel_content %}  
+        {% endblock %}
+
+        <img class="w-screen h-screen z-0 opacity-50" src="{% static 'images/put.jpg' %}" alt="Not Working Pic"/>
+    </div>
+{% endblock %}

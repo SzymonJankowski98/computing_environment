@@ -1,13 +1,12 @@
-{% extends 'layouts/main.html' %} 
+{% extends 'layouts/put_bg.html' %} 
 {% load static %}
 
-{% block content %}
-<div class="relative flex flex-col items-center">
+{% block panel_content %}
   <div class="absolute z-10 mt-28 p-10 rounded-3xl flex flex-col items-center bg-slate-100/50 hover:bg-slate-200/50">
+    
     <h1 class="font-bold text-5xl">404: Page Not Found</h1>
     <h3 class="text-xl font-semibold mt-6">You entered the wrong lecture room</h3>
     <img class="mt-8 rounded-3xl" src="{% static 'images/travolta.gif' %}" alt=""/>
+  
   </div>
-  <img class="w-screen h-screen z-0 opacity-50" src="{% static 'images/put.jpg' %}" alt="Not Working Pic"/>
-</div>
 {% endblock %}
