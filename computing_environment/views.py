@@ -28,7 +28,7 @@ class CustomSignupView(SignupView):
 
     def dispatch(self, request, *args, **kwargs):
         if 'token' in kwargs:
-            invitation = Invitation.objects.filter(token=kwargs['token']).first()
+            invitation = Invitation.objects.filter(token=kwargs['token'], accepted=False).first()
             if invitation:
                 return super(CustomSignupView, self).dispatch(request, *args, **kwargs)
         return redirect('landing')
