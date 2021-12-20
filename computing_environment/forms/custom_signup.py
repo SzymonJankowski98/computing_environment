@@ -1,5 +1,9 @@
 from allauth.account.forms import SignupForm
 from django import forms
+from allauth.account.adapter import get_adapter
+from allauth.account import app_settings
+
+from computing_environment.models.invitation import Invitation
 
 
 class CustomSignupForm(SignupForm):
@@ -21,3 +25,17 @@ class CustomSignupForm(SignupForm):
             }
         )
     )
+
+    def clean_email(self):
+        value = self.data["email"]
+        value = get_adapter().clean_email(value)
+        if value and app_settings.UNIQUE_EMAIL:
+            value = self.validate_email(value)
+        return value
+
+    def validate_email(self, value):
+        invitation = Invitation.objects.filter(token=self.data["token"], email=value).first()
+        if not invitation:
+            raise forms.ValidationError("No invitation for this email")
+        return get_adapter().validate_unique_email(value)
+

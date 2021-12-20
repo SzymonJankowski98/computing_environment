@@ -14,7 +14,7 @@ from allauth.account.views import SignupView
 from allauth import app_settings
 from allauth.utils import get_request_param
 from allauth.exceptions import ImmediateHttpResponse
-from allauth.account.utils import passthrough_next_redirect_url
+from allauth.account.utils import passthrough_next_redirect_url, complete_signup
 
 def landing(request):
     return render(request, 'landing/index.html')
@@ -25,12 +25,28 @@ def sign_in(request):
 
 class CustomSignupView(SignupView):
     form_class = CustomSignupForm
+
     def dispatch(self, request, *args, **kwargs):
         if 'token' in kwargs:
             invitation = Invitation.objects.filter(token=kwargs['token']).first()
             if invitation:
-                return super(SignupView, self).dispatch(request, *args, **kwargs)
+                return super(CustomSignupView, self).dispatch(request, *args, **kwargs)
         return redirect('landing')
+
+    def form_valid(self, form):
+        self.user = form.save(self.request)
+        invitation = Invitation.objects.filter(email=self.user.email).first()
+        if invitation:
+            Invitation.objects.filter(id=invitation.id).update(accepted=True)
+        try:
+            return complete_signup(
+                self.request,
+                self.user,
+                None,
+                self.get_success_url(),
+            )
+        except ImmediateHttpResponse as e:
+            return e.response
 
     def get_context_data(self, **kwargs):
         ret = super(CustomSignupView, self).get_context_data(**kwargs)
