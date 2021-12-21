@@ -21,6 +21,9 @@ from allauth.account import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing, name='landing'),
+    path('dashboard', dashboard, name='dashboard'),
+
+    ## allauth
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),
     path("accounts/login/", view=custom_login_view, name="account_login"),
     path("accounts/logout/", views.logout, name="account_logout"),

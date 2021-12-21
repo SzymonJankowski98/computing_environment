@@ -2,6 +2,7 @@ from django.http import request
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from computing_environment import forms
@@ -17,10 +18,16 @@ from allauth.exceptions import ImmediateHttpResponse
 from allauth.account.utils import passthrough_next_redirect_url, complete_signup
 
 def landing(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     return render(request, 'landing/index.html')
 
 def sign_in(request):
     return render(request, 'landing/sign_in.html')
+
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard/index.html')
 
 def error_404(request):
     response = render(request, 'error404.html')
