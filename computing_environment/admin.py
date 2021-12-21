@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django import forms
 
 from .models import User
 
@@ -36,12 +37,17 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 class InvitationAdmin(admin.ModelAdmin):
-    list_display = ('email', 'sent', 'accepted')
+    list_display = ('email', 'inviter', 'sent', 'accepted')
 
     def get_form(self, request, obj=None, **kwargs):
         kwargs['form'] = InvitationAdminAddForm
         kwargs['form'].user = request.user
         kwargs['form'].request = request
         return super(InvitationAdmin, self).get_form(request, obj,  **kwargs)
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+         if db_field.name == "inviter":
+                 kwargs["queryset"] = User.objects.filter(is_staff=True)
+         return super(InvitationAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Invitation, InvitationAdmin)
