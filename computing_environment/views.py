@@ -10,7 +10,7 @@ from computing_environment.forms import CustomSignupForm
 
 from .models import Invitation
 
-from allauth.account.views import SignupView
+from allauth.account.views import LoginView, SignupView
 from allauth import app_settings
 from allauth.utils import get_request_param
 from allauth.exceptions import ImmediateHttpResponse
@@ -23,7 +23,7 @@ def sign_in(request):
     return render(request, 'landing/sign_in.html')
 
 def error_404(request):
-    response = render(request, 'landing/error404.html')
+    response = render(request, 'error404.html')
     response.status_code = 404
     return response
 
@@ -78,3 +78,20 @@ class CustomSignupView(SignupView):
         return ret
 
 custom_signup_view = CustomSignupView.as_view()
+
+class CustomLoginView(LoginView):
+    def get_context_data(self, **kwargs):
+        ret = super(LoginView, self).get_context_data(**kwargs)
+        redirect_field_value = get_request_param(self.request, self.redirect_field_name)
+        site = get_current_site(self.request)
+
+        ret.update(
+            {
+                "site": site,
+                "redirect_field_name": self.redirect_field_name,
+                "redirect_field_value": redirect_field_value,
+            }
+        )
+        return ret
+
+custom_login_view = CustomLoginView.as_view()
