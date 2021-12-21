@@ -48,4 +48,6 @@ urlpatterns = [
     #     views.password_reset_from_key_done,
     #     name="account_reset_password_from_key_done",
     # ),
+    
+    re_path(r'.*', error_404, name='error_404')     # Don't add path below that
 ]

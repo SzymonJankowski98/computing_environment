@@ -22,6 +22,11 @@ def landing(request):
 def sign_in(request):
     return render(request, 'landing/sign_in.html')
 
+def error_404(request):
+    response = render(request, 'landing/error404.html')
+    response.status_code = 404
+    return response
+
 
 class CustomSignupView(SignupView):
     form_class = CustomSignupForm
