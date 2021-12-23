@@ -1,1 +1,1 @@
-web: gunicorn computing_environment.wsgi --log-file -
+web: gunicorn wsgi --log-file -
