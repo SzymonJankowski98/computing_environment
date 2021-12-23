@@ -6,7 +6,10 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
+ALLOWED_HOSTS = ['computing-environment.herokuapp.com']
+
 DEBUG = False
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST')
