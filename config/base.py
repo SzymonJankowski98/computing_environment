@@ -46,13 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    # Own apps
-    'computing_environment',
-
     # Third party apps
     'allauth',
     'allauth.account',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+
+    # Own apps
+    'computing_environment'
 ]
 
 MIDDLEWARE = [

@@ -1,10 +1,21 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
+from django.contrib.sites.models import Site
+from allauth.account.models import EmailAddress
+from allauth.socialaccount.models import SocialToken, SocialAccount, SocialApp
 
 from .models import User
 
 from .models import Invitation
 from .forms.invitation import InvitationAdminAddForm
+
+admin.site.unregister(Site)
+admin.site.unregister(Group)
+admin.site.unregister(EmailAddress)
+admin.site.unregister(SocialToken)
+admin.site.unregister(SocialAccount)
+admin.site.unregister(SocialApp)
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
