@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing, name='landing'),
     path('dashboard', dashboard, name='dashboard'),
+    path('job/new', new_job, name='new_job'),
 
     ## allauth
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),

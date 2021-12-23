@@ -29,6 +29,10 @@ def sign_in(request):
 def dashboard(request):
     return render(request, 'dashboard/index.html')
 
+@login_required
+def new_job(request):
+    return render(request, 'job/new.html')
+
 def error_404(request):
     response = render(request, 'error404.html')
     response.status_code = 404
