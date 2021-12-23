@@ -9,3 +9,4 @@ class Job(models.Model):
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
     program = models.FileField()
     settings = models.JSONField()
+    is_private = models.BooleanField(default=False)
