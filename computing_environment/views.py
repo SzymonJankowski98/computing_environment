@@ -9,6 +9,7 @@ from computing_environment import forms
 from computing_environment.models import invitation
 from computing_environment.forms import CustomSignupForm
 from computing_environment.forms import JobForm
+from computing_environment.models.job import Job
 
 from .models import Invitation
 
@@ -28,7 +29,10 @@ def sign_in(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard/index.html')
+    jobs = Job.objects.visible_for_user(request.user)
+
+    context = { 'jobs': jobs }
+    return render(request, 'dashboard/index.html', context)
 
 @login_required
 def new_job(request):

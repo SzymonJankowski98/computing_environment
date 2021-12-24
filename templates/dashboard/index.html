@@ -8,4 +8,12 @@
 <a href="{% url 'account_logout' %}">Sign Out</a>
 </br>
 <a href="{% url 'new_job' %}">New Job</a>
+<h2>Jobs</h2>
+<ul>
+    {% for Job in jobs %}
+        <li>
+            {{ Job.name }}
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}

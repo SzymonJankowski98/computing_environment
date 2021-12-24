@@ -2,6 +2,7 @@ from .user import *
 from django.db.models.deletion import SET_NULL
 from django_fsm import FSMField
 from datetime import datetime
+from ..managers import JobManager
 
 def program_save_directory(instance, filename):
     return '{0}/programs/{1}_{2}'.format(instance.creator.id, datetime.now(), filename)
@@ -9,6 +10,8 @@ def program_save_directory(instance, filename):
 class Job(models.Model):
     class Meta:
         app_label = "computing_environment"
+
+    objects = JobManager()
 
     name = models.CharField(max_length=254)
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
