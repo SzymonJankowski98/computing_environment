@@ -8,6 +8,7 @@ django = "*"
 django-environ = "*"
 psycopg2 = "*"
 django-allauth = "*"
+django-fsm = "*"
 # heroku
 gunicorn = "*"
 django-heroku = "*"
