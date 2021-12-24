@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.core.files.storage import default_storage
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -65,5 +66,19 @@ def job_to_do(request):
     if job:
         serializer = JobSerializer(job)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
     content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_program(request, id):
+    job = Job.objects.filter(pk=id).first()
+    content = { "error" : "Resource not found" }
+    if job:
+        if default_storage.exists(job.program.name):
+            response = HttpResponse(job.program.read(), content_type='application/force-download')
+            response['Content-Disposition'] = 'attachment; filename="%s"' % job.program
+            return HttpResponse(response, status=status.HTTP_200_OK)
+        content = { "error": "Program file doesn't exist" }
+
     return Response(content, status=status.HTTP_404_NOT_FOUND)

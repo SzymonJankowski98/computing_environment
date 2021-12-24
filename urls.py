@@ -54,7 +54,8 @@ urlpatterns = [
     ),
 
     # django rest framework
-    path("v1/jobs/job_to_do/", job_to_do, name="job_to_do")
+    path("v1/jobs/job_to_do/", job_to_do, name="job_to_do"),
+    path("v1/jobs/get_program/<int:id>", get_program, name="get_program")
 ]
 
 handler404 = error_404
