@@ -2,6 +2,7 @@ from django.http import request
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.http import HttpResponseForbidden
+from django.views.decorators.http import require_http_methods
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -68,8 +69,19 @@ def edit_job(request, id):
         job_form.save()
         return redirect(dashboard)
     else:
-        context = { 'job_form': job_form }
+        context = { 'job': job, 'job_form': job_form }
         return render(request, 'job/edit.html', context)
+
+
+@login_required
+@require_http_methods(["POST"])
+def delete_job(request, id):
+    job = get_object_or_404(Job, pk=id)
+    if job.creator != request.user:
+        return HttpResponseForbidden()
+    
+    job.delete()
+    return redirect(dashboard)
 
 
 def error_404(request):
