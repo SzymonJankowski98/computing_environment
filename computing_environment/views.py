@@ -8,6 +8,7 @@ from django.urls import reverse
 from computing_environment import forms
 from computing_environment.models import invitation
 from computing_environment.forms import CustomSignupForm
+from computing_environment.forms import JobForm
 
 from .models import Invitation
 
@@ -31,7 +32,27 @@ def dashboard(request):
 
 @login_required
 def new_job(request):
-    return render(request, 'job/new.html')
+    job_form = None
+    if request.POST:
+        job_form = JobForm(request.POST, request.FILES)
+
+        if job_form.is_valid():
+            new_job = job_form.save(commit=False)
+            new_job.creator = request.user
+            new_job.save()
+
+            return redirect('dashboard')
+        print(job_form.errors)
+    else:
+        job_form = JobForm()
+    
+    context = { 'job_form': job_form }
+    return render(request, 'job/new.html', context)
+
+@login_required
+def create_job(request):
+    print(request)
+    pass
 
 def error_404(request):
     response = render(request, 'error404.html')
