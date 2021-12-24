@@ -1,0 +1,15 @@
+{% extends "layouts/main.html" %}
+
+{% block head_title %}New Job{% endblock %}
+
+{% block content %}
+
+<h1>Edit Job</h1>
+<a href="{% url 'dashboard' %}">back</a>
+<form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
+    {% csrf_token %}
+    {{ job_form.as_p }}
+    <button type="submit">Create Job &raquo;</button>
+</form>
+
+{% endblock %}

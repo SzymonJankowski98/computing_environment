@@ -23,6 +23,7 @@ urlpatterns = [
     path('', landing, name='landing'),
     path('dashboard', dashboard, name='dashboard'),
     path('job/new', new_job, name='new_job'),
+    path('job/<int:id>/edit', edit_job, name='edit_job'),
 
     ## allauth
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),

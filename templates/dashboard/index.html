@@ -10,9 +10,12 @@
 <a href="{% url 'new_job' %}">New Job</a>
 <h2>Jobs</h2>
 <ul>
-    {% for Job in jobs %}
+    {% for job in jobs %}
         <li>
-            {{ Job.name }}
+            {{ job.name }} 
+            {% if job.creator == current_user %}
+                <a href="{% url 'edit_job' job.id %}">edit</a>
+            {% endif %}
         </li>
     {% endfor %}
 </ul>

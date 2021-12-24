@@ -1,10 +1,13 @@
 from django.http import request
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
+from django.http import HttpResponseForbidden
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
+
 from computing_environment import forms
 from computing_environment.models import invitation
 from computing_environment.forms import CustomSignupForm
@@ -31,7 +34,7 @@ def sign_in(request):
 def dashboard(request):
     jobs = Job.objects.visible_for_user(request.user)
 
-    context = { 'jobs': jobs }
+    context = { 'jobs': jobs, 'current_user': request.user }
     return render(request, 'dashboard/index.html', context)
 
 @login_required
@@ -54,9 +57,20 @@ def new_job(request):
     return render(request, 'job/new.html', context)
 
 @login_required
-def create_job(request):
-    print(request)
-    pass
+def edit_job(request, id):
+    job = get_object_or_404(Job, pk=id)
+    if job.creator != request.user:
+        return HttpResponseForbidden()
+    
+    job_form = JobForm(instance=job)
+
+    if request.POST:
+        job_form.save()
+        return redirect(dashboard)
+    else:
+        context = { 'job_form': job_form }
+        return render(request, 'job/edit.html', context)
+
 
 def error_404(request):
     response = render(request, 'error404.html')
