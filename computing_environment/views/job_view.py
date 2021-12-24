@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -36,7 +36,7 @@ def new_job(request):
 def edit_job(request, id):
     job = get_object_or_404(Job, pk=id)
     if job.creator != request.user:
-        return HttpResponseForbidden()
+        raise PermissionDenied()
     
     job_form = JobForm(instance=job)
 
@@ -53,13 +53,7 @@ def edit_job(request, id):
 def delete_job(request, id):
     job = get_object_or_404(Job, pk=id)
     if job.creator != request.user:
-        return HttpResponseForbidden()
+        raise PermissionDenied()
     
     job.delete()
     return redirect(dashboard)
-
-
-def error_404(request):
-    response = render(request, 'error404.html')
-    response.status_code = 404
-    return response

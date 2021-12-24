@@ -14,7 +14,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from django.urls.conf import include
 from computing_environment.views import *
 from allauth.account import views
 
@@ -52,7 +51,9 @@ urlpatterns = [
         "accounts/password/reset/key/done/",
         views.password_reset_from_key_done,
         name="account_reset_password_from_key_done",
-    ),
-    
-    re_path(r'.*', error_404, name='error_404')     # Don't add path below that
+    )
 ]
+
+handler404 = error_404
+handler403 = error_403
+handler500 = error_500
