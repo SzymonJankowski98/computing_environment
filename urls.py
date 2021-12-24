@@ -51,7 +51,10 @@ urlpatterns = [
         "accounts/password/reset/key/done/",
         views.password_reset_from_key_done,
         name="account_reset_password_from_key_done",
-    )
+    ),
+
+    # django rest framework
+    path("v1/jobs/job_to_do/", job_to_do, name="job_to_do")
 ]
 
 handler404 = error_404

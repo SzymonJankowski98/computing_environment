@@ -3,14 +3,16 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+
+from ..serializers import JobSerializer
 from computing_environment.forms import JobForm
 from computing_environment.models.job import Job
 from .dashboard_view import dashboard
-
-
-def sign_in(request):
-    return render(request, 'landing/sign_in.html')
 
 
 @login_required
@@ -47,7 +49,6 @@ def edit_job(request, id):
         context = { 'job': job, 'job_form': job_form }
         return render(request, 'job/edit.html', context)
 
-
 @login_required
 @require_http_methods(["POST"])
 def delete_job(request, id):
@@ -57,3 +58,12 @@ def delete_job(request, id):
     
     job.delete()
     return redirect(dashboard)
+
+@api_view(['GET'])
+def job_to_do(request):
+    job = Job.objects.job_to_do()
+    if job:
+        serializer = JobSerializer(job)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)

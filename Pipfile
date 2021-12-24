@@ -12,6 +12,7 @@ django-fsm = "*"
 # heroku
 gunicorn = "*"
 django-heroku = "*"
+djangorestframework = "*"
 
 [dev-packages]
 

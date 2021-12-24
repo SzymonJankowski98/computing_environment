@@ -9,7 +9,7 @@
 <form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
     {% csrf_token %}
     {{ job_form.as_p }}
-    <button type="submit">Create Job &raquo;</button>
+    <button type="submit">Update Job &raquo;</button>
 </form>
 
 
