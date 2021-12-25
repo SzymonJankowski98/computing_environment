@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.views.decorators.http import require_http_methods
@@ -95,7 +97,8 @@ def check_for_update(request, id):
             context['updated'] = True
 
             job.continue_execution()
-            job.save()
+        job.last_worker_call = datetime.now()
+        job.save()
 
         return Response(context, status=status.HTTP_200_OK)
 
