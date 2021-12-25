@@ -66,10 +66,6 @@ def job_to_do(request):
     job = Job.objects.job_to_do()
     if job:
         serializer = JobSerializer(job)
-
-        job.assign_to_worker()
-        job.save()
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     content = { "error" : "Resource not found" }

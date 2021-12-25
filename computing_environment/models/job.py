@@ -24,7 +24,7 @@ class Job(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
-    def assign_to_worker(self):
+    def mark_as_in_progress(self):
         pass
 
     @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)

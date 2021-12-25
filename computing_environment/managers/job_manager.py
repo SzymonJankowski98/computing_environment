@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.db import transaction
 from ..constants import JobStates
 
 class JobManager(models.Manager):
@@ -9,8 +10,14 @@ class JobManager(models.Manager):
     def visible_for_user(self, user):
         return self.filter(Q(is_private=False) | Q(creator=user.id))
 
+    @transaction.atomic
     def job_to_do(self):
-        return self.filter(Q(state=JobStates.NEW)).order_by('updated_at').first()
+        job = self.filter(Q(state=JobStates.AVAILABLE)).order_by('updated_at').select_for_update().first()
+        if not job:
+            return None
+        job.mark_as_in_progress()
+        job.save()
+        return job
     
     def job_in_progress(self, id):
         q = Q(state=JobStates.IN_PROGRESS)
