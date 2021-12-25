@@ -65,6 +65,10 @@ def job_to_do(request):
     job = Job.objects.job_to_do()
     if job:
         serializer = JobSerializer(job)
+
+        job.assign_to_worker()
+        job.save()
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     content = { "error" : "Resource not found" }
@@ -72,7 +76,7 @@ def job_to_do(request):
 
 @api_view(['GET'])
 def get_program(request, id):
-    job = Job.objects.filter(pk=id).first()
+    job = Job.objects.job_program(id)
     content = { "error" : "Resource not found" }
     if job:
         if default_storage.exists(job.program.name):

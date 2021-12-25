@@ -1,7 +1,8 @@
 from .user import *
 from django.db.models.deletion import SET_NULL
-from django_fsm import FSMField
+from django_fsm import FSMField, transition
 from datetime import datetime
+from ..constants import JobStates
 from ..managers import JobManager
 
 def program_save_directory(instance, filename):
@@ -18,6 +19,10 @@ class Job(models.Model):
     program = models.FileField(upload_to=program_save_directory)
     settings = models.JSONField()
     is_private = models.BooleanField(default=False)
-    state = FSMField(default='new', protected=True)
+    state = FSMField(default=JobStates.NEW, protected=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @transition(field=state, source=[JobStates.NEW, JobStates.UPDATED], target=JobStates.IN_PROGRESS)
+    def assign_to_worker(self):
+        pass
