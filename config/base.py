@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from .allauth_settings import *
+from .django_rest_settings import *
 import environ
 import os
 
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    "rest_framework_api_key",
 
     # Own apps
     'computing_environment'

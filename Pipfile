@@ -9,10 +9,11 @@ django-environ = "*"
 psycopg2 = "*"
 django-allauth = "*"
 django-fsm = "*"
+djangorestframework = "*"
+djangorestframework-api-key = "==2.*"
 # heroku
 gunicorn = "*"
 django-heroku = "*"
-djangorestframework = "*"
 
 [dev-packages]
 
