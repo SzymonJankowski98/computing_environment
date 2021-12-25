@@ -14,6 +14,7 @@ from ..serializers import JobSerializer
 from computing_environment.forms import JobForm
 from computing_environment.models.job import Job
 from .dashboard_view import dashboard
+from ..constants import JobStates
 
 
 @login_required
@@ -85,4 +86,22 @@ def get_program(request, id):
             return HttpResponse(response, status=status.HTTP_200_OK)
         content = { "error": "Program file doesn't exist" }
 
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def check_for_update(request, id):
+    job = Job.objects.job_in_progress(id)
+    if job:
+        context = { 'updated': False}
+        if job.state == JobStates.CHANGED_IN_PROGRESS:
+            serializer = JobSerializer(job)
+            context['job'] = serializer.data
+            context['updated'] = True
+
+            job.continue_execution()
+            job.save()
+
+        return Response(context, status=status.HTTP_200_OK)
+
+    content = { "error" : "Resource not found" }
     return Response(content, status=status.HTTP_404_NOT_FOUND)

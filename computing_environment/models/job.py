@@ -19,10 +19,14 @@ class Job(models.Model):
     program = models.FileField(upload_to=program_save_directory)
     settings = models.JSONField()
     is_private = models.BooleanField(default=False)
-    state = FSMField(default=JobStates.NEW, protected=True)
+    state = FSMField(default=JobStates.AVAILABLE, protected=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    @transition(field=state, source=[JobStates.NEW, JobStates.UPDATED], target=JobStates.IN_PROGRESS)
+    @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
     def assign_to_worker(self):
+        pass
+
+    @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
+    def continue_execution(self):
         pass

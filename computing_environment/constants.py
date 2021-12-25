@@ -1,4 +1,4 @@
 class JobStates(object):
-    NEW = 'new'
-    UPDATED = 'update'
+    AVAILABLE = 'available'
     IN_PROGRESS = 'in_progress'
+    CHANGED_IN_PROGRESS = 'changed_in_progress'
