@@ -31,3 +31,7 @@ class Job(models.Model):
     @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
     def continue_execution(self):
         self.last_worker_call = datetime.now()
+
+    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
+    def reactivate(self):
+        pass
