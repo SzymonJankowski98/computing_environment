@@ -29,7 +29,7 @@ class Job(models.Model):
     def mark_as_in_progress(self):
         self.last_worker_call = timezone.now()
 
-    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.CHANGED_IN_PROGRESS)
+    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.COMPLETE], target=JobStates.CHANGED_IN_PROGRESS)
     def job_changed(self):
         pass
 
@@ -39,4 +39,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
     def reactivate(self):
+        pass
+
+    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)
+    def complete(self):
         pass
