@@ -20,7 +20,6 @@ from ..constants import JobStates
 
 @login_required
 def new_job(request):
-    job_form = None
     if request.POST:
         job_form = JobForm(request.POST, request.FILES)
 
@@ -42,15 +41,22 @@ def edit_job(request, id):
     job = get_object_or_404(Job, pk=id)
     if job.creator != request.user:
         raise PermissionDenied()
-    
-    job_form = JobForm(instance=job)
 
     if request.POST:
-        job_form.save()
-        return redirect(dashboard)
+        job_form = JobForm(request.POST, request.FILES, instance=job)
+        if job_form.is_valid():
+            job_form.save()
+            print(job.state)
+            if job.state == JobStates.IN_PROGRESS:
+                job.job_changed()
+                job.save()
+
+            return redirect(dashboard)
     else:
-        context = { 'job': job, 'job_form': job_form }
-        return render(request, 'job/edit.html', context)
+        job_form = JobForm(instance=job)
+
+    context = { 'job': job, 'job_form': job_form }
+    return render(request, 'job/edit.html', context)
 
 @login_required
 @require_http_methods(["POST"])

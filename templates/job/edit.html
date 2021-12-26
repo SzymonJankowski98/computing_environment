@@ -6,7 +6,7 @@
 
 <h1>Edit Job</h1>
 <a href="{% url 'dashboard' %}">back</a>
-<form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
+<form method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}">
     {% csrf_token %}
     {{ job_form.as_p }}
     <button type="submit">Update Job &raquo;</button>

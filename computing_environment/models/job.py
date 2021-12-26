@@ -1,12 +1,12 @@
 from .user import *
 from django.db.models.deletion import SET_NULL
-from django_fsm import FSMField, transition
+from django_fsm import FSMField, State, transition
 from django.utils import timezone
 from ..constants import JobStates
 from ..managers import JobManager
 
 def program_save_directory(instance, filename):
-    return '{0}/programs/{1}_{2}'.format(instance.creator.id, datetime.now(), filename)
+    return '{0}/programs/{1}_{2}'.format(instance.creator.id, timezone.now(), filename)
 
 class Job(models.Model):
     class Meta:
@@ -27,6 +27,10 @@ class Job(models.Model):
     @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
         self.last_worker_call = timezone.now()
+
+    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.CHANGED_IN_PROGRESS)
+    def job_changed(self):
+        pass
 
     @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
     def continue_execution(self):
