@@ -6,7 +6,8 @@ from ..constants import JobStates
 from ..managers import JobManager
 
 def program_save_directory(instance, filename):
-    return '{0}/programs/{1}_{2}'.format(instance.creator.id, timezone.now(), filename)
+    creator_id = instance.creator.id or 'no_author'
+    return 'programs/{0}/{1}_{2}'.format(creator_id, timezone.now(), filename)
 
 class Job(models.Model):
     class Meta:
