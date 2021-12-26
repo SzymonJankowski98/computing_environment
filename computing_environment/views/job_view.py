@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.views.decorators.http import require_http_methods
@@ -7,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.utils import timezone
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -97,7 +96,7 @@ def check_for_update(request, id):
             context['updated'] = True
 
             job.continue_execution()
-        job.last_worker_call = datetime.now()
+        job.last_worker_call = timezone.now()
         job.save()
 
         return Response(context, status=status.HTTP_200_OK)

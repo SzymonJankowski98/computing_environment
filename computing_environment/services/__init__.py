@@ -1,1 +1,1 @@
-from .reactivate_failed_jobs import Reactivate_failed_jobs
+from .reactivate_failed_jobs import reactivate_failed_jobs

@@ -1,7 +1,7 @@
 from .user import *
 from django.db.models.deletion import SET_NULL
 from django_fsm import FSMField, transition
-from datetime import datetime
+from django.utils import timezone
 from ..constants import JobStates
 from ..managers import JobManager
 
@@ -26,11 +26,11 @@ class Job(models.Model):
 
     @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
-        self.last_worker_call = datetime.now()
+        self.last_worker_call = timezone.now()
 
     @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
     def continue_execution(self):
-        self.last_worker_call = datetime.now()
+        self.last_worker_call = timezone.now()
 
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
     def reactivate(self):
