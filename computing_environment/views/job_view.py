@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
+from computing_environment.models.job_result import JobResult
 from ..serializers import JobSerializer
 from computing_environment.forms import JobForm
 from computing_environment.models.job import Job
@@ -35,6 +36,17 @@ def new_job(request):
     
     context = { 'job_form': job_form }
     return render(request, 'job/new.html', context)
+
+@login_required
+def show_job(request, id):
+    job = get_object_or_404(Job, pk=id)
+    if job.creator != request.user:
+        raise PermissionDenied()
+
+    job_results = JobResult.objects.filter(job=job)
+    context = { 'job': job, 'job_results': job_results }
+    print(job_results)
+    return render(request, 'job/show.html', context)
 
 @login_required
 def edit_job(request, id):

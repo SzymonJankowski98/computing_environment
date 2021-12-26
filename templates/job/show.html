@@ -1,0 +1,18 @@
+{% extends "layouts/main.html" %}
+
+{% block head_title %}Job Preview{% endblock %}
+
+{% block content %}
+
+<h1>{{ job.name }}</h1>
+<a href="{% url 'dashboard' %}">back</a>
+</br>
+status: {{ job.state }}
+
+<h2>Job results</h2>
+{% for result in job_results %}
+    {{ result.download_link }}
+    </br>
+{% endfor %}
+
+{% endblock %}

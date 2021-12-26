@@ -22,6 +22,7 @@ urlpatterns = [
     path('', landing, name='landing'),
     path('dashboard', dashboard, name='dashboard'),
     path('job/new', new_job, name='new_job'),
+    path('job/<int:id>', show_job, name='show_job'),
     path('job/<int:id>/edit', edit_job, name='edit_job'),
     path('job/<int:id>/delete', delete_job, name='delete_job'),
 

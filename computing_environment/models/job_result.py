@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils import timezone
+from django.utils.safestring import mark_safe
+from django.conf import settings
 from computing_environment.models import Job
 
 def result_save_directory(instance, filename):
@@ -14,3 +16,6 @@ class JobResult(models.Model):
     job = models.ForeignKey(Job, on_delete=CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def download_link(self):
+        return mark_safe('<a href="{0}{1}">{1}</a>'.format(settings.MEDIA_URL, self.result))
