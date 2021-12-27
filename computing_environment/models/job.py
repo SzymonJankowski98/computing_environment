@@ -1,6 +1,6 @@
 from .user import *
 from django.db.models.deletion import SET_NULL
-from django_fsm import FSMField, State, transition
+from django_fsm import FSMField, transition
 from django.utils import timezone
 from ..constants import JobStates
 from ..managers import JobManager
