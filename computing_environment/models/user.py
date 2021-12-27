@@ -26,3 +26,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_absolute_url(self):
         return "/users/%i/" % (self.pk)
+      
+    def full_name(self):
+      if self.first_name or self.last_name:
+        return self.first_name + ' ' + self.last_name
+      return self.email

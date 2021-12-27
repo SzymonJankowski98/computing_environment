@@ -3,10 +3,15 @@ module.exports = {
    purge: ['../**/templates/**/*.html'],
    darkMode: false,
    theme: {
-      fontFamily: {
-         'main': ['Roboto', 'sans-serif'],
-         'logo': ['Sora', 'sans-serif']
-      },
+      extend: {
+         fontFamily: {
+            'main': ['Roboto', 'sans-serif']
+         },
+         colors: {
+            'primary': '#4338ca',
+            'primary-darker': '#3730a3'
+         }
+      }
    },
    variants: {
       extend: {},
