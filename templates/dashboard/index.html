@@ -38,8 +38,8 @@
                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'admin:index' %}">
                   <span class="mb-2">
                      <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                     </svg>
+								<path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+							</svg>
                   </span>
                   <span class="text-center">
                      Admin Panel
@@ -66,19 +66,30 @@
          </div>
       </nav>
    </div>
-   <div class="p-5">
-      <h1 class="font-bold text-2xl">Dashboard</h1>
-      <h2>Jobs</h2>
-      <ul>
-         {% for job in jobs %}
-            <li>
-               <a href="{% url 'show_job' job.id %}">{{ job.name }}</a>
-               {% if job.creator == current_user %}
-                  <a href="{% url 'edit_job' job.id %}">edit</a>
-               {% endif %}
-            </li>
-         {% endfor %}
-      </ul>
+   <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
+      <div class="grow flex flex-col my-4 mx-4 md:mr-0">
+         <div class="bg-white rounded-lg flex mb-4 p-3">
+            <div>
+               <input type="search" name="search" placeholder="Search">
+            </div>
+         </div>
+         <div class="grow grid grid-rows-16 grid-cols-1 lg:grid-rows-8 lg:grid-cols-2 xl:grid-rows-4 xl:grid-cols-4 gap-4 h-full overflow-auto min-h-min" id="journal-scroll">
+            {% for job in jobs %}
+               <div class="bg-white rounded-lg p-3">
+                  <a href="{% url 'show_job' job.id %}">{{ job.name }}</a>
+                  {% if job.creator == current_user %}
+                     <a href="{% url 'edit_job' job.id %}">edit</a>
+                  {% endif %}
+               </div>
+            {% endfor %}
+         </div>
+      </div>
+      <div class="h-screen flex flex-col">
+         <div class="bg-primary mx-4 mt-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
+         </div>
+         <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
+         </div>
+      </div>
    </div>
 </div>
 {% endblock %}

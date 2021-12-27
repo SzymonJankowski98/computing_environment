@@ -9,7 +9,8 @@ module.exports = {
          },
          colors: {
             'primary': '#4338ca',
-            'primary-darker': '#3730a3'
+            'primary-darker': '#3730a3',
+            'background': '#cbd5e1'
          }
       }
    },
