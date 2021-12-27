@@ -37,3 +37,28 @@ class JobManager(models.Manager):
         q.add(Q(state=JobStates.CHANGED_IN_PROGRESS), Q.OR)
         q.add(Q(last_worker_call__lte=fail_border), Q.AND)
         return self.filter(q)
+
+    def jobs_in_states(self, state, start_date=None, end_date=None):
+        if state and isinstance(state, list):
+            q = Q(state=state[0])
+            for s in state[1:]:
+                q.add(Q(state=state[0]), Q.OR)
+        else:
+            q = Q(state=state)
+        if start_date and end_date:
+            q.add(Q(updated_at__gte=(start_date, end_date)), Q.AND)
+        elif start_date:
+            q.add(Q(updated_at__gte=(start_date, end_date)), Q.AND)
+        elif end_date:
+            q.add(Q(updated_at__range=(start_date, end_date)), Q.AND)
+
+        return self.filter(q)
+
+    def jobs_completed(self, start_date=None, end_date=None):
+        return self.jobs_in_states(JobStates.COMPLETE)
+
+    def jobs_available(self, start_date=None, end_date=None):
+        return self.jobs_in_states(JobStates.AVAILABLE)
+
+    def jobs_in_progress(self, start_date=None, end_date=None):
+        return self.jobs_in_states([JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS])
