@@ -11,5 +11,6 @@ ACCOUNT_FORMS = {
     'login': 'computing_environment.forms.CustomLoginForm',
     'change_password': 'computing_environment.forms.CustomLoginForm',
     'set_password': 'computing_environment.forms.CustomSetPasswordForm',
-    'reset_password_from_key': 'computing_environment.forms.CustomResetPasswordKeyForm'
+    'reset_password_from_key': 'computing_environment.forms.CustomResetPasswordKeyForm',
+    'reset_password': 'computing_environment.forms.CustomResetPasswordForm',
     }
