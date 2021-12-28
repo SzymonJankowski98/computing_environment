@@ -2,15 +2,16 @@
 {% load static %}
 
 {% block landing_content %}
-
-<h1 class="text-3xl font-bold">
-  Lorem ipsum
-</h1>
-<p class="mt-3 mb-4 text-lg text-justify">
-  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat optio provident deleniti id ut officia laboriosam cum reiciendis? Ullam animi tenetur ipsam iste incidunt, aliquam ipsa? Consequuntur voluptates eaque nostrum?
-</p>
-<a class="bg-primary text-slate-300 rounded-md px-8 py-2 font-main text-lg font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm" href="{% url 'account_login' %}">
-  Sign in
-</a>
+<div class="p-5 max-w-2xl">
+  <h1 class="text-3xl font-bold">
+    Lorem ipsum
+  </h1>
+  <p class="mt-3 mb-4 text-lg text-justify">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat optio provident deleniti id ut officia laboriosam cum reiciendis? Ullam animi tenetur ipsam iste incidunt, aliquam ipsa? Consequuntur voluptates eaque nostrum?
+  </p>
+  <a class="bg-primary text-slate-300 rounded-md px-8 py-2 font-main text-lg font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm" href="{% url 'account_login' %}">
+    Sign in
+  </a>
+</div>
 
 {% endblock %}

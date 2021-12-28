@@ -1,19 +1,43 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/landing.html" %}
 
 {% block head_title %}Sign In{% endblock %}
 
-{% block content %}
+{% load filters %}
+{% block landing_content %}
 
-<h1>Sign In</h1>
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">Forgot Password?</a>
-  <button class="primaryAction" type="submit">Sign In</button>
-</form>
+<h1 class="text-3xl font-extrabold mb-2">Sign in</h1>
+<div class="p-10 bg-white rounded-lg shadow-lg max-w-md w-full">
+  <form class="flex flex-col" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+    <div class="flex flex-col">
+      <label for="password" class="text-sm font-bold">{{ form.login.label }}</label>
+      {{ form.login|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+      {{ form.login.errors }}
+    </div>
+    <div class="flex flex-col mt-5">
+      <label for="password" class="text-sm font-bold">{{ form.password.label }}</label>
+      {{ form.password|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+      {{ form.password.errors }}
+    </div>
+    <div class="flex items-center justify-between mt-5 text-sm font-bold">
+      <div class="flex items-center">
+        {{ form.remember|addclass:'h-4 w-4 accent-primary' }}
+        <span class="ml-1">{{ form.remember.label }}</span>
+      </div>
+      <a class="text-sm font-bold text-primary hover:text-primary-darker transition duration-100 ease-out" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+    </div>
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <button type="submit" class="bg-primary text-slate-300 rounded-md w-full py-1 font-main text-lg font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-5" href="{% url 'account_login' %}">
+      Log In
+    </button>
+  </form>
+</div>
 
 {% endblock %}

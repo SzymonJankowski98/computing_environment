@@ -5,12 +5,14 @@ module.exports = {
    theme: {
       extend: {
          fontFamily: {
-            'main': ['Roboto', 'sans-serif']
+            'main': ['Roboto', 'sans-serif'],
+            'logo': ['Oswald', 'sans-serif']
          },
          colors: {
             'primary': '#4338ca',
             'primary-darker': '#3730a3',
-            'background': '#e2e8f0'
+            'background': '#e2e8f0',
+            'error': '#dc2626'
          }
       }
    },
