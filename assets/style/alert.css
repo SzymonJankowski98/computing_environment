@@ -1,0 +1,21 @@
+@keyframes slideInFromRight {
+    0% {
+      transform: translateX(120%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+}
+
+@keyframes HideToTheRight {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(120%);
+    }
+}
+
+#alert {  
+    animation: 0.5s ease 0s 1 slideInFromRight;
+}

@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for m in messages %}
+        {% if m.tags == 'success' %}
+            {% include 'shared/alerts/_alert_success.html' with message=m %}
+        {% elif m.tags == 'error' %}
+            {% include 'shared/alerts/_alert_error.html' with message=m %}
+        {% else %}
+            {% include 'shared/alerts/_alert_default.html' with message=m %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
