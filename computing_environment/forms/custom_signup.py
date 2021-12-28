@@ -18,7 +18,7 @@ class CustomSignupForm(SignupForm):
     first_name = forms.CharField(max_length=50, label='First Name', required=False,
         widget=forms.TextInput(
             attrs={
-                "required": False,
+                "placeholder": "First Name",
             }
         )
     )
@@ -26,7 +26,7 @@ class CustomSignupForm(SignupForm):
     last_name = forms.CharField(max_length=50, label='Last Name', required=False,
         widget=forms.TextInput(
             attrs={
-                "required": False,
+                "placeholder": "Last Name",
             }
         )
     )
@@ -36,15 +36,11 @@ class CustomSignupForm(SignupForm):
             attrs={
                 "type": "email",
                 "readonly": True,
+                "placeholder": "E-mail address",
                 "autocomplete": "email",
             }
         )
     )
-
-    def __init__(self, *args, **kwargs):
-        super(CustomSignupForm, self).__init__(*args, **kwargs)
-        del self.fields['password1'].widget.attrs['placeholder']
-        del self.fields['password2'].widget.attrs['placeholder']
 
     def clean_email(self):
         value = self.data["email"]
