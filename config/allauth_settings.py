@@ -7,4 +7,9 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_LOGOUT_ON_GET = True
 
-ACCOUNT_FORMS = {'login': 'computing_environment.forms.CustomLoginForm'}
+ACCOUNT_FORMS = {
+    'login': 'computing_environment.forms.CustomLoginForm',
+    'change_password': 'computing_environment.forms.CustomLoginForm',
+    'set_password': 'computing_environment.forms.CustomSetPasswordForm',
+    'reset_password_from_key': 'computing_environment.forms.CustomResetPasswordKeyForm'
+    }
