@@ -2,18 +2,50 @@
 
 {% block head_title %}Signup{% endblock %}
 
+{% load filters %}
 {% block landing_content %}
-<h1>Sign Up</h1>
-
-<p>Already have an account? Then please <a href="{{ login_url }}">sign in</a>.</p>
-
-<form method="post" action="{% url 'account_signup' view.kwargs.token %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">Sign Up &raquo;</button>
-</form>
+<h1 class="text-3xl font-extrabold mb-2">Sign Up</h1>
+<div class="p-10 bg-white rounded-lg shadow-lg max-w-md w-full">
+  <form class="flex flex-col" method="POST" action="{% url 'account_signup' view.kwargs.token %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+    <div class="flex flex-col">
+      <label for="email" class="text-sm font-bold">{{ form.email.label }}<span class="text-primary"> *</span></label>
+      {{ form.email|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none text-gray-500 sm:text-sm' }}
+      <span class="text-error text-xs">{{ form.email.errors }}</span>
+    </div>
+    <div class="flex flex-col mt-3">
+      <label for="email" class="text-sm font-bold">{{ form.first_name.label }}</label>
+      {{ form.first_name|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+      <span class="text-error text-xs">{{ form.first_name.errors }}</span>
+    </div>
+    <div class="flex flex-col mt-3">
+      <label for="email" class="text-sm font-bold">{{ form.last_name.label }}</label>
+      {{ form.last_name|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+      <span class="text-error text-xs">{{ form.last_name.errors }}</span>
+    </div>
+    <div class="flex flex-col mt-3">
+      <label for="password1" class="text-sm font-bold">{{ form.password1.label }}<span class="text-primary"> *</span></label>
+      {{ form.password1|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+      <span class="text-error text-xs">{{ form.password1.errors }}</span>
+    </div>
+    <div class="flex flex-col mt-3">
+      <label for="password2" class="text-sm font-bold">{{ form.password2.label }}<span class="text-primary"> *</span></label>
+      {{ form.password2|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+      <span class="text-error text-xs">{{ form.password2.errors }}</span>
+    </div>
+    {{ form.token }}
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <button type="submit" class="bg-primary text-slate-300 rounded-md w-full py-1 font-main text-lg font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-5" href="{% url 'account_login' %}">
+      Sign Up
+    </button>
+  </form>
+</div>
 
 {% endblock %}
