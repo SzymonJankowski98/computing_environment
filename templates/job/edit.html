@@ -9,7 +9,7 @@
         
         <h1 class="text-3xl font-extrabold mt-2 mb-4">Edit Job</h1>
 
-        <div class="flex flex-col items-center border-2 px-20 pb-6 pt-4 rounded-lg shadow-lg">
+        <div class="flex flex-col items-center border-2 px-20 pb-6 pt-4 rounded-lg shadow-lg bg-white">
 
             <form method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}">
                 {% csrf_token %}

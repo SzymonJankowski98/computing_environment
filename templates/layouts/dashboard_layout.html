@@ -67,29 +67,32 @@
             </div>
             </nav>
         </div>
+        <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
 
-        {% block mid_content %}  
-        {% endblock %}
-
-        <div class="h-screen flex flex-col">
-            <div class="bg-primary mx-4 mt-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
-            <div>tasks available: {{ stats.available }}</div>
-            <div>tasks in progress: {{ stats.in_progress }}</div>
-            <div>tasks completed: {{ stats.completed }}</div>
-            </div>
-            <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
-            {% for result in recent_results %}
-                <div>
-                    {{ result.created_at }} - {{ result.job.name }}:
-                    <br>
-                    {{ result.download_link }}
+                <div class="grow flex flex-col my-4 mx-4 md:mr-0">
+                    {% block mid_content %}  
+                    {% endblock %}
                 </div>
-            {% endfor %}
-            {% if not recent_results %}
-                You don't have any results yet
-            {% endif %}
+
+            <div class="h-screen flex flex-col">
+                <div class="bg-primary mx-4 mt-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
+                    <div>tasks available: {{ stats.available }}</div>
+                    <div>tasks in progress: {{ stats.in_progress }}</div>
+                    <div>tasks completed: {{ stats.completed }}</div>
+                </div>
+                <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
+                {% for result in recent_results %}
+                    <div>
+                        {{ result.created_at }} - {{ result.job.name }}:
+                        <br>
+                        {{ result.download_link }}
+                    </div>
+                {% endfor %}
+                {% if not recent_results %}
+                    You don't have any results yet
+                {% endif %}
+                </div>
             </div>
         </div>
-
     </div>
 {% endblock %}
