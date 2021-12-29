@@ -1,18 +1,24 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/dashboard_layout.html" %}
 
 {% block head_title %}Job Preview{% endblock %}
 
-{% block content %}
+{% block mid_content %}
+    <div class="flex flex-col items-center">
 
-<h1>{{ job.name }}</h1>
-<a href="{% url 'dashboard' %}">back</a>
-</br>
-status: {{ job.state }}
+        <h1 class="text-3xl font-extrabold mt-6 mb-10">{{ job.name }}</h1>
+        
+        <div class="flex text-xl mb-6">
+            <h2 class="mr-2">status:</h2>
+            <h2 class="font-bold">{{ job.state }}</h2>
+        </div>
 
-<h2>Job results</h2>
-{% for result in job_results %}
-    {{ result.download_link }}
-    </br>
-{% endfor %}
+        <div class="flex flex-col items-center border-2 px-6 pb-4 pt-2 rounded-lg shadow-lg bg-white">
+            <h2 class="text-xl font-bold mb-2">Job results</h2>
+            {% for result in job_results %}
+                <p class="text-primary hover:underline hover:cursor-pointer">{{ result.download_link }}</p>
+                </br>
+            {% endfor %}
 
+        </div>
+    </div>
 {% endblock %}
