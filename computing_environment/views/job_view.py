@@ -51,7 +51,7 @@ def show_job(request, id):
     recent_results = JobResult.objects.recent_results(request.user, 5)
 
     job = get_object_or_404(Job, pk=id)
-    if job.creator != request.user:
+    if job.is_private and job.creator != request.user:
         raise PermissionDenied()
 
     job_results = JobResult.objects.filter(job=job)

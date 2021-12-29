@@ -1,19 +1,20 @@
-{% extends 'layouts/put_bg.html' %}
+{% extends 'layouts/landing.html' %}
+{% load static %}
 
-{% block panel_content %}
-  <div class="w-1/2 z-10 pr-10 pl-10 pb-6 mt-40 absolute flex flex-col items-center bg-gradient-to-r from-slate-100/70 hover:from-slate-200/85
-    to-slate-200/70 hover:via-slate-300/80 hover:to-slate-400/85 rounded-3xl">
 
-    <h1 class="mb-10 mt-6 font-bold text-3xl">Home Page</h1>
-    
-    <p class="mb-8 font-semibold ">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        In faucibus velit sed felis maximus ullamcorper. Nulla consequat fermentum metus non scelerisque. 
-        Etiam semper nulla a commodo vestibulum. Aliquam tortor velit, scelerisque at ex non, molestie tincidunt lectus.
-        Sed metus urna, tempus vel turpis eget, rhoncus pellentesque nisl. Vestibulum venenatis quam sed erat efficitur, 
-        ut euismod sem convallis. Vivamus mauris felis, ultricies ac arcu eget, ullamcorper ornare ante.</p>
-    
-    <a class="pt-4 pb-4 pr-10 pl-10 bg-gradient-to-r from-slate-800 to-slate-500 hover:to-slate-600 hover:from-lime-600 
-      text-white rounded-3xl" href="{% url 'account_login' %}">Sign in</a>
-      
-  </div>
+{% block landing_content %}
+
+{% include 'shared/alerts/_alerts.html' %}
+<div class="p-5 max-w-2xl">
+  <h1 class="text-3xl font-extrabold">
+    Lorem ipsum
+  </h1>
+  <p class="mt-3 mb-4 text-lg text-justify">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat optio provident deleniti id ut officia laboriosam cum reiciendis? Ullam animi tenetur ipsam iste incidunt, aliquam ipsa? Consequuntur voluptates eaque nostrum?
+  </p>
+  <a class="bg-primary text-slate-300 rounded-md px-8 py-2 font-main text-lg font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm" href="{% url 'account_login' %}">
+    Sign in
+  </a>
+</div>
+
 {% endblock %}

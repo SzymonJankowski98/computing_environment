@@ -15,6 +15,7 @@ apscheduler = "*"
 # heroku
 gunicorn = "*"
 django-heroku = "*"
+whitenoise = "*"
 
 [dev-packages]
 

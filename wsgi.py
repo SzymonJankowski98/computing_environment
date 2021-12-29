@@ -17,7 +17,6 @@ elif os.environ.get("ENV") == 'staging':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.staging')
 else:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.development')
-    
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config')
+
 
 application = get_wsgi_application()

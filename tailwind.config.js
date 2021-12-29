@@ -5,7 +5,8 @@ module.exports = {
    theme: {
       extend: {
          fontFamily: {
-            'main': ['Roboto', 'sans-serif']
+            'main': ['Roboto', 'sans-serif'],
+            'logo': ['Oswald', 'sans-serif']
          },
          colors: {
             'primary': '#4338ca',
