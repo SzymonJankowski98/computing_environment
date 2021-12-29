@@ -1,6 +1,6 @@
 <div class="h-screen flex flex-col">
     {% include 'layouts/_stats_panel_top.html' with stats=stats %}
-    <div class="bg-primary m-4 w-full[-8rem] md:w-72 p-3 rounded-lg md:h-1/2">
+    <div class="bg-primary m-4 w-full[-8rem] md:w-72 p-3 rounded-lg md:h-full">
         {% for result in recent_results %}
         <div>
             {{ result.created_at }} - {{ result.job.name }}:
