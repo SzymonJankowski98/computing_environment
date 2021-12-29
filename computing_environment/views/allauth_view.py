@@ -2,6 +2,7 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.http import Http404
 
 from computing_environment.forms import CustomSignupForm
 
@@ -24,7 +25,7 @@ class CustomSignupView(SignupView):
             invitation = Invitation.objects.filter(token=kwargs['token'], accepted=False).first()
             if invitation:
                 return super(CustomSignupView, self).dispatch(request, *args, **kwargs)
-        return redirect('landing')
+        raise Http404("Page does not exist")
 
     def form_valid(self, form):
         self.user = form.save(self.request)
