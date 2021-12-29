@@ -1,0 +1,12 @@
+{% extends 'layouts/main.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="min-h-screen flex justify-center">
+        <div class="flex flex-row self-center ml-16">
+            {% block error_content %}
+            {% endblock %}
+        </div>
+        <img class="w-5/12 self-center" src={% static 'error-robot.jpg' %} alt="Map">
+    </div>
+{% endblock %}

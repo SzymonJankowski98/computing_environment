@@ -15,7 +15,7 @@ class CustomSignupForm(SignupForm):
         )
     )
 
-    first_name = forms.CharField(max_length=30, label='First Name', 
+    first_name = forms.CharField(max_length=50, label='First Name', required=False,
         widget=forms.TextInput(
             attrs={
                 "placeholder": "First Name",
@@ -23,7 +23,7 @@ class CustomSignupForm(SignupForm):
         )
     )
 
-    last_name = forms.CharField(max_length=30, label='Last Name', 
+    last_name = forms.CharField(max_length=50, label='Last Name', required=False,
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Last Name",
