@@ -1,0 +1,15 @@
+<div class="h-screen flex flex-col">
+    {% include 'dashboard/_stats_panel_top.html' with stats=stats %}
+    <div class="bg-primary m-4 w-full[-8rem] md:w-72 p-3 rounded-lg md:h-1/2">
+        {% for result in recent_results %}
+        <div>
+            {{ result.created_at }} - {{ result.job.name }}:
+            <br>
+            {{ result.download_link }}
+        </div>
+        {% endfor %}
+        {% if not recent_results %}
+        You don't have any results yet
+        {% endif %}
+    </div>
+</div>

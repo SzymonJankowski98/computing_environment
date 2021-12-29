@@ -1,0 +1,25 @@
+{% load static %}
+
+<div class="bg-primary mx-4 mt-4 w-full[-8rem] md:h-1/2 md:w-72 p-3 rounded-lg flex items-center flex-col">
+    <h2 class="text-2xl font-bold text-slate-300">Statistics</h2>
+    <div class="flex flex-col justify-center items-center grow">
+        <div class="flex flex-col items-center mb-3">
+            <img class="h-16 w-16 m-2" src="{% static 'stopwatch.svg' %}" /> 
+            <span class="text-lg font-bold text-slate-300">
+                tasks available: {{ stats.available }}
+            </span>
+        </div>
+        <div class="flex flex-col items-center mb-3">
+            <img class="h-16 w-16 m-2" src="{% static 'play.svg' %}" />
+            <span class="text-lg font-bold text-slate-300">
+                tasks in progress: {{ stats.in_progress }}
+            </span>
+        </div>
+        <div class="flex flex-col items-center">
+            <img class="h-16 w-16 m-2" src="{% static 'task_completed.svg' %}" />
+            <span class="text-lg font-bold text-slate-300">
+                tasks completed: {{ stats.completed }}
+            </span>
+        </div>
+    </div>
+ </div>

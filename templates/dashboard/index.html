@@ -86,25 +86,7 @@
             {% endfor %}
          </div>
       </div>
-      <div class="h-screen flex flex-col">
-         <div class="bg-primary mx-4 mt-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
-            <div>tasks available: {{ stats.available }}</div>
-            <div>tasks in progress: {{ stats.in_progress }}</div>
-            <div>tasks completed: {{ stats.completed }}</div>
-         </div>
-         <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
-            {% for result in recent_results %}
-               <div>
-                  {{ result.created_at }} - {{ result.job.name }}:
-                  <br>
-                  {{ result.download_link }}
-               </div>
-            {% endfor %}
-            {% if not recent_results %}
-               You don't have any results yet
-            {% endif %}
-         </div>
-      </div>
+      {% include 'dashboard/_stats_panel.html' with stats=stats %}
    </div>
 </div>
 {% endblock %}
