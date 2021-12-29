@@ -33,10 +33,14 @@
                 <div class="flex flex-col ">
                     <label for="settings" class="text-sm font-bold">{{ job_form.settings.label }}</label>
                     {{ job_form.settings|addclass:'border border-stale-300 rounded max-h-72 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
-                    <span class="text-error text-xs mb-4">{{ job_form.settings.errors }}Please, insert correct JSON with at least 1 key</span>
+                    {% if job_form.settings.errors %}
+                        <span class="text-error text-xs">
+                            {{ job_form.settings.errors }}Valid JSON should have at least 1 key.
+                        </span>
+                    {% endif %}
                 </div>
 
-                <div class="flex flex-row items-center">
+                <div class="flex flex-row items-center mt-4">
                     <label for="is_private" class="text-sm font-bold">{{ job_form.is_private.label }}</label>
                     {{ job_form.is_private|addclass:'border border-stale-300 rounded ml-4 mt-1 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                 </div>
