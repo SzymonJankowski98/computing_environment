@@ -46,17 +46,27 @@ def new_job(request):
 
 @login_required
 def show_job(request, id):
+    
+    stats = dashboard_stats()
+    recent_results = JobResult.objects.recent_results(request.user, 5)
+
     job = get_object_or_404(Job, pk=id)
     if job.creator != request.user:
         raise PermissionDenied()
 
     job_results = JobResult.objects.filter(job=job)
-    context = { 'job': job, 'job_results': job_results }
+    context = { 'job': job, 'job_results': job_results, 'current_user': request.user,
+                'stats': stats, 'recent_results': recent_results }
     print(job_results)
     return render(request, 'job/show.html', context)
 
 @login_required
 def edit_job(request, id):
+    
+    stats = dashboard_stats()
+    recent_results = JobResult.objects.recent_results(request.user, 5)
+
+
     job = get_object_or_404(Job, pk=id)
     if job.creator != request.user:
         raise PermissionDenied()
@@ -74,7 +84,8 @@ def edit_job(request, id):
     else:
         job_form = JobForm(instance=job)
 
-    context = { 'job': job, 'job_form': job_form }
+    context = { 'job': job, 'job_form': job_form, 'current_user': request.user,
+                'stats': stats, 'recent_results': recent_results }
     return render(request, 'job/edit.html', context)
 
 @login_required
