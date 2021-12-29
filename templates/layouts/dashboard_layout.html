@@ -67,47 +67,50 @@
             </div>
             </nav>
         </div>
+        <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
 
-        {% block mid_content %}  
-        {% endblock %}
-
-        <div class="h-screen flex flex-col">
-
-            <div class="bg-primary mx-4 mt-4 grow-0 w-full[-8rem] md:w-72 p-3 rounded-lg text-slate-300">
-                <div class="flex justify-between text-center items-center border-b border-primary-darker py-2">
-                    <p class="font-main font-bold">Tasks Available</p>
-                    <div class="px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-2xl">
-                        {{ stats.available }}
-                    </div>
-                </div>
-                <div class="flex justify-between text-center items-center border-b border-primary-darker py-2">
-                    <p class="font-main font-bold">Tasks In Progress</p>
-                    <div class="px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-2xl">
-                        {{ stats.in_progress }}
-                    </div>
-                </div>
-                <div class="flex justify-between text-center items-center py-2">
-                    <p class="font-main font-bold">Tasks Completed</p>
-                    <div class="px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-2xl">
-                        {{ stats.completed }}
-                    </div>
-                </div>
+            <div class="grow flex flex-col my-2 mx-4 md:mr-0">
+                {% block mid_content %}  
+                {% endblock %}
             </div>
 
-            <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg text-slate-300">
-                {% for result in recent_results %}
-                    <div class="border-b border-primary-darker py-2">
-                        {{ result.created_at }} - {{ result.job.name }}:
-                        <br>
-                        {{ result.download_link }}
-                    </div>
-                {% endfor %}
-                {% if not recent_results %}
-                    <p class="font-main font-bold">You don't have any results yet</p>
-                {% endif %}
-            </div>
+            <div class="h-screen flex flex-col">
 
+                <div class="bg-primary mx-4 mt-4 grow-0 w-full[-8rem] md:w-72 p-3 rounded-lg text-slate-300">
+                    <div class="flex justify-between text-center items-center border-b border-primary-darker py-2">
+                        <p class="font-main font-bold">Tasks Available</p>
+                        <div class="px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-2xl">
+                            {{ stats.available }}
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-center items-center border-b border-primary-darker py-2">
+                        <p class="font-main font-bold">Tasks In Progress</p>
+                        <div class="px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-2xl">
+                            {{ stats.in_progress }}
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-center items-center py-2">
+                        <p class="font-main font-bold">Tasks Completed</p>
+                        <div class="px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-2xl">
+                            {{ stats.completed }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg text-slate-300">
+                    {% for result in recent_results %}
+                        <div class="border-b border-primary-darker py-2">
+                            {{ result.created_at }} - {{ result.job.name }}:
+                            <br>
+                            {{ result.download_link }}
+                        </div>
+                    {% endfor %}
+                    {% if not recent_results %}
+                        <p class="font-main font-bold">You don't have any results yet</p>
+                    {% endif %}
+                </div>
+
+            </div>
         </div>
-
     </div>
 {% endblock %}
