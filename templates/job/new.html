@@ -1,15 +1,17 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/dashboard_layout.html" %}
 
 {% block head_title %}New Job{% endblock %}
 
-{% block content %}
+{% block mid_content %}
 
-<h1>New Job</h1>
-<a href="{% url 'dashboard' %}">back</a>
-<form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
-    {% csrf_token %}
-    {{ job_form.as_p }}
-    <button type="submit">Create Job &raquo;</button>
-</form>
+    <div>
+        <h1>New Job</h1>
+        <a href="{% url 'dashboard' %}">back</a>
+        <form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
+            {% csrf_token %}
+            {{ job_form.as_p }}
+            <button type="submit">Create Job &raquo;</button>
+        </form>
+    </div>
 
 {% endblock %}
