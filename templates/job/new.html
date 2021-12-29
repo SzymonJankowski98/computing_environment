@@ -9,7 +9,7 @@
     <div class="flex flex-col items-center">
         <h1 class="text-3xl font-extrabold mt-2 mb-4">New Job</h1>
 
-        <div class="flex flex-col items-center border-2 px-20 pb-12 pt-4 rounded-lg shadow-lg">
+        <div class="flex flex-col items-center border-2 px-20 pb-12 pt-4 rounded-lg shadow-lg bg-slate-50">
             <form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
                 {% csrf_token %}
                 {% if job_form.non_field_errors %}
