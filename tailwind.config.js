@@ -13,7 +13,8 @@ module.exports = {
             'primary-darker': '#3730a3',
             'background': '#e2e8f0',
             'error': '#dc2626',
-            'warning': '#facc15'
+            'warning': '#facc15',
+            'accept': '#1ebd10'
          }
       }
    },

@@ -1,73 +1,11 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/dashboard_layout.html" %}
 
 {% block head_title %}Dashboard{% endblock %}
 
 {% load static %}
 
-{% block content %}
+{% block mid_content %}
 
-{% include 'shared/alerts/_alerts.html' %}
-<div class="flex h-screen">
-   <div class="flex justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main">
-      <header class="flex items-center justify-center my-4">
-         <img class="w-16 h-16" src="{% static 'logo.png' %}" alt="Logo"/>
-      </header>
-      <nav class="grow flex flex-col items-center justify-between">
-         <div>
-            <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'dashboard' %}">
-               <span class="mb-2">
-                  <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                     <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                  </svg>
-               </span>
-               <span>
-                  Dashboard
-               </span>
-            </a>
-            <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'new_job' %}">
-               <span class="mb-2">
-                  <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                     <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                  </svg>
-               </span>
-               <span>
-                  New Task
-               </span>
-            </a>
-         </div>
-         <div>
-            {% if current_user.is_staff %}
-               <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'admin:index' %}">
-                  <span class="mb-2">
-                     <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-								<path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-							</svg>
-                  </span>
-                  <span class="text-center">
-                     Admin Panel
-                  </span>
-               </a>
-            {% endif %}
-            <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out">
-               <span class="mb-2">
-                  <img class="w-9 h-9 rounded-full" src="{% static 'default_profile.png' %}" alt="Profile picture"/>
-               </span>
-               <span class="text-center">
-                  {{ current_user.full_name }}
-               </span>
-            </a>
-            <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'account_logout' %}">
-               <span class="mb-2">
-                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-               </span>
-               <span>
-                  Log Out
-               </span>
-            </a>
-         </div>
-      </nav>
-   </div>
    <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
       <div class="grow flex flex-col my-4 mx-4 md:mr-0">
          <div class="bg-white rounded-lg flex mb-4 p-3">
@@ -86,25 +24,6 @@
             {% endfor %}
          </div>
       </div>
-      <div class="h-screen flex flex-col">
-         <div class="bg-primary mx-4 mt-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
-            <div>tasks available: {{ stats.available }}</div>
-            <div>tasks in progress: {{ stats.in_progress }}</div>
-            <div>tasks completed: {{ stats.completed }}</div>
-         </div>
-         <div class="bg-primary m-4 grow w-full[-8rem] md:w-72 p-3 rounded-lg">
-            {% for result in recent_results %}
-               <div>
-                  {{ result.created_at }} - {{ result.job.name }}:
-                  <br>
-                  {{ result.download_link }}
-               </div>
-            {% endfor %}
-            {% if not recent_results %}
-               You don't have any results yet
-            {% endif %}
-         </div>
-      </div>
    </div>
-</div>
+   
 {% endblock %}

@@ -1,15 +1,56 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/dashboard_layout.html" %}
+
+{% load filters %}
 
 {% block head_title %}New Job{% endblock %}
 
-{% block content %}
+{% block mid_content %}
 
-<h1>New Job</h1>
-<a href="{% url 'dashboard' %}">back</a>
-<form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
-    {% csrf_token %}
-    {{ job_form.as_p }}
-    <button type="submit">Create Job &raquo;</button>
-</form>
+    <div class="flex flex-col items-center">
+        <h1 class="text-3xl font-extrabold mt-2 mb-4">New Job</h1>
+
+        <div class="flex flex-col items-center border-2 px-20 pb-12 pt-4 rounded-lg shadow-lg">
+            <form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
+                {% csrf_token %}
+                {% if job_form.non_field_errors %}
+                    <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
+                        {{ job_form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="flex flex-col">
+                    <label for="name" class="text-sm font-bold">{{ job_form.name.label }}</label>
+                    {{ job_form.name|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    <span class="text-error text-xs">{{ job_form.name.errors }}</span>
+                </div>
+
+                <div class="flex flex-col">
+                    <label for="program" class="text-sm font-bold">{{ job_form.program.label }}</label>
+                    {{ job_form.program|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    <span class="text-error text-xs">{{ job_form.program.errors }}</span>
+                </div>
+
+                <div class="flex flex-col ">
+                    <label for="settings" class="text-sm font-bold">{{ job_form.settings.label }}</label>
+                    {{ job_form.settings|addclass:'border border-stale-300 rounded max-h-72 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    {% if job_form.settings.errors %}
+                        <span class="text-error text-xs">
+                            {{ job_form.settings.errors }}Valid JSON should have at least 1 key.
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-row items-center mt-4">
+                    <label for="is_private" class="text-sm font-bold">{{ job_form.is_private.label }}</label>
+                    {{ job_form.is_private|addclass:'border border-stale-300 rounded ml-4 mt-1 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                </div>
+
+                <button type="submit" class="bg-primary text-slate-200 rounded-md w-full py-1 font-main text-lg 
+                        font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-5">
+                    Create Job
+                </button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
