@@ -22,18 +22,6 @@
                {% endif %}
             </div>
          {% endfor %}
-         
-         {% with ''|center:50 as range %}
-            {% for i in range %}
-               <div class="bg-white rounded-lg p-3  h-44">
-                  <a href="/job/35">Job {{ forloop.counter }}</a>
-                  {% if forloop.counter0|divisibleby:3 %}
-                     <a href="/job/35/edit">edit</a>
-                  {% endif %}
-               </div>
-            {% endfor %}
-         {% endwith %}
-
       </div>
 
    </div>
