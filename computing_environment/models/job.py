@@ -12,7 +12,7 @@ def program_save_directory(instance, filename):
 class Job(models.Model):
     class Meta:
         app_label = "computing_environment"
-
+        ordering = ['updated_at']
     objects = JobManager()
 
     name = models.CharField(max_length=254)
