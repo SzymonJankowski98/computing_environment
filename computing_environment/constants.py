@@ -6,3 +6,4 @@ class JobStates(object):
 
 JOB_FAIL_INTERVAL = 2 # minutes
 REACTIVATE_JOB_WORKER_INTERVAL = 10 # seconds
+JOB_PAGINATION = 1
