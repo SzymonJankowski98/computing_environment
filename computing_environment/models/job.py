@@ -2,7 +2,8 @@ from .user import *
 from django.db.models.deletion import SET_NULL
 from django_fsm import FSMField, transition
 from django.utils import timezone
-from ..constants import JobStates
+from ..constants import JobStates, LANGUAGES
+from ..exceptions import WrongLanguage
 from ..managers import JobManager
 
 def program_save_directory(instance, filename):
@@ -17,6 +18,7 @@ class Job(models.Model):
 
     name = models.CharField(max_length=254)
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
+    language = models.CharField(max_length=63, choices=LANGUAGES)
     program = models.FileField(upload_to=program_save_directory)
     settings = models.JSONField()
     is_private = models.BooleanField(default=False)
@@ -24,6 +26,12 @@ class Job(models.Model):
     last_worker_call = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.language in map(lambda l: l[0], LANGUAGES):
+            super(Job, self).save(*args, **kwargs)
+        else:
+            raise WrongLanguage
 
     @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
