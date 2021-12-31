@@ -24,8 +24,8 @@ class Job(models.Model):
     is_private = models.BooleanField(default=False)
     state = FSMField(default=JobStates.AVAILABLE, protected=True)
     last_worker_call = models.DateTimeField(null=True, blank=True)
-    processor_usage = models.DecimalField(null=True, blank=True, max_digits=3, decimal_places=2)
-    memory_usage = models.DecimalField(null=True, blank=True, max_digits=3, decimal_places=2)
+    processor_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
+    memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
