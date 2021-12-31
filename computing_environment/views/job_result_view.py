@@ -12,6 +12,17 @@ import os
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
+@login_required
+def download(request, id):
+    result = get_object_or_404(JobResult,pk=id)
+    job = result.job
+    if job.is_private and job.creator != request.user:
+        raise PermissionDenied()
+    file_buffer = open(result.result.path, "rb").read()
+    response = HttpResponse(file_buffer, content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(result.result.path)
+    return response
+
 @api_view(['POST'])
 def send_result(request):
     job_result_serializer = JobResultSerializer(data=request.data)
@@ -27,14 +38,3 @@ def send_result(request):
         return Response(content, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     return Response(job_result_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@login_required
-def download(request, id):
-    result = get_object_or_404(JobResult,pk=id)
-    job = result.job
-    if job.is_private and job.creator != request.user:
-        raise PermissionDenied()
-    file_buffer = open(result.result.path, "rb").read()
-    response = HttpResponse(file_buffer, content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(result.result.path)
-    return response

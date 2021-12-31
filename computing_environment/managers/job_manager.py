@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import Q
 from django.db import transaction
 from django.utils import timezone
-from ..constants import JobStates, JOB_FAIL_INTERVAL
+from ..constants import JobStates, JOB_UNRESPONSIVE_INTERVAL
 
 class JobManager(models.Manager):
     class Meta:
@@ -32,7 +32,7 @@ class JobManager(models.Manager):
         return self.filter(pk=id, state=JobStates.IN_PROGRESS).first()
 
     def failed_jobs(self):
-        fail_border = timezone.now() - timedelta(minutes=JOB_FAIL_INTERVAL)
+        fail_border = timezone.now() - timedelta(minutes=JOB_UNRESPONSIVE_INTERVAL)
         q = Q(state=JobStates.IN_PROGRESS)
         q.add(Q(state=JobStates.CHANGED_IN_PROGRESS), Q.OR)
         q.add(Q(last_worker_call__lte=fail_border), Q.AND)

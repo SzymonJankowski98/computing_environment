@@ -77,8 +77,10 @@ def edit_job(request, id):
             job_form.save()
             print(job.state)
             if job.state == JobStates.IN_PROGRESS:
+                job.job_changed_in_progress()
+            else:
                 job.job_changed()
-                job.save()
+            job.save()
 
             return redirect(dashboard)
     else:

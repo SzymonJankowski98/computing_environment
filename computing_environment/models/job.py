@@ -24,6 +24,8 @@ class Job(models.Model):
     is_private = models.BooleanField(default=False)
     state = FSMField(default=JobStates.AVAILABLE, protected=True)
     last_worker_call = models.DateTimeField(null=True, blank=True)
+    processor_usage = models.DecimalField(null=True, blank=True, max_digits=3, decimal_places=2)
+    memory_usage = models.DecimalField(null=True, blank=True, max_digits=3, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -37,8 +39,12 @@ class Job(models.Model):
     def mark_as_in_progress(self):
         self.last_worker_call = timezone.now()
 
-    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.COMPLETE], target=JobStates.CHANGED_IN_PROGRESS)
+    @transition(field=state, source=[JobStates.AVAILABLE, JobStates.COMPLETE, JobStates.FAILED], target=JobStates.AVAILABLE)
     def job_changed(self):
+        pass
+    
+    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.CHANGED_IN_PROGRESS)
+    def job_changed_in_progress(self):
         pass
 
     @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
@@ -51,4 +57,8 @@ class Job(models.Model):
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)
     def complete(self):
+        pass
+
+    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.FAILED)
+    def fail(self):
         pass
