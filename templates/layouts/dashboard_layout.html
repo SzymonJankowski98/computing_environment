@@ -5,11 +5,11 @@
 {% load static %}
 
 {% block content %}
+    {% include 'shared/alerts/_alerts.html' %}
     <div class="flex justify-between h-screen">
-
-        <div class="flex justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main">
+        <div class="hidden flex sm:flex absolute sm:static h-screen justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main" id="dashboard-nav">
             <header class="flex items-center justify-center my-4">
-            <img class="w-16 h-16" src="{% static 'logo.png' %}" alt="Logo"/>
+                <img class="w-16 h-16" src="{% static 'logo.png' %}" alt="Logo"/>
             </header>
             <nav class="grow flex flex-col items-center justify-between">
             <div>
@@ -67,14 +67,18 @@
             </div>
             </nav>
         </div>
-        <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
-
-            <div class="grow flex flex-col my-4 mx-4 md:mr-0">
-                {% block mid_content %}  
-                {% endblock %}
+        <div class="grow flex flex-col">
+            <div class="flex justify-between items-center sm:hidden bg-primary py-2">
+                <img class="w-10 h-10 ml-3" src="{% static 'logo.png' %}" alt="Logo"/>
+                <img class="w-8 h-8 mr-3" id="dashboard-hamburger" src="{% static 'hamburger_menu.svg' %}"/>
             </div>
-
-            {% include 'layouts/_stats_panel.html' with stats=stats %}
+            <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
+                <div class="grow flex flex-col my-4 mx-4 md:mr-0">
+                    {% block mid_content %}  
+                    {% endblock %}
+                </div>
+                {% include 'layouts/_stats_panel.html' with stats=stats %}
+            </div>
         </div>
     </div>
 {% endblock %}
