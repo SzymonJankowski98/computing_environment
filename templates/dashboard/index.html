@@ -16,7 +16,7 @@
                   <input class="w-full pl-12 pr-2 py-1 border rounded-lg" type="search" name="search" placeholder="Search">
                </div>
                <select class="border rounded-lg px-4 py-2 lg:ml-4 font-main" name="progress-filter">
-               <option class="text-gray-400" value="" disabled selected>Select Job Status</option>
+               <option class="text-gray-400" value="" disabled selected>Select Status</option>
                <option value="available">Available</option>
                <option value="in-progress">In Progress</option>
                <option value="completed">Completed</option>
@@ -25,14 +25,16 @@
             <div class="flex items-center mt-8 justify-evenly w-full sm:w-11/12 flex-col lg:flex-row lg:mt-4 2xl:w-auto 
                   2xl:justify-start 2xl:ml-32 2xl:mt-0">
                <label class="pl-0 py-1 font-main font-bold text-lg" for="sort-select">Sort By</label>
-               <div class="flex w-full lg:w-2/3">
-                  <select class="border rounded-lg px-4 py-2 font-main w-full lg:w-2/3 2xl:w-auto 2xl:ml-4" name="sort-select" id="sort-select">
+               <div class="flex w-full flex-col sm:flex-row lg:w-2/3">
+                  <select class="border rounded-lg px-4 py-2 font-main w-full 
+                        lg:w-2/3 2xl:w-auto 2xl:ml-4" name="sort-select" id="sort-select">
                      <option value="available">Creation Date</option>
                      <option value="in-progress">Status</option>
                      <option value="completed">Author</option>
                   </select>
-                  <button class="w-16 h-10 ml-4 px-4 py-1 rounded-lg bg-slate-100 hover:bg-slate-200">
-                     <img class="w-full min-w-[2rem]" src="{% static 'ascending-sort.svg' %}" alt="Search"/>
+                  <button class="w-1/2 self-center mt-2 sm:mt-0 sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
+                      text-center bg-slate-100 hover:bg-slate-200 flex justify-center">
+                     <img class="w-8 min-w-[2rem]" src="{% static 'ascending-sort.svg' %}" alt="Search"/>
                   </button>
                </div>
             </div>
