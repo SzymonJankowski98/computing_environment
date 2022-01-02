@@ -1,6 +1,6 @@
 from ..models import Job
 
-def reactivate_failed_jobs():
+def reactivate_unresponsive_jobs():
     failed_jobs = Job.objects.failed_jobs()
     
     for job in failed_jobs:
@@ -8,4 +8,4 @@ def reactivate_failed_jobs():
             job.reactivate()
             job.save()
         except Exception as error:
-            print('reactivate_failed_jobs error: %s' % error)
+            print('reactivate_unresponsive_jobs error: %s' % error)

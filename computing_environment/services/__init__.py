@@ -1,2 +1,2 @@
-from .reactivate_failed_jobs import reactivate_failed_jobs
+from .reactivate_unresponsive_jobs import reactivate_unresponsive_jobs
 from .dashboard_stats import dashboard_stats
