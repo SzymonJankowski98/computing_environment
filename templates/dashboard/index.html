@@ -34,27 +34,9 @@
    <div class="h-full p-2 overflow-auto"  id="journal-scroll">
       <div class="grow grid grid-rows-16 grid-cols-1 lg:grid-rows-8 lg:grid-cols-2 xl:grid-rows-4 xl:grid-cols-4 gap-4 ">
          {% for job in jobs %}
-            <div class="bg-white rounded-lg p-3  h-44">
-               <a href="{% url 'show_job' job.id %}">{{ job.name }}</a>
-               {% if job.creator == current_user %}
-                  <a href="{% url 'edit_job' job.id %}">edit</a>
-               {% endif %}
-            </div>
+            {% include 'dashboard/_job.html' with job=job %}
          {% endfor %}
-         
-         {% with ''|center:50 as range %}
-            {% for i in range %}
-               <div class="bg-white rounded-lg p-3  h-44">
-                  <a href="/job/35">Job {{ forloop.counter }}</a>
-                  {% if forloop.counter0|divisibleby:3 %}
-                     <a href="/job/35/edit">edit</a>
-                  {% endif %}
-               </div>
-            {% endfor %}
-         {% endwith %}
-
       </div>
-
    </div>
    <div class="pagination mt-3">
       {% include 'layouts/pagination.html'  with page_obj=jobs %}
