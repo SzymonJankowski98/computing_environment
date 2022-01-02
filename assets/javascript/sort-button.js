@@ -1,5 +1,4 @@
-window.onload = () => {
-    console.log(document.getElementById("sort-button"))
+window.addEventListener('load', () => {
     document.getElementById("sort-button").onclick = changeButtonImg
 
     let init_img = true;
@@ -14,4 +13,4 @@ window.onload = () => {
             sort_img.src = '../static/descending-sort.svg';
         }
     }
-}
+})
