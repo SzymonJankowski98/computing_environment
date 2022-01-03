@@ -5,7 +5,7 @@
         <div>
             {{ result.created_at }} - {{ result.job.name }}:
             <br>
-            {{ result.download_link }}
+            {% include 'shared/download.html'  with result=result %}
         </div>
         {% endfor %}
         {% if not recent_results %}
