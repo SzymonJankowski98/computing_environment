@@ -25,13 +25,16 @@
     </div>
     <div class="flex justify-between items-center mt-2">
         {% include 'dashboard/_state_label.html' with state=job.state %}
-        <span class="bg-gray-100 text-gray-500 font-main text-xxs font-bold rounded-lg uppercase py-1 px-2">
             {% if job.is_private %}
-                private
+            <span class="bg-orange-100 text-orange-500 font-main text-xxs font-bold rounded-lg uppercase py-1 px-2">    
+            private
+            </span>
             {% else %}
+            <span class="bg-gray-100 text-gray-500 font-main text-xxs font-bold rounded-lg uppercase py-1 px-2">
                 public
+            </span>
+
             {% endif %}
-        </span>
     </div>
     <div>
         <span class="text-primary font-main text-xs">
