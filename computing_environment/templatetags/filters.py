@@ -9,4 +9,10 @@ def addclass(value, arg):
 
 @register.filter(name='only_name')
 def only_name(file):
-    return file.split('/')[-1]
+    name = file.split('/')[-1]
+    data_name = name.split('_')[0]+"-"+name.split('_')[-1]
+    return data_name
+
+@register.filter
+def upto(value, delimiter=None):
+    return value.split(delimiter)[0]
