@@ -15,6 +15,9 @@ module.exports = {
             'error': '#dc2626',
             'warning': '#facc15',
             'accept': '#1ebd10'
+         },
+         boxShadow: {
+            'inner-xl': 'inset 4px 4px 20px 5px rgba(0,0,0, 0.5)'
          }
       }
    },
