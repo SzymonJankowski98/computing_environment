@@ -20,9 +20,7 @@
             <h2 class="text-xl font-bold mb-2">Job results</h2>
             {% for result in job_results %}
                 <p class="text-primary hover:underline hover:cursor-pointer">
-                    <a href="{% url 'download' result.id %}">
-                    {{ result.result }}
-                    </a>
+                    {% include 'shared/download.html'  with result=result %}
                 </p>
                 </br>
             {% endfor %}
