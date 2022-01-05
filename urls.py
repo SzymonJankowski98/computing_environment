@@ -25,16 +25,13 @@ urlpatterns = [
     path('job/<int:id>', show_job, name='show_job'),
     path('job/<int:id>/edit', edit_job, name='edit_job'),
     path('job/<int:id>/delete', delete_job, name='delete_job'),
+    path('profile', edit_profile, name='edit_profile'),
 
     ## allauth
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),
     path("accounts/login/", view=custom_login_view, name="account_login"),
     path("accounts/logout/", views.logout, name="account_logout"),
-    path(
-        "accounts/password/change/",
-        views.password_change,
-        name="account_change_password",
-    ),
+    path("accounts/password/change/", custom_password_change_view, name="account_change_password"),
     path("accounts/password/set/", views.password_set, name="account_set_password"),
     # password reset
     path("accounts/password/reset/", views.password_reset, name="account_reset_password"),
