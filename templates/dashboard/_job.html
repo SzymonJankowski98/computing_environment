@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-3 cursor-pointer hover:bg-gradient-to-br  from-purple-500 to-indigo-500 hover:shadow-xl group" onclick='location.href="{% url 'show_job' job.id %}";' >
+<div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-3 cursor-pointer hover:bg-gradient-to-br from-purple-700 to-indigo-500 hover:shadow-xl group" onclick='location.href="{% url 'show_job' job.id %}";' >
     <div class="flex items-center justify-between">
         <div class="p-1 bg-sky-100 rounded-2xl">
             {% if job.language == 'python' %}
