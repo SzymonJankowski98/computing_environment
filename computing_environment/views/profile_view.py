@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.contrib import messages
 
 from computing_environment.models.job_result import JobResult
-from ..serializers import JobSerializer
 from computing_environment.forms import ProfileForm
 from computing_environment.models import JobResult
 from .dashboard_view import dashboard
@@ -18,6 +18,7 @@ def edit_profile(request):
         if profile_form.is_valid():
             profile_form.save()
 
+            messages.success(request, 'Profile successfully updated.')
             return redirect(dashboard)
     else:
         profile_form = ProfileForm(instance=request.user)
