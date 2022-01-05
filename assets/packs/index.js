@@ -1,5 +1,6 @@
 import '../javascript/alerts'
 import '../javascript/dashboard_side_menu'
+import '../javascript/sort-button'
 
 import '../style/tailwind.css';
 import '../style/fonts.css';
