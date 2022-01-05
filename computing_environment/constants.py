@@ -7,7 +7,7 @@ class JobStates(object):
 
 JOB_UNRESPONSIVE_INTERVAL = 2 # minutes
 REACTIVATE_JOB_WORKER_INTERVAL = 10 # seconds
-JOB_PAGINATION = 16
+JOB_PAGINATION = 4
 
 LANGUAGES = (
     ('python', 'Python'),

@@ -6,3 +6,11 @@
     font-size: 0.6rem;
     line-height: 0.8rem;
 }
+
+.white-svg{
+    filter: invert(97%) sepia(33%) saturate(64%) hue-rotate(186deg) brightness(119%) contrast(100%);
+}
+
+.filter-green{
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+}

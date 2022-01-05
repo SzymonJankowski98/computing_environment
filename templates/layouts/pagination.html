@@ -15,11 +15,23 @@
       <div >
       </div>
     {% endif %}
+    <div clas="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+    <select id="page" name="page" onChange="location = this.value;" class="relative inline-flex justify-center w-auto rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-primary focus:outline-none lg:hidden">
+        {% for num in page_obj.paginator.page_range %}
+          <option class="text-gray-700 block px-4 py-2 text-sm" value="?page={{ num }}"
+          {% if page_obj.number == num %}selected="selected"{% endif %}>
+                Page {{num}}
+            </option>
+      {% endfor %}
+    </select>
+  </div>
+       
+
 
     <!-- NEXT MOBILE -->
     {% if page_obj.has_next %}
       <a href="?page={{ page_obj.next_page_number }}" >
-        <button   class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-primary transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100">
+        <button   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-primary transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100">
           Next 
           <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
@@ -57,7 +69,7 @@
               </svg>
             </a>
           {% else %}
-            <a class="disabled relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-primary hover:bg-gray-50">
+            <a class="disabled relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
               <span class="sr-only">Previous</span>
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -129,7 +141,7 @@
               </svg>
             </a></li>
           {% else %}
-            <li class="disabled"><a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-primary hover:bg-gray-50">
+            <li class="disabled"><a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
               <span class="sr-only">Next</span>
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />

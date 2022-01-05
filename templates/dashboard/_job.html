@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="bg-white rounded-lg p-3">
+<div class="bg-white shadow-md ring-1 ring-gray-900/5 rounded-lg p-3 cursor-pointer hover:bg-primary hover:opacity-90 hover:shadow-xl group" onclick='location.href="{% url 'show_job' job.id %}";' >
     <div class="flex items-center justify-between">
         <div class="p-1 bg-sky-100 rounded-2xl">
             {% if job.language == 'python' %}
@@ -10,15 +10,15 @@
             {% endif %}
         </div>
         <div class="flex flex-col grow ml-2">
-            <a class="text-primary font-main font-bold" href="{% url 'show_job' job.id %}">{{ job.name }}</a>
-            <span class="font-main text-xs text-gray-500">
+            <a class="text-primary font-main font-bold group-hover:text-white" >{{ job.name }}</a>
+            <span class="font-main text-xs text-gray-500 group-hover:text-white">
                 {{ job.language|title }}
             </span>
         </div>
         <div class="flex justify-start items-start">
             {% if job.creator == current_user %}
-                <a href="{% url 'edit_job' job.id %}">
-                    <img class="h-5 w-5 btn-edit" src="{% static 'edit.svg' %}" /> 
+                <a href="{% url 'edit_job' job.id %}" >
+                    <img class="h-5 w-5 btn-edit z-auto" src="{% static 'edit.svg' %}" /> 
                 </a>
             {% endif %}
         </div>
@@ -37,13 +37,13 @@
             {% endif %}
     </div>
     <div>
-        <span class="text-primary font-main text-xs">
+        <span class="text-primary font-main text-xs group-hover:text-white">
             Processor usage: <span class="font-bold">{{ job.processor_usage }}%</span>
         </span>
         <div class="h-2 w-full rounded-lg bg-gray-100">
             <div class="h-full w-1/2 bg-yellow-300 rounded-lg"></div>
         </div>
-        <span class="text-primary font-main text-xs">
+        <span class="text-primary font-main text-xs group-hover:text-white">
             Memory usage: <span class="font-bold">{{ job.memory_usage }}%</span>
         </span>
         <div class="h-2 w-full rounded-lg bg-gray-100">
@@ -56,3 +56,4 @@
         </span>
     </div>
  </div>
+ 
