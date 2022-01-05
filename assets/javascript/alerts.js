@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', () => {
     let alerts = document.querySelectorAll('#alert');
 
     function hideAlert(alert) {
@@ -14,4 +14,4 @@ window.onload = () => {
             hideAlert(alert);
          }, 7000);
     });
-};
+});
