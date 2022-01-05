@@ -14,7 +14,7 @@
             <nav class="grow flex flex-col items-center justify-between">
             <div>
                 <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
-                        {% if request.path == '/dashboard' %} shadow-inner-xl hover:bg-primary cursor-auto{% endif %}"
+                        {% if request.path == '/dashboard' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
                         {% if request.path != '/dashboard' %} href="{% url 'dashboard' %}" {% endif %}>
                     <span class="mb-2">
                         <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
@@ -26,7 +26,7 @@
                     </span>
                 </a>
                 <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
-                        {% if request.path == '/job/new' %} shadow-inner-xl hover:bg-primary cursor-auto{% endif %}"
+                        {% if request.path == '/job/new' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
                         {% if request.path != '/job/new' %} href="{% url 'new_job' %}" {% endif %}>
                     <span class="mb-2">
                         <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
