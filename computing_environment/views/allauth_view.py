@@ -8,7 +8,7 @@ from computing_environment.forms import CustomSignupForm
 
 from ..models import Invitation
 
-from allauth.account.views import LoginView, SignupView
+from allauth.account.views import LoginView, SignupView, PasswordChangeView
 from allauth.utils import get_request_param
 from allauth.exceptions import ImmediateHttpResponse
 from allauth.account.utils import passthrough_next_redirect_url, complete_signup
@@ -84,3 +84,8 @@ class CustomLoginView(LoginView):
         return ret
 
 custom_login_view = CustomLoginView.as_view()
+
+class CustomPasswordChangeView(PasswordChangeView):
+    success_url = '/'
+
+custom_password_change_view = CustomPasswordChangeView.as_view()

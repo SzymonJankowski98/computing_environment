@@ -22,7 +22,7 @@
     <div class="flex flex-col mt-5">
       <label for="password" class="text-sm font-bold">{{ form.password.label }}</label>
       {{ form.password|addclass:'border border-stale-300 rounded px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
-      <span class="text-error text-xs">{{ form.last_name.errors }}</span>
+      <span class="text-error text-xs">{{ form.password.errors }}</span>
     </div>
     <div class="flex items-center justify-between mt-5 text-sm font-bold">
       <div class="flex items-center">

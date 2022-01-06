@@ -5,15 +5,18 @@
 {% load static %}
 
 {% block content %}
+{% include 'shared/alerts/_alerts.html' %}
     <div class="flex justify-between h-screen">
 
         <div class="flex justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main">
-            <header class="flex items-center justify-center my-4">
+            <header class="flex items-center justify-center my-6">
             <img class="w-16 h-16" src="{% static 'logo.png' %}" alt="Logo"/>
             </header>
             <nav class="grow flex flex-col items-center justify-between">
             <div>
-                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'dashboard' %}">
+                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
+                        {% if request.path == '/dashboard' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
+                        {% if request.path != '/dashboard' %} href="{% url 'dashboard' %}" {% endif %}>
                     <span class="mb-2">
                         <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
                         <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
@@ -23,7 +26,9 @@
                         Dashboard
                     </span>
                 </a>
-                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out" href="{% url 'new_job' %}">
+                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
+                        {% if request.path == '/job/new' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
+                        {% if request.path != '/job/new' %} href="{% url 'new_job' %}" {% endif %}>
                     <span class="mb-2">
                         <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
                         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
@@ -33,6 +38,28 @@
                         New Task
                     </span>
                 </a>
+                <div id="job_preview_link" class="hidden flex-col items-center my-1 mx-3 py-4 px-6 w-28 shadow-inner-xl 
+                        cursor-auto rounded-lg bg-primary-disabled text-black">
+                    <span class="mb-2">
+                        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
+                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                    </span>
+                    <span>
+                        Job View
+                    </span>
+                </div>
+                <div id="job_edit_link" class="hidden flex-col items-center my-1 mx-3 py-4 px-6 w-28 shadow-inner-xl 
+                        bg-primary-disabled text-black cursor-auto rounded-lg ">
+                    <span class="mb-2">
+                        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
+                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                    </span>
+                    <span>
+                        Job Edit
+                    </span>
+                </div>
             </div>
             <div>
                 {% if current_user.is_staff %}
@@ -47,7 +74,9 @@
                         </span>
                     </a>
                 {% endif %}
-                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out">
+                <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
+                        {% if request.path == '/profile' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
+                        {% if request.path != '/profile' %} href="{% url 'edit_profile' %}" {% endif %}>
                     <span class="mb-2">
                         <img class="w-9 h-9 rounded-full" src="{% static 'default_profile.png' %}" alt="Profile picture"/>
                     </span>
