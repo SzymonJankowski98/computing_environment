@@ -34,7 +34,7 @@
                   <label class="pl-0 py-1 font-main font-bold text-sm" for="sort-select">Sort By</label>
                   <div class="flex w-full flex-col sm:flex-row lg:w-2/3">
                      <select class="border rounded-lg px-4 py-2 font-main w-full 
-                           lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort">
+                           lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort" onChange='submit();'>
                         <option value="updated_at"{% if request.GET.sort == 'updated_at' %} selected{% endif %} >Updated</option>
                         <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
                         <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
@@ -48,14 +48,14 @@
                   
                </div>
             </div>
-            <button  type="submit" class="mt-4 sm:mt-0 bg-primary text-slate-200 rounded-md px-4 py-1 font-main text-sm 
-               font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm">Search</button>
+            <!-- <button  type="submit" class="mt-4 sm:mt-0 bg-primary text-slate-200 rounded-md px-4 py-1 font-main text-sm 
+               font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm">Search</button> -->
          </div>
       </div>
    </form>  
 
    <div class="h-full p-2 overflow-auto"  id="journal-scroll">
-      <div class="grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 ">
+      <div class="grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
          {% for job in jobs %}
             {% include 'dashboard/_job.html' with job=job %}
          {% endfor %}

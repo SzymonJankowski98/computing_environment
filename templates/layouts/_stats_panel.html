@@ -9,11 +9,9 @@
             {% endif %}
         </p>
 
-    <!-- <div class="py-3"> -->
-        <div class="divide-y divide-gray-300/50">
+        <div class="divide-y divide-primary-darker">
             {% for result in recent_results %}
-    <!-- <div class="select-none cursor-pointer bg-primary-darker p-2 my-2 rounded-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"> -->
-        <div class=" select-none cursor-pointer hover:bg-primary-darker hover:text-blue-200 p-1" onclick='location.href="{% url 'show_job' result.job.id %}";'>
+        <div class=" select-none cursor-pointer hover:bg-primary-darker hover:text-blue-200 p-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg" onclick='location.href="{% url 'show_job' result.job.id %}";'>
                 <div class="flex items-center flex-row py-2 " >
                     <div class="p-1 bg-sky-100 rounded-md ">
                         {% if result.job.language == 'python' %}
@@ -35,7 +33,6 @@
                             {{ result.created_at|timesince|upto:","}} ago
                         </p>    
                     </div>    
-    <!-- </div> -->
                 </div>
         </div>
             {% endfor %} 
