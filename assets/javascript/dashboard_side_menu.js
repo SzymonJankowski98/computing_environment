@@ -5,6 +5,6 @@ window.addEventListener('load', () => {
     if (!dashboardNav || !hamburgerBtn) return;
 
     hamburgerBtn.addEventListener('click', () => {
-        dashboardNav.classList.toggle('hidden');
+        dashboardNav.classList.toggle('shown');
     });
 });

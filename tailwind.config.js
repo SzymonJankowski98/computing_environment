@@ -15,15 +15,6 @@ module.exports = {
             'error': '#dc2626',
             'warning': '#facc15',
             'accept': '#1ebd10'
-         },
-         keyframes: {
-            "slide-from-left": {
-               '0%': { opacity: 0, transform: 'translateX(-12rem)' },
-               '100%': { opacity: 1, transform: 'translateX(0)' },
-            }
-         },
-         animation: {
-            'slide-right': 'slide-from-left 0.4s linear'
          }
       }
    },
