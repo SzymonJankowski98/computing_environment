@@ -12,6 +12,7 @@ django-fsm = "*"
 djangorestframework = "*"
 djangorestframework-api-key = "==2.*"
 apscheduler = "*"
+django-filter = "*"
 # heroku
 gunicorn = "*"
 django-heroku = "*"
