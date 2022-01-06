@@ -19,11 +19,11 @@ def dashboard(request):
     jobs_filter = JobFilter(request.GET, queryset=jobs)
     jobs = jobs_filter.qs
 
-    ordering = request.GET.get('sort') if request.GET.get('sort') else ''
-    order = '' if request.GET.get('order') else '-'
+    ordering = request.GET.get('sort', 'updated_at')
+    order = request.GET.get('order','')
 
-    if is_valid_queryparam(ordering):
-        jobs = jobs.order_by(order+ordering)
+    # if is_valid_queryparam(ordering):
+    jobs = jobs.order_by(order+ordering)
 
     paginator = Paginator(jobs, JOB_PAGINATION)
     page = request.GET.get('page')
@@ -39,6 +39,7 @@ def dashboard(request):
 
     context = {
         'jobs': jobs, 'current_user': request.user,
-        'stats': stats, 'recent_results': recent_results
+        'stats': stats, 'recent_results': recent_results,
+        'filter': jobs_filter
     }
     return render(request, 'dashboard/index.html', context)

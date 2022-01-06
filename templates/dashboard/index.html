@@ -41,8 +41,8 @@
                      </select>
                   
                      <button class="w-1/2 self-center mt-2 sm:mt-0 sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
-                        text-center bg-slate-100 hover:bg-slate-200 flex justify-center scale-75" id="sort-button">
-                        <img class="w-4 min-w-[2rem]" id="sort-button-img" src="{% static 'ascending-sort.svg' %}" alt="Search"/>
+                     text-center bg-slate-100 hover:bg-slate-200 flex justify-center scale-75" id="sort-button" name='order' value='{{ request.GET.order }}' >
+                        <img class="w-4 min-w-[2rem]" id="sort-button-img"  alt="Search" />
                      </button>
                   </div>
                   
@@ -53,9 +53,9 @@
          </div>
       </div>
    </form>  
-
+   
    <div class="h-full p-2 overflow-auto"  id="journal-scroll">
-      <div class="grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div class="grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 ">
          {% for job in jobs %}
             {% include 'dashboard/_job.html' with job=job %}
          {% endfor %}
