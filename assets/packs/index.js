@@ -1,5 +1,4 @@
 import '../javascript/alerts'
-import '../javascript/active-page'
 
 import '../style/tailwind.css';
 import '../style/fonts.css';
