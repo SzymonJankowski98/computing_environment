@@ -3,14 +3,28 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from computing_environment.constants import JOB_PAGINATION
 
-
 from computing_environment.models.job import Job
 from computing_environment.models import JobResult
 from computing_environment.services import dashboard_stats
+from computing_environment.search_filters import JobFilter
+
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
 
 @login_required
 def dashboard(request):
-    jobs = Job.objects.visible_for_user(request.user)
+    jobs = Job.objects.visible_for_user(request.user)    
+    
+    jobs_filter = JobFilter(request.GET, queryset=jobs)
+    jobs = jobs_filter.qs
+
+    ordering = request.GET.get('sort') if request.GET.get('sort') else ''
+    order = '' if request.GET.get('order') else '-'
+
+    if is_valid_queryparam(ordering):
+        jobs = jobs.order_by(order+ordering)
+
     paginator = Paginator(jobs, JOB_PAGINATION)
     page = request.GET.get('page')
     try:

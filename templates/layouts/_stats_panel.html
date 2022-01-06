@@ -1,9 +1,6 @@
 {% load static %}
 {% load filters %}
 
-<div class="h-screen flex flex-col">
-    {% include 'layouts/_stats_panel_top.html' with stats=stats %}
-
     <div class="bg-primary m-4 w-full[-8rem] md:w-72 p-3 rounded-lg md:h-full text-slate-300">
         <p class="text-left font-bold text-xl font-main my-2">
             Recent results
@@ -13,10 +10,11 @@
         </p>
 
     <!-- <div class="py-3"> -->
-        <div class="divide-y divide-gray-300/50 p-2">
+        <div class="divide-y divide-gray-300/50">
             {% for result in recent_results %}
     <!-- <div class="select-none cursor-pointer bg-primary-darker p-2 my-2 rounded-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"> -->
-                <div class="flex items-center flex-row py-2 select-none cursor-pointer hover:bg-primary-darker hover:text-blue-200 " onclick='location.href="{% url 'show_job' result.job.id %}";'>      
+        <div class=" select-none cursor-pointer hover:bg-primary-darker hover:text-blue-200 p-1" onclick='location.href="{% url 'show_job' result.job.id %}";'>
+                <div class="flex items-center flex-row py-2 " >
                     <div class="p-1 bg-sky-100 rounded-md ">
                         {% if result.job.language == 'python' %}
                         <img class="h-5 w-5" src="{% static 'python.svg' %}" />
@@ -37,8 +35,9 @@
                             {{ result.created_at|timesince|upto:","}} ago
                         </p>    
                     </div>    
-        <!-- </div> -->
+    <!-- </div> -->
                 </div>
+        </div>
             {% endfor %} 
             
             {% if not recent_results %}
@@ -47,4 +46,4 @@
         </div>
 
     </div>
-</div>
+

@@ -77,7 +77,10 @@
                     {% block mid_content %}  
                     {% endblock %}
                 </div>
-                {% include 'layouts/_stats_panel.html' with stats=stats %}
+                <div class="h-screen flex flex-col">
+                    {% include 'layouts/_stats_panel_top.html' with stats=stats %}
+                    {% include 'layouts/_stats_panel.html' %}
+                </div>  
             </div>
         </div>
     </div>
