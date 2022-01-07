@@ -9,9 +9,6 @@ from computing_environment.services import dashboard_stats
 from computing_environment.search_filters import JobFilter
 
 
-def is_valid_queryparam(param):
-    return param != '' and param is not None
-
 @login_required
 def dashboard(request):
     jobs = Job.objects.visible_for_user(request.user)    
@@ -21,8 +18,6 @@ def dashboard(request):
 
     ordering = request.GET.get('sort', 'updated_at')
     order = request.GET.get('order','')
-
-    # if is_valid_queryparam(ordering):
     jobs = jobs.order_by(order+ordering)
 
     paginator = Paginator(jobs, JOB_PAGINATION)
@@ -40,6 +35,5 @@ def dashboard(request):
     context = {
         'jobs': jobs, 'current_user': request.user,
         'stats': stats, 'recent_results': recent_results,
-        'filter': jobs_filter
     }
     return render(request, 'dashboard/index.html', context)
