@@ -37,17 +37,19 @@
             {% endif %}
     </div>
     <div>
+
         <span class="text-primary font-main text-xs group-hover:text-white">
-            Processor usage: <span class="font-bold">{{ job.processor_usage }}%</span>
+            {% if job.state == 'in_progress' %} Current {% else %} Avg. {% endif %} processor usage: <span class="font-bold">{% if job.processor_usage %} {{ job.processor_usage }}% {% else %} --- {% endif %}</span>
         </span>
         <div class="h-2 w-full rounded-lg bg-gray-100">
-            <div class="h-full w-1/2 bg-yellow-300 rounded-lg"></div>
+            <div data-progress="{{ job.processor_usage }}" class="h-full rounded-lg progress-bar"></div>
         </div>
+
         <span class="text-primary font-main text-xs group-hover:text-white">
-            Memory usage: <span class="font-bold">{{ job.memory_usage }}%</span>
+            {% if job.state == 'in_progress' %} Current {% else %} Avg. {% endif %} memory usage: <span class="font-bold">{% if job.memory_usage %} {{ job.memory_usage }}% {% else %} --- {% endif %}</span>
         </span>
         <div class="h-2 w-full rounded-lg bg-gray-100">
-            <div class="h-full w-1/4 bg-green-300 rounded-lg"></div>
+            <div data-progress="{{ job.memory_usage }}" class="h-full rounded-lg progress-bar"></div>
         </div>
     </div>
     <div class="flex justify-end items-center mt-2">

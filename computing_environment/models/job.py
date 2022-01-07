@@ -41,6 +41,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.AVAILABLE, JobStates.COMPLETE, JobStates.FAILED], target=JobStates.AVAILABLE)
     def job_changed(self):
+        processor_usage = None
+        memory_usage = None
         pass
     
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.CHANGED_IN_PROGRESS)
@@ -53,6 +55,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
     def reactivate(self):
+        processor_usage = None
+        memory_usage = None
         pass
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)

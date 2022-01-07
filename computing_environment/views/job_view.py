@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 
 from computing_environment.models.job_result import JobResult
-from ..serializers import JobSerializer
+from ..serializers import JobSerializer, JobReportSerializer
 from computing_environment.forms import JobForm
 from computing_environment.models.job import Job
 from computing_environment.models import JobResult
@@ -75,7 +75,6 @@ def edit_job(request, id):
         job_form = JobForm(request.POST, request.FILES, instance=job)
         if job_form.is_valid():
             job_form.save()
-            print(job.state)
             if job.state == JobStates.IN_PROGRESS:
                 job.job_changed_in_progress()
             else:
@@ -123,21 +122,29 @@ def get_program(request, id):
 
     return Response(content, status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET'])
-def check_for_update(request, id):
+@api_view(['POST'])
+def worker_report(request, id):
     job = Job.objects.job_in_progress(id)
     if job:
-        context = { 'updated': False}
-        if job.state == JobStates.CHANGED_IN_PROGRESS:
-            serializer = JobSerializer(job)
-            context['job'] = serializer.data
-            context['updated'] = True
+        job_report_serializer = JobReportSerializer(data=request.data)
+        if job_report_serializer.is_valid():
+            context = { 'updated': False}
 
-            job.continue_execution()
-        job.last_worker_call = timezone.now()
-        job.save()
+            data = job_report_serializer.data
+            job.processor_usage = data['processor_usage']
+            job.memory_usage = data['memory_usage']
+            if job.state == JobStates.CHANGED_IN_PROGRESS:
+                serializer = JobSerializer(job)
+                context['job'] = serializer.data
+                context['updated'] = True
+                
+                job.continue_execution()
+            job.last_worker_call = timezone.now()
+            job.save()
 
-        return Response(context, status=status.HTTP_200_OK)
+            return Response(context, status=status.HTTP_200_OK)
+
+        return Response(job_report_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     content = { "error" : "Resource not found" }
     return Response(content, status=status.HTTP_404_NOT_FOUND)

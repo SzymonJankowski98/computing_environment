@@ -1,7 +1,8 @@
 window.addEventListener('load', () => {
 
-    document.getElementById("sort-button").onclick = changeButtonImg
-    
+    if (window.location.pathname == '/dashboard'){
+        document.getElementById("sort-button").onclick = changeButtonImg
+    }
 
     function changeButtonImg(){
         let sort_img = document.getElementById("sort-button-img");
