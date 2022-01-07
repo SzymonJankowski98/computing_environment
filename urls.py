@@ -54,7 +54,7 @@ urlpatterns = [
     # django rest framework
     path("v1/jobs/job_to_do/", job_to_do, name="job_to_do"),
     path("v1/jobs/<int:id>/get_program", get_program, name="get_program"),
-    path("v1/jobs/<int:id>/check_for_update", check_for_update, name="check_for_update"),
+    path("v1/jobs/<int:id>/worker_report", worker_report, name="worker_report"),
     path("v1/job_results", send_result, name="send_result"),
     path("download/<int:id>", download,  name="download")
 ]
