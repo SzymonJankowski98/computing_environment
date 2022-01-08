@@ -7,11 +7,11 @@
 {% block mid_content %}
     <div class="flex flex-col items-center">
         
-        <h1 class="text-3xl font-extrabold mt-2 mb-4">Edit Job</h1>
+        <h1 class="text-3xl font-extrabold mt-2 mb-4">Edit Task</h1>
 
-        <div class="flex flex-col items-center border-2 px-20 pb-6 pt-4 rounded-lg shadow-lg bg-white">
+        <div class="flex flex-col items-center border-2 px-4 pb-6 pt-4 rounded-lg shadow-lg bg-white w-screen sm:px-10 sm:w-11/12 md:w-5/6 2xl:px-20 2xl:w-1/2">
 
-            <form method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}">
+            <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}">
                 {% csrf_token %}
                 {% if job_form.non_field_errors %}
                     <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
@@ -51,7 +51,7 @@
                 <div class="flex flex-col items-center">
                     <button type="submit" class="bg-accept text-slate-200 rounded-md w-3/4 py-1 font-main text-lg 
                         font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-5">
-                    Update Job
+                    Update Task
                     </button>
                 </div>
             </form>
@@ -60,7 +60,7 @@
                 {% csrf_token %}
                 <button type="submit" class="bg-error text-slate-200 rounded-md w-3/4 py-1 font-main text-lg 
                         font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-2">
-                    Delete Job
+                    Delete Task
                 </button>
             </form>
 

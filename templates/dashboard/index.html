@@ -14,19 +14,19 @@
             <div class="w-full flex flex-col lg:flex-row items-center flex-wrap">
                <div class="flex flex-col w-full lg:flex-row 2xl:w-8/12">
                   <div class="flex items-center mb-4 lg:mb-0 w-full 2xl:w-5/6">
-                     <img class="w-4 ml-5 animate-left-hide relative" src="{% static 'search.svg' %}" alt="Search" />
-                     <input class="w-full pr-2 py-2 -ml-9 pl-10 border rounded-lg" type="search" name="name" id="id_name" placeholder="Search" value="{{ request.GET.name }}">
+                     <img class="w-4 ml-4 animate-left-hide relative" src="{% static 'search.svg' %}" alt="Search" />
+                     <input class="w-full pr-2 py-2 -ml-8 pl-10 border rounded-lg " type="search" name="name" id="id_name" placeholder="Search" value="{{ request.GET.name }}">
                   </div>
 
 
                   <select class="form-control border rounded-lg px-4 py-2 mb-4 lg:mb-0  lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
                      <!-- <option class="text-gray-400" value="" disabled selected>Select Status</option> -->
+
                      <option value=""  >All</option>
                      <option value="available"{% if request.GET.state == 'available' %} selected{% endif %}  >Available</option>
                      <option value="in_progress"{% if request.GET.state == 'in_progress' %} selected{% endif %} >In Progress</option>
                      <option value="complete"{% if request.GET.state == 'complete' %} selected{% endif %}  >Complete</option>
                      <option value="failed"{% if request.GET.state == 'failed' %} selected{% endif %}  >Failed</option>
-
                   </select>
 
                   <select class="form-control border rounded-lg px-4 py-2 mb-4 lg:mb-0  lg:ml-4 font-main text-sm" name="tasks" id="id_tasks" onChange='submit();'>
