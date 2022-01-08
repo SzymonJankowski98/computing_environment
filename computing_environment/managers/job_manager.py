@@ -67,3 +67,6 @@ class JobManager(models.Manager):
 
     def jobs_in_progress(self, start_date=None, end_date=None):
         return self.jobs_in_states([JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS])
+
+    def jobs_failed(self, start_date=None, end_date=None):
+        return self.jobs_in_states(JobStates.FAILED)
