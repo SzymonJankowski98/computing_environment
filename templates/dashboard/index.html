@@ -9,24 +9,21 @@
 <div class="grow flex flex-col my-4 mx-4 md:mr-0 overflow-hidden">
    <form method="get">
       <div class="bg-white rounded-lg flex mb-4 p-3 mx-2">
-      
+
          <div class="w-full flex justify-between flex-col sm:flex-row">
             <div class="w-full flex flex-col lg:flex-row items-center flex-wrap">
                <div class="flex flex-col w-full sm:w-11/12 lg:flex-row 2xl:w-1/2">
                   <div class="flex items-center mb-4 lg:mb-0 w-full 2xl:w-5/6">
-                     <img class="w-4 ml-5 animate-left-hide z-10" src="{% static 'search.svg' %}" alt="Search" />
-                     <input class="w-full pr-2 py-1 -ml-8 pl-10 border rounded-lg" type="search" name="name" id="id_name" placeholder="Search" value="{{ request.GET.name }}">
+                     <img class="w-5 absolute ml-4" src="{% static 'search.svg' %}" alt="Search"/>
+                     <input class="w-full pl-12 pr-2 py-1 border rounded-lg focus:border-white transition-all" type="search" name="search" placeholder="Search">
                   </div>
 
-
                   <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
-                     <!-- <option class="text-gray-400" value="" disabled selected>Select Status</option> -->
                      <option value=""  >All</option>
                      <option value="available"{% if request.GET.state == 'available' %} selected{% endif %}  >Available</option>
                      <option value="in_progress"{% if request.GET.state == 'in_progress' %} selected{% endif %} >In Progress</option>
                      <option value="complete"{% if request.GET.state == 'complete' %} selected{% endif %}  >Complete</option>
                      <option value="failed"{% if request.GET.state == 'failed' %} selected{% endif %}  >Failed</option>
-
                   </select>
 
                   <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm" name="tasks" id="id_tasks" onChange='submit();'>

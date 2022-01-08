@@ -6,11 +6,11 @@
 
 {% block mid_content %}
 
-    <div class="flex flex-col items-center">
-        <h1 class="text-3xl font-extrabold mt-2 mb-4">New Job</h1>
+    <div class="flex flex-col items-center w-full">
+        <h1 class="text-3xl font-extrabold mt-2 mb-4">New Task</h1>
 
-        <div class="flex flex-col items-center border-2 px-20 pb-12 pt-4 rounded-lg shadow-lg bg-white">
-            <form method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
+        <div class="flex w-11/12 md:w-5/6 2xl:w-1/2 flex-col items-center border-2 px-20 py-10 rounded-lg shadow-lg bg-white">
+            <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
                 {% csrf_token %}
                 {% if job_form.non_field_errors %}
                     <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
@@ -18,7 +18,7 @@
                     </div>
                 {% endif %}
 
-                <div class="flex flex-col">
+                <div class="flex flex-col w-full">
                     <label for="name" class="text-sm font-bold">{{ job_form.name.label }}</label>
                     {{ job_form.name|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.name.errors }}</span>
@@ -53,7 +53,7 @@
 
                 <button type="submit" class="bg-primary text-slate-200 rounded-md w-full py-1 font-main text-lg 
                         font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-5">
-                    Create Job
+                    Create Task
                 </button>
             </form>
         </div>
