@@ -20,8 +20,6 @@
 
 
                   <select class="form-control border rounded-lg px-4 py-2 mb-4 lg:mb-0  lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
-                     <!-- <option class="text-gray-400" value="" disabled selected>Select Status</option> -->
-
                      <option value=""  >All</option>
                      <option value="available"{% if request.GET.state == 'available' %} selected{% endif %}  >Available</option>
                      <option value="in_progress"{% if request.GET.state == 'in_progress' %} selected{% endif %} >In Progress</option>
@@ -38,25 +36,20 @@
                <div class="flex items-center justify-evenly w-full lg:flex-row lg:mt-4 2xl:w-auto 
                      2xl:justify-start 2xl:ml-auto 2xl:mt-0">
                   <label class="px-4 py-2 font-main font-bold text-sm min-w-fit lg:-mr-4" for="sort-select">Sort By</label>
-                  <!-- <div class="flex w-full flex-col sm:flex-row lg:w-2/3">   bg-slate-100 -->
-                     <select class="border rounded-lg px-4 py-2 font-main w-full 
-                           lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort" onChange='submit();'>
-                        <option value="updated_at"{% if request.GET.sort == 'updated_at' %} selected{% endif %} >Updated</option>
-                        <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
-                        <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
-                     </select>
+                  <select class="border rounded-lg px-4 py-2 font-main w-full 
+                        lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort" onChange='submit();'>
+                     <option value="updated_at"{% if request.GET.sort == 'updated_at' %} selected{% endif %} >Updated</option>
+                     <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
+                     <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
+                  </select>
             
-                     <button class="w-1/2 self-center sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
-                     text-center hover:bg-slate-100 flex justify-center scale-75" id="sort-button" > 
-                        <input type="hidden" id='id_order' name='order' value='{{ request.GET.order }}'>
-                        <img class="w-4 min-w-[2rem]" id="sort-button-img" src="" />
-                     </button>
-                  <!-- </div> -->
-                  
+                  <button class="w-1/2 self-center sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
+                  text-center hover:bg-slate-100 flex justify-center scale-75" id="sort-button" > 
+                     <input type="hidden" id='id_order' name='order' value='{{ request.GET.order }}'>
+                     <img class="w-4 min-w-[2rem]" id="sort-button-img" src="" />
+                  </button>
                </div>
             </div>
-            <!-- <button  type="submit" class="mt-4 sm:mt-0 bg-primary text-slate-200 rounded-md px-4 py-1 font-main text-sm 
-               font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm">Search</button> -->
          </div>
       </div>
    </form>  
