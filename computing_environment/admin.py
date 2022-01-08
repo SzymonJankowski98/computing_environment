@@ -61,3 +61,11 @@ class InvitationAdmin(admin.ModelAdmin):
          return super(InvitationAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Invitation, InvitationAdmin)
+
+from .models import Job
+class JobAdmin(admin.ModelAdmin):
+    list_display = ('name', 'creator', 'filename', 'state', 'is_private', 'created_at', 'updated_at')
+    def filename(self, obj):
+        return str(obj.program).split('_')[-1]
+   
+admin.site.register(Job, JobAdmin)

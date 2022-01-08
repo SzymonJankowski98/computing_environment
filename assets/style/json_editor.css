@@ -1,0 +1,8 @@
+div#settings-editor div.jsoneditor-menu {
+    background: #4338ca;
+}
+
+div#settings-editor div.jsoneditor {
+    border-color: #4338ca;
+    border-width: 2px;
+}

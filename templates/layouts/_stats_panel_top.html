@@ -1,25 +1,36 @@
 {% load static %}
 
-<div class="bg-primary mx-4 mt-4 w-full[-8rem] md:h-1/2 md:w-72 p-3 rounded-lg flex items-center flex-col">
+<div class="bg-primary mx-4 mt-4 w-full[-8rem] md:h-fit md:w-72 p-3 rounded-lg flex items-center flex-col">
     <h2 class="text-2xl font-bold text-slate-300">Statistics</h2>
-    <div class="flex flex-col justify-center items-center grow">
-        <div class="flex flex-col items-center mb-3">
-            <img class="h-16 w-16 m-2" src="{% static 'stopwatch.svg' %}" /> 
-            <span class="text-lg font-bold text-slate-300">
-                tasks available: {{ stats.available }}
-            </span>
+    <div class="bg-primary mx-4 w-full md:w-72 px-3 pt-3 rounded-lg text-slate-300">
+        <div class="flex justify-between text-center items-center border-b border-primary-darker py-1">
+            <img class="w-9 ml-1 my-2" src="{% static 'stopwatch.svg' %}" /> 
+            <p class="font-main font-extrabold  text-sm">Tasks Available</p>
+            <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
+                {{ stats.available }}
+            </div>
         </div>
-        <div class="flex flex-col items-center mb-3">
-            <img class="h-16 w-16 m-2" src="{% static 'play.svg' %}" />
-            <span class="text-lg font-bold text-slate-300">
-                tasks in progress: {{ stats.in_progress }}
-            </span>
+        <div class="flex justify-between text-center items-center border-b border-primary-darker py-1">
+            <img class="w-9 ml-1 my-2" src="{% static 'play.svg' %}" />
+            <p class="font-main font-extrabold  text-sm">Tasks In Progress</p>
+            <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
+                {{ stats.in_progress }}
+            </div>
         </div>
-        <div class="flex flex-col items-center">
-            <img class="h-16 w-16 m-2" src="{% static 'task_completed.svg' %}" />
-            <span class="text-lg font-bold text-slate-300">
-                tasks completed: {{ stats.completed }}
-            </span>
+        <div class="flex justify-between text-center border-b border-primary-darker items-center py-1">
+            <img class="w-9 ml-1 my-2" src="{% static 'task_completed.svg' %}" />
+            <p class="font-main font-extrabold  text-sm">Tasks Completed</p>
+            <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
+                {{ stats.completed }}
+            </div>
+        </div>
+        <div class="flex justify-between text-center items-center py-1">
+            <img class="w-9 ml-1 my-2" src="{% static 'failed.png' %}" />
+            <p class="font-main font-extrabold text-sm">Tasks Failed</p>
+            <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
+              {{ stats.failed }}
+            </div>
         </div>
     </div>
+    
  </div>

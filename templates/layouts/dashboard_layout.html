@@ -5,17 +5,17 @@
 {% load static %}
 
 {% block content %}
+
 {% include 'shared/alerts/_alerts.html' %}
     <div class="flex justify-between h-screen">
-
-        <div class="flex justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main">
+        <div class="transition-all duration-300 -translate-x-36 z-20 sm:translate-x-0 sm:flex sm:transition-none absolute sm:static h-screen justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main" id="dashboard-nav">
             <header class="flex items-center justify-center my-6">
-            <img class="w-16 h-16" src="{% static 'logo.png' %}" alt="Logo"/>
+                <img class="w-16 h-16" src="{% static 'logo.png' %}" alt="Logo"/>
             </header>
             <nav class="grow flex flex-col items-center justify-between">
             <div>
                 <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
-                        {% if request.path == '/dashboard' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
+                        {% if request.path == '/dashboard' %} shadow-inner-xl bg-primary-darker hover:text-slate-300 cursor-auto{% endif %}"
                         {% if request.path != '/dashboard' %} href="{% url 'dashboard' %}" {% endif %}>
                     <span class="mb-2">
                         <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
@@ -27,7 +27,7 @@
                     </span>
                 </a>
                 <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
-                        {% if request.path == '/job/new' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
+                        {% if request.path == '/job/new' %} shadow-inner-xl bg-primary-darker hover:text-slate-300 cursor-auto{% endif %}"
                         {% if request.path != '/job/new' %} href="{% url 'new_job' %}" {% endif %}>
                     <span class="mb-2">
                         <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
@@ -39,25 +39,25 @@
                     </span>
                 </a>
                 <div id="job_preview_link" class="hidden flex-col items-center my-1 mx-3 py-4 px-6 w-28 shadow-inner-xl 
-                        cursor-auto rounded-lg bg-primary-disabled text-black">
+                        cursor-auto rounded-lg bg-primary-darker">
                     <span class="mb-2">
-                        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
                         </svg>
                     </span>
                     <span>
-                        Job View
+                        Task View
                     </span>
                 </div>
                 <div id="job_edit_link" class="hidden flex-col items-center my-1 mx-3 py-4 px-6 w-28 shadow-inner-xl 
-                        bg-primary-disabled text-black cursor-auto rounded-lg ">
+                        cursor-auto rounded-lg bg-primary-darker">
                     <span class="mb-2">
-                        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                     </span>
                     <span>
-                        Job Edit
+                        Edit Task
                     </span>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                     </a>
                 {% endif %}
                 <a class="flex flex-col items-center my-1 mx-3 py-4 px-6 w-28 hover:bg-primary-darker rounded-lg hover:text-white transition duration-100 ease-out
-                        {% if request.path == '/profile' %} shadow-inner-xl bg-primary-darker cursor-auto{% endif %}"
+                        {% if request.path == '/profile' %} shadow-inner-xl bg-primary-darker hover:text-slate-300 cursor-auto{% endif %}"
                         {% if request.path != '/profile' %} href="{% url 'edit_profile' %}" {% endif %}>
                     <span class="mb-2">
                         <img class="w-9 h-9 rounded-full" src="{% static 'default_profile.png' %}" alt="Profile picture"/>
@@ -96,14 +96,21 @@
             </div>
             </nav>
         </div>
-        <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
-
-            <div class="grow flex flex-col my-4 mx-4 md:mr-0">
-                {% block mid_content %}  
-                {% endblock %}
+        <div class="grow flex flex-col w-screen">
+            <div class="flex justify-between items-center sm:hidden bg-primary py-2">
+                <img class="w-10 h-10 ml-3" src="{% static 'logo.png' %}" alt="Logo"/>
+                <img class="w-8 h-8 mr-3 cursor-pointer" id="dashboard-hamburger" src="{% static 'hamburger_menu.svg' %}"/>
             </div>
-
-            {% include 'layouts/_stats_panel.html' with stats=stats %}
+            <div class="flex grow bg-background flex-col md:flex-row h-full overflow-auto min-h-min" id="journal-scroll">
+                <div class="grow flex flex-col my-4 mx-4 md:mr-0">
+                    {% block mid_content %}  
+                    {% endblock %}
+                </div>
+                <div class="h-screen flex flex-col">
+                    {% include 'layouts/_stats_panel_top.html' with stats=stats %}
+                    {% include 'layouts/_stats_panel.html' %}
+                </div>  
+            </div>
         </div>
     </div>
 {% endblock %}

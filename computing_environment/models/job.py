@@ -2,6 +2,7 @@ from .user import *
 from django.db.models.deletion import SET_NULL
 from django_fsm import FSMField, transition
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
 from ..constants import JobStates, LANGUAGES
 from ..exceptions import WrongLanguage
 from ..managers import JobManager
@@ -13,14 +14,14 @@ def program_save_directory(instance, filename):
 class Job(models.Model):
     class Meta:
         app_label = "computing_environment"
-        ordering = ['-updated_at']
+
     objects = JobManager()
 
     name = models.CharField(max_length=254)
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
     language = models.CharField(max_length=63, choices=LANGUAGES)
-    program = models.FileField(upload_to=program_save_directory)
-    settings = models.JSONField()
+    program = models.FileField(upload_to=program_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
+    settings = models.JSONField(default=dict, blank=True)
     is_private = models.BooleanField(default=False)
     state = FSMField(default=JobStates.AVAILABLE, protected=True)
     last_worker_call = models.DateTimeField(null=True, blank=True)
@@ -28,6 +29,9 @@ class Job(models.Model):
     memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def last_result(self):
+        self.results.order_by('-updated_at').first()
 
     def save(self, *args, **kwargs):
         if self.language in map(lambda l: l[0], LANGUAGES):
@@ -41,6 +45,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.AVAILABLE, JobStates.COMPLETE, JobStates.FAILED], target=JobStates.AVAILABLE)
     def job_changed(self):
+        processor_usage = None
+        memory_usage = None
         pass
     
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.CHANGED_IN_PROGRESS)
@@ -53,6 +59,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
     def reactivate(self):
+        processor_usage = None
+        memory_usage = None
         pass
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)
