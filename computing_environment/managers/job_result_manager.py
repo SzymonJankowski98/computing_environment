@@ -8,6 +8,6 @@ class JobResultManager(models.Manager):
     def recent_results(self, user=None, limit=10):
         q = Q(job__is_private=False)
         if user:
-            q.add(Q(job__creator=user), Q.AND)
+            q.add(Q(job__creator=user), Q.OR)
 
-        return self.select_related('job').filter(q).order_by('created_at')[:limit]
+        return self.select_related('job').filter(q).order_by('-created_at')[:limit]

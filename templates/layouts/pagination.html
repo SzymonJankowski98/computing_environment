@@ -1,9 +1,14 @@
+{% load filters %}
 <div class="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-
+  {% if page_obj.paginator.num_pages > 1 %}
   <div class="flex-1 flex justify-between lg:hidden">
     <!-- PREVIOUS MOBILE -->
-    {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}">
+      <a 
+      {% if page_obj.has_previous %} 
+        href="?{% param_replace page=page_obj.previous_page_number %}"
+      {% else %} 
+      class="invisible"
+      {% endif %}>
         <button  class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-primary transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100">
           <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -11,25 +16,32 @@
           Previous 
         </button>
       </a>
-    {% else %}
-      <div >
-      </div>
-    {% endif %}
-
+   
+    <!-- MOBILE PAGE -->     
+    <select id="page" name="page" onChange="location = this.value;" class="relative inline-flex justify-center w-auto rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-primary focus:outline-none lg:hidden">
+        {% for num in page_obj.paginator.page_range %}
+          <option class="text-primary block px-4 py-2 text-sm" value="?{% param_replace page=num %}"
+          {% if page_obj.number == num %}selected="selected"{% endif %}>
+                Page {{num}}
+            </option>
+      {% endfor %}
+    </select>
+       
     <!-- NEXT MOBILE -->
-    {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}" >
-        <button   class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-primary transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100">
-          Next 
-          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-          </svg>
-        </button>
-      </a>
-    {% else %}
-      <div >
-      </div>
-    {% endif %}
+    <a 
+    {% if page_obj.has_next %} 
+    href="?{% param_replace page=page_obj.next_page_number %}"
+    {% else %} 
+    class="invisible"
+    {% endif %} >
+      <button   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-primary transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100">
+        Next 
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </a>
+   
   </div>
 
 
@@ -50,14 +62,14 @@
           
           <!-- PREVIOUS -->
           {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-primary hover:bg-gray-50">
+            <a href="?{% param_replace page=page_obj.previous_page_number %}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-primary hover:bg-gray-50">
               <span class="sr-only">Previous</span>
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
               </svg>
             </a>
           {% else %}
-            <a class="disabled relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-primary hover:bg-gray-50">
+            <a class="disabled relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
               <span class="sr-only">Previous</span>
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -68,14 +80,14 @@
           <!-- FIRST WITH ... IF NUMBER PAGE>10 -->
           {% if page_obj.paginator.num_pages > 10 %}
             {% if page_obj.number|add:'-3' > 1 %}
-              <li> <a href="?page=1" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=1 %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               1
               </a></li>
-              <li> <a href="?page={{ page_obj.number|add:'-3' }}" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=page_obj.number|add:'-3' %}" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               … 
               </a></li>
             {% elif page_obj.number != 1 %}
-              <li> <a href="?page=1" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=1 %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               1
               </a></li>
             {% endif %}
@@ -84,20 +96,20 @@
           <!-- NUMBERS IF PAGES < 10 - WRITE ALL ELSE WRITE OUT ADJACENT TO 1 -->
           {% for num in page_obj.paginator.page_range %}
             {% if page_obj.number == num %}
-              <li> <a href="?page={{ num }}" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=num %}" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               {{ num }}
               </a></li>
-            {% elif page_obj.paginator.num_pages < 10 %}
-              <li> <a href="?page={{ num }}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+            {% elif page_obj.paginator.num_pages <= 10 %}
+              <li> <a href="?{% param_replace page=num %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               {{ num }}
               </a></li>
             {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
               {% if num != page_obj.number|add:'-2' and num != page_obj.number|add:'2' and num != page_obj.paginator.num_pages and num != 1 %}
-                <li> <a href="?page={{ num }}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                <li> <a href="?{% param_replace page=num %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
                 {{ num }}
                 </a></li>
               {% elif num == page_obj.paginator.num_pages|add:'-1' or num|add:'-1' == 1 %}
-                <li> <a href="?page={{ num }}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                <li> <a href="?{% param_replace page=num %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
                 {{ num }}
                 </a></li>
               {% endif %}
@@ -107,14 +119,14 @@
           <!-- LAST WITH ... IF NUMBER PAGE>10 -->
           {% if page_obj.paginator.num_pages > 10 %}
             {% if page_obj.paginator.num_pages|add:'-3' > page_obj.number %}
-              <li> <a href="?page={{ page_obj.number|add:'3' }}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=page_obj.number|add:'3' %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               …
               </a></li>
-              <li> <a href="?page={{ page_obj.paginator.num_pages  }}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=page_obj.paginator.num_pages %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               {{ page_obj.paginator.num_pages  }}
               </a></li>
             {% elif page_obj.number != page_obj.paginator.num_pages %}
-              <li> <a href="?page={{ page_obj.paginator.num_pages  }}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+              <li> <a href="?{% param_replace page=page_obj.paginator.num_pages %}" class="bg-white border-gray-300 text-primary hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
               {{ page_obj.paginator.num_pages  }}
               </a></li>
             {% endif %}
@@ -139,9 +151,25 @@
                 </svg>
               </a>
             </li>
+
           {% endif %} 
         </ul>
       </nav>
     </div>
   </div>
+
+  {% else %}
+  <div class="flex-1 flex items-center justify-between">
+    <!-- RESULT PAGINER TEXT -->
+    <div>
+      <p class="text-sm text-gray-700">
+      Showing <span class="font-medium">{{ page_obj.start_index }}</span>
+      to <span class="font-medium">{{ page_obj.end_index }}</span>
+      of <span class="font-medium">{{ page_obj.paginator.count }}</span>
+      results
+      </p>
+    </div>
+    </div>
+  {% endif %} 
 </div>
+
