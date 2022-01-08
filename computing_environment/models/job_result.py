@@ -22,5 +22,8 @@ class JobResult(models.Model):
 
     objects = JobResultManager()
 
+    def execution_time(self):
+        return self.job.updated_at - self.updated_at
+
     def download_link(self):
         return mark_safe('<a href="{0}{1}">{1}</a>'.format(settings.MEDIA_URL, self.result))
