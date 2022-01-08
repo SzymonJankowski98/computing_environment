@@ -29,6 +29,9 @@ class Job(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def last_result(self):
+        self.results.order_by('-updated_at').first()
+
     def save(self, *args, **kwargs):
         if self.language in map(lambda l: l[0], LANGUAGES):
             super(Job, self).save(*args, **kwargs)
@@ -41,6 +44,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.AVAILABLE, JobStates.COMPLETE, JobStates.FAILED], target=JobStates.AVAILABLE)
     def job_changed(self):
+        processor_usage = None
+        memory_usage = None
         pass
     
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.CHANGED_IN_PROGRESS)
@@ -53,6 +58,8 @@ class Job(models.Model):
 
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
     def reactivate(self):
+        processor_usage = None
+        memory_usage = None
         pass
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)
