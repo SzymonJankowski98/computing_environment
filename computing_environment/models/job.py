@@ -21,7 +21,7 @@ class Job(models.Model):
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
     language = models.CharField(max_length=63, choices=LANGUAGES)
     program = models.FileField(upload_to=program_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
-    settings = models.JSONField()
+    settings = models.JSONField(default=dict, blank=True)
     is_private = models.BooleanField(default=False)
     state = FSMField(default=JobStates.AVAILABLE, protected=True)
     last_worker_call = models.DateTimeField(null=True, blank=True)

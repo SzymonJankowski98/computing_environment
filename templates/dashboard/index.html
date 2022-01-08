@@ -6,19 +6,20 @@
 {% load filters %}
 
 {% block mid_content %}
-<div class="grow flex flex-col my-4 mx-4 md:mr-0 overflow-hidden">
+<div class="grow flex flex-col mx-2 overflow-hidden">
    <form method="get">
-      <div class="bg-white rounded-lg flex mb-4 p-3 mx-2">
-
+      <div class="rounded-lg flex mb-4 p-3 mx-2 -ml-2 -mr-2">
+      
          <div class="w-full flex justify-between flex-col sm:flex-row">
             <div class="w-full flex flex-col lg:flex-row items-center flex-wrap">
-               <div class="flex flex-col w-full sm:w-11/12 lg:flex-row 2xl:w-1/2">
+               <div class="flex flex-col w-full lg:flex-row 2xl:w-8/12">
                   <div class="flex items-center mb-4 lg:mb-0 w-full 2xl:w-5/6">
-                     <img class="w-5 absolute ml-4" src="{% static 'search.svg' %}" alt="Search"/>
-                     <input class="w-full pl-12 pr-2 py-1 border rounded-lg focus:border-white transition-all" type="search" name="search" placeholder="Search">
+                     <img class="w-4 ml-4 animate-left-hide relative" src="{% static 'search.svg' %}" alt="Search" />
+                     <input class="w-full pr-2 py-2 -ml-8 pl-10 border rounded-lg " type="search" name="name" id="id_name" placeholder="Search" value="{{ request.GET.name }}">
                   </div>
 
-                  <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
+
+                  <select class="form-control border rounded-lg px-4 py-2 mb-4 lg:mb-0  lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
                      <option value=""  >All</option>
                      <option value="available"{% if request.GET.state == 'available' %} selected{% endif %}  >Available</option>
                      <option value="in_progress"{% if request.GET.state == 'in_progress' %} selected{% endif %} >In Progress</option>
@@ -26,30 +27,27 @@
                      <option value="failed"{% if request.GET.state == 'failed' %} selected{% endif %}  >Failed</option>
                   </select>
 
-                  <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm" name="tasks" id="id_tasks" onChange='submit();'>
+                  <select class="form-control border rounded-lg px-4 py-2 mb-4 lg:mb-0  lg:ml-4 font-main text-sm" name="tasks" id="id_tasks" onChange='submit();'>
                      <option value="all"{% if request.GET.tasks == 'all' %} selected{% endif %} >All tasks</option>
                      <option value="public"{% if request.GET.tasks == 'public' %} selected{% endif %} >Public tasks</option>
                      <option value="private"{% if request.GET.tasks == 'private' %} selected{% endif %} >My tasks</option>
                   </select>
                </div>
-               <div class="flex items-center mt-8 justify-evenly w-full sm:w-11/12 flex-col lg:flex-row lg:mt-4 2xl:w-auto 
-                     2xl:justify-start 2xl:ml-32 2xl:mt-0">
-
-                  <label class="pl-0 py-1 font-main font-bold text-sm" for="sort-select">Sort By</label>
-                  <div class="flex w-full flex-col sm:flex-row lg:w-2/3">
-                     <select class="border rounded-lg px-4 py-2 font-main w-full 
-                           lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort" onChange='submit();'>
-                        <option value="updated_at"{% if request.GET.sort == 'updated_at' %} selected{% endif %} >Updated</option>
-                        <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
-                        <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
-                     </select>
+               <div class="flex items-center justify-evenly w-full lg:flex-row lg:mt-4 2xl:w-auto 
+                     2xl:justify-start 2xl:ml-auto 2xl:mt-0">
+                  <label class="px-4 py-2 font-main font-bold text-sm min-w-fit lg:-mr-4" for="sort-select">Sort By</label>
+                  <select class="border rounded-lg px-4 py-2 font-main w-full 
+                        lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort" onChange='submit();'>
+                     <option value="updated_at"{% if request.GET.sort == 'updated_at' %} selected{% endif %} >Updated</option>
+                     <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
+                     <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
+                  </select>
             
-                     <button class="w-1/2 self-center mt-2 sm:mt-0 sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
-                     text-center bg-slate-100 hover:bg-slate-200 flex justify-center scale-75" id="sort-button" >
-                        <input type="hidden" id='id_order' name='order' value='{{ request.GET.order }}'>
-                        <img class="w-4 min-w-[2rem]" id="sort-button-img" src="" />
-                     </button>
-                  </div>
+                  <button class="w-1/2 self-center sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
+                  text-center hover:bg-slate-100 flex justify-center scale-75" id="sort-button" > 
+                     <input type="hidden" id='id_order' name='order' value='{{ request.GET.order }}'>
+                     <img class="w-4 min-w-[2rem]" id="sort-button-img" src="" />
+                  </button>
                </div>
             </div>
          </div>
