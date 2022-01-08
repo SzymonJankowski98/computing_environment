@@ -1,0 +1,4 @@
+{% load filters %}
+<a href="{% url 'download' result.id %}">
+    {{ result.result.name|only_name }}
+</a>

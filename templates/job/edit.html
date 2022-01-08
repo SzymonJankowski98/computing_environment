@@ -26,6 +26,12 @@
                 </div>
 
                 <div class="flex flex-col">
+                    <label for="name" class="text-sm font-bold">{{ job_form.language.label }}</label>
+                    {{ job_form.language|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    <span class="text-error text-xs">{{ job_form.language.errors }}</span>
+                </div>
+
+                <div class="flex flex-col">
                     <label for="program" class="text-sm font-bold">{{ job_form.program.label }}</label>
                     {{ job_form.program|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.program.errors }}</span>

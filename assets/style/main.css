@@ -6,3 +6,8 @@
     transform: translateX(0);
     opacity: 1;
 }
+
+.text-xxs {
+    font-size: 0.6rem;
+    line-height: 0.8rem;
+}
