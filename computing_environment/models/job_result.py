@@ -14,7 +14,9 @@ class JobResult(models.Model):
         app_label = "computing_environment"
 
     result = models.FileField(upload_to=result_save_directory)
-    job = models.ForeignKey(Job, on_delete=CASCADE)
+    job = models.ForeignKey(Job, on_delete=CASCADE, related_name='results')
+    avg_processor_usage = models.DecimalField(max_digits=5, decimal_places=2)
+    avg_memory_usage = models.DecimalField(max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
