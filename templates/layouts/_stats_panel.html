@@ -12,7 +12,7 @@
         <div class="divide-y divide-primary-darker">
             {% for result in recent_results %}
         <div class=" select-none cursor-pointer hover:bg-primary-darker hover:text-blue-200 p-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg" onclick='location.href="{% url 'show_job' result.job.id %}";'>
-                <div class="flex items-center flex-row py-2 " >
+                <div class="flex items-center flex-row py-2 " > 
                     <div class="p-1 bg-sky-100 rounded-md ">
                         {% if result.job.language == 'python' %}
                         <img class="h-5 w-5" src="{% static 'python.svg' %}" />
@@ -22,9 +22,15 @@
                     </div>
 
                     <div class="ml-2 ">
-                        <p class="font-main font-bold" > {{ result.job.name|truncatechars:9  }}</p>
+                        <p class="font-main font-bold" > {{ result.job.name|truncatechars:9  }}
+                            {% if result.job.creator == current_user %}
+                            <span class=" text-orange-500 font-main text-xxs font-bold">    
+                                private
+                            </span>
+                            {% endif %}
+                        </p>
                         <p class="font-main text-xs text-slate-200">
-                        {{ result.result.name|only_name }}
+                        {{ result.result.name|only_name }}         
                         <!-- {% include 'shared/download.html'  with result=result %} -->
                         </p>
                     </div>

@@ -7,7 +7,6 @@
 
 {% block mid_content %}
 <div class="grow flex flex-col my-4 mx-4 md:mr-0 overflow-hidden">
-     
    <form method="get">
       <div class="bg-white rounded-lg flex mb-4 p-3 mx-2">
       
@@ -15,9 +14,10 @@
             <div class="w-full flex flex-col lg:flex-row items-center flex-wrap">
                <div class="flex flex-col w-full sm:w-11/12 lg:flex-row 2xl:w-1/2">
                   <div class="flex items-center mb-4 lg:mb-0 w-full 2xl:w-5/6">
-                     <img class="w-6 absolute ml-5 animate-left-hide" src="{% static 'search.svg' %}" alt="Search" />
-                     <input class="w-full pl-12 pr-2 py-1 border rounded-lg" type="search" name="name" id="id_name" placeholder="Search" value="{{ request.GET.name }}">
+                     <img class="w-4 ml-5 animate-left-hide z-10" src="{% static 'search.svg' %}" alt="Search" />
+                     <input class="w-full pr-2 py-1 -ml-8 pl-10 border rounded-lg" type="search" name="name" id="id_name" placeholder="Search" value="{{ request.GET.name }}">
                   </div>
+
 
                   <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
                      <!-- <option class="text-gray-400" value="" disabled selected>Select Status</option> -->
@@ -27,6 +27,11 @@
                      <option value="complete"{% if request.GET.state == 'complete' %} selected{% endif %}  >Complete</option>
                   </select>
 
+                  <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm" name="tasks" id="id_tasks" onChange='submit();'>
+                     <option value="all"{% if request.GET.tasks == 'all' %} selected{% endif %} >All tasks</option>
+                     <option value="public"{% if request.GET.tasks == 'public' %} selected{% endif %} >Public tasks</option>
+                     <option value="private"{% if request.GET.tasks == 'private' %} selected{% endif %} >My tasks</option>
+                  </select>
                </div>
                <div class="flex items-center mt-8 justify-evenly w-full sm:w-11/12 flex-col lg:flex-row lg:mt-4 2xl:w-auto 
                      2xl:justify-start 2xl:ml-32 2xl:mt-0">
@@ -39,7 +44,7 @@
                         <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
                         <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
                      </select>
-                  
+            
                      <button class="w-1/2 self-center mt-2 sm:mt-0 sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
                      text-center bg-slate-100 hover:bg-slate-200 flex justify-center scale-75" id="sort-button" >
                         <input type="hidden" id='id_order' name='order' value='{{ request.GET.order }}'>
@@ -66,6 +71,5 @@
    <div class="pagination">
       {% include 'layouts/pagination.html'  with page_obj=jobs %}
    </div>
-   
 </div>
 {% endblock %}

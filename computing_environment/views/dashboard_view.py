@@ -11,7 +11,9 @@ from computing_environment.search_filters import JobFilter
 
 @login_required
 def dashboard(request):
-    jobs = Job.objects.visible_for_user(request.user)    
+    tasks = request.GET.get('tasks', 'all')
+
+    jobs = Job.objects.visible_for_user(tasks, request.user)    
     
     jobs_filter = JobFilter(request.GET, queryset=jobs)
     jobs = jobs_filter.qs
