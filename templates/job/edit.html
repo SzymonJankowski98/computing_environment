@@ -1,5 +1,6 @@
 {% extends "layouts/dashboard_layout.html" %}
 
+{% load static %}
 {% load filters %}
 
 {% block head_title %}New Job{% endblock %}
@@ -20,25 +21,38 @@
                 {% endif %}
 
                 <div class="flex flex-col">
-                    <label for="name" class="text-sm font-bold">{{ job_form.name.label }}</label>
+                    <label for="name" class="text-sm font-bold">{{ job_form.name.label }}<span class="text-primary"> *</span></label>
                     {{ job_form.name|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.name.errors }}</span>
                 </div>
 
                 <div class="flex flex-col">
-                    <label for="name" class="text-sm font-bold">{{ job_form.language.label }}</label>
+                    <label for="name" class="text-sm font-bold">{{ job_form.language.label }}<span class="text-primary"> *</span></label>
                     {{ job_form.language|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.language.errors }}</span>
                 </div>
 
                 <div class="flex flex-col">
-                    <label for="program" class="text-sm font-bold">{{ job_form.program.label }}</label>
+                    <label for="program" class="text-sm font-bold">{{ job_form.program.label }}<span class="text-primary"> *</span></label>
                     {{ job_form.program|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.program.errors }}</span>
                 </div>
 
                 <div class="flex flex-col">
-                    <label for="settings" class="text-sm font-bold">{{ job_form.settings.label }}</label>
+                    <div class="flex items-center">
+                        <label for="settings" class="text-sm font-bold">{{ job_form.settings.label }}</label>
+                        <div class="ml-2 helper-button">
+                            <img class="w-[1.15rem]" src="{% static 'info.svg' %}" alt="">
+                        </div>
+                        <div class="hidden absolute ml-[5.5rem] hidden-helper">
+                            <div class="flex items-center">
+                                <img class="absolute w-8 text-lg -translate-x-[1.1rem] arrow-color" src="{% static 'triangle-left.svg' %}" alt="">
+                                <p id="help" class="text-sm bg-slate-200 px-2 py-1 rounded-lg -translate-y-[0.125rem] max-w-lg">
+                                    Hello There aMCIOSAMCIAOSMCIASO saMCOASIMCOASI cmaosICM oiasmcoi ASMCOmASOICsmaOMCias OMC aoSIcmaoiScomiaS 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                     {{ job_form.settings|addclass:'border border-stale-300 rounded px-3 py-2 max-h-40 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.settings.errors }}</span>
                 </div>
