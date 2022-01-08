@@ -11,3 +11,4 @@ import '../style/custom_scroll.css';
 import '../style/landing.css';
 import '../style/alert.css';
 import '../style/main.css';
+import '../style/json_editor.css';

@@ -14,9 +14,11 @@ window.onload = () => {
         try {
             editor.set(JSON.parse(settingsField.value));
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
+
+    document.querySelector('.jsoneditor-poweredBy').remove();
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
