@@ -3,57 +3,72 @@
 {% block head_title %}Dashboard{% endblock %}
 
 {% load static %}
+{% load filters %}
 
 {% block mid_content %}
-
 <div class="grow flex flex-col my-4 mx-4 md:mr-0 overflow-hidden">
-   <div class="bg-white rounded-lg flex mb-4 p-3 mx-2">
-      <div class="w-full flex justify-between flex-col sm:flex-row">
-         <div class="w-full flex flex-col lg:flex-row items-center flex-wrap">
-            <div class="flex flex-col w-full sm:w-11/12 lg:flex-row 2xl:w-1/2">
-               <div class="flex items-center mb-4 lg:mb-0 w-full 2xl:w-5/6">
-                  <img class="w-5 absolute ml-4 animate-left-hide" src="{% static 'search.svg' %}" alt="Search"/>
-                  <input class="w-full pl-12 pr-2 py-1 border rounded-lg focus:border-white transition-all" type="search" name="search" placeholder="Search">
-               </div>
-               <select class="border rounded-lg px-4 py-2 lg:ml-4 font-main" name="progress-filter">
-               <option class="text-gray-400" value="" disabled selected>Select Status</option>
-               <option value="available">Available</option>
-               <option value="in-progress">In Progress</option>
-               <option value="completed">Completed</option>
-               </select>
-            </div>
-            <div class="flex items-center mt-8 justify-evenly w-full sm:w-11/12 flex-col lg:flex-row lg:mt-4 2xl:w-auto 
-                  2xl:justify-start 2xl:ml-32 2xl:mt-0">
-               <label class="pl-0 py-1 font-main font-bold text-lg" for="sort-select">Sort By</label>
-               <div class="flex w-full flex-col sm:flex-row lg:w-2/3">
-                  <select class="border rounded-lg px-4 py-2 font-main w-full 
-                        lg:w-2/3 2xl:w-auto 2xl:ml-4" name="sort-select" id="sort-select">
-                     <option value="available">Creation Date</option>
-                     <option value="in-progress">Status</option>
-                     <option value="completed">Author</option>
+   <form method="get">
+      <div class="bg-white rounded-lg flex mb-4 p-3 mx-2">
+
+         <div class="w-full flex justify-between flex-col sm:flex-row">
+            <div class="w-full flex flex-col lg:flex-row items-center flex-wrap">
+               <div class="flex flex-col w-full sm:w-11/12 lg:flex-row 2xl:w-1/2">
+                  <div class="flex items-center mb-4 lg:mb-0 w-full 2xl:w-5/6">
+                     <img class="w-5 absolute ml-4" src="{% static 'search.svg' %}" alt="Search"/>
+                     <input class="w-full pl-12 pr-2 py-1 border rounded-lg focus:border-white transition-all" type="search" name="search" placeholder="Search">
+                  </div>
+
+                  <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm"  name="state" id="id_state" onChange='submit();'>
+                     <option value=""  >All</option>
+                     <option value="available"{% if request.GET.state == 'available' %} selected{% endif %}  >Available</option>
+                     <option value="in_progress"{% if request.GET.state == 'in_progress' %} selected{% endif %} >In Progress</option>
+                     <option value="complete"{% if request.GET.state == 'complete' %} selected{% endif %}  >Complete</option>
+                     <option value="failed"{% if request.GET.state == 'failed' %} selected{% endif %}  >Failed</option>
                   </select>
-                  <button class="w-1/2 self-center mt-2 sm:mt-0 sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
-                      text-center bg-slate-100 hover:bg-slate-200 flex justify-center" id="sort-button">
-                     <img class="w-8 min-w-[2rem]" id="sort-button-img" src="{% static 'ascending-sort.svg' %}" alt="Search"/>
-                  </button>
+
+                  <select class="form-control border rounded-lg px-4 py-2 lg:ml-4 font-main text-sm" name="tasks" id="id_tasks" onChange='submit();'>
+                     <option value="all"{% if request.GET.tasks == 'all' %} selected{% endif %} >All tasks</option>
+                     <option value="public"{% if request.GET.tasks == 'public' %} selected{% endif %} >Public tasks</option>
+                     <option value="private"{% if request.GET.tasks == 'private' %} selected{% endif %} >My tasks</option>
+                  </select>
+               </div>
+               <div class="flex items-center mt-8 justify-evenly w-full sm:w-11/12 flex-col lg:flex-row lg:mt-4 2xl:w-auto 
+                     2xl:justify-start 2xl:ml-32 2xl:mt-0">
+
+                  <label class="pl-0 py-1 font-main font-bold text-sm" for="sort-select">Sort By</label>
+                  <div class="flex w-full flex-col sm:flex-row lg:w-2/3">
+                     <select class="border rounded-lg px-4 py-2 font-main w-full 
+                           lg:w-2/3 2xl:w-auto 2xl:ml-4 text-sm" name="sort" id="id_sort" onChange='submit();'>
+                        <option value="updated_at"{% if request.GET.sort == 'updated_at' %} selected{% endif %} >Updated</option>
+                        <option value="created_at"{% if request.GET.sort == 'created_at' %} selected{% endif %} >Creation Date</option>
+                        <option value="creator"{% if request.GET.sort == 'creator' %} selected{% endif %} >Author</option>
+                     </select>
+            
+                     <button class="w-1/2 self-center mt-2 sm:mt-0 sm:w-16 h-10 ml-4 px-4 py-1 rounded-lg
+                     text-center bg-slate-100 hover:bg-slate-200 flex justify-center scale-75" id="sort-button" >
+                        <input type="hidden" id='id_order' name='order' value='{{ request.GET.order }}'>
+                        <img class="w-4 min-w-[2rem]" id="sort-button-img" src="" />
+                     </button>
+                  </div>
+                  
                </div>
             </div>
+            <!-- <button  type="submit" class="mt-4 sm:mt-0 bg-primary text-slate-200 rounded-md px-4 py-1 font-main text-sm 
+               font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm">Search</button> -->
          </div>
-         <button class="mt-4 sm:mt-0 bg-primary text-slate-200 rounded-md px-4 py-1 font-main text-lg 
-         font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm">Search</button>
       </div>
-   </div>
+   </form>  
+  
    <div class="h-full p-2 overflow-auto"  id="journal-scroll">
-      <div class="grow grid grid-rows-16 grid-cols-1 lg:grid-rows-8 lg:grid-cols-2 xl:grid-rows-4 xl:grid-cols-4 gap-4 ">
+      <div class="grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 ">
          {% for job in jobs %}
             {% include 'dashboard/_job.html' with job=job %}
          {% endfor %}
       </div>
    </div>
-   <div class="pagination mt-3">
+
+   <div class="pagination">
       {% include 'layouts/pagination.html'  with page_obj=jobs %}
    </div>
-
 </div>
-   
 {% endblock %}

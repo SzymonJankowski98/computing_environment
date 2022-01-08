@@ -2,6 +2,7 @@ from .user import *
 from django.db.models.deletion import SET_NULL
 from django_fsm import FSMField, transition
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
 from ..constants import JobStates, LANGUAGES
 from ..exceptions import WrongLanguage
 from ..managers import JobManager
@@ -13,13 +14,13 @@ def program_save_directory(instance, filename):
 class Job(models.Model):
     class Meta:
         app_label = "computing_environment"
-        ordering = ['-updated_at']
+
     objects = JobManager()
 
     name = models.CharField(max_length=254)
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
     language = models.CharField(max_length=63, choices=LANGUAGES)
-    program = models.FileField(upload_to=program_save_directory)
+    program = models.FileField(upload_to=program_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
     settings = models.JSONField()
     is_private = models.BooleanField(default=False)
     state = FSMField(default=JobStates.AVAILABLE, protected=True)

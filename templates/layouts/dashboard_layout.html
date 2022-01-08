@@ -5,7 +5,8 @@
 {% load static %}
 
 {% block content %}
-    {% include 'shared/alerts/_alerts.html' %}
+
+{% include 'shared/alerts/_alerts.html' %}
     <div class="flex justify-between h-screen">
         <div class="transition-all duration-300 -translate-x-36 sm:translate-x-0 sm:flex sm:transition-none absolute sm:static h-screen justify-between flex-col bg-primary text-xs font-bold text-slate-300 font-main" id="dashboard-nav">
             <header class="flex items-center justify-center my-6">
@@ -105,7 +106,10 @@
                     {% block mid_content %}  
                     {% endblock %}
                 </div>
-                {% include 'layouts/_stats_panel.html' with stats=stats %}
+                <div class="h-screen flex flex-col">
+                    {% include 'layouts/_stats_panel_top.html' with stats=stats %}
+                    {% include 'layouts/_stats_panel.html' %}
+                </div>  
             </div>
         </div>
     </div>

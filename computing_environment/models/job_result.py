@@ -3,6 +3,7 @@ from django.db.models.deletion import CASCADE
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from django.core.validators import FileExtensionValidator
 from computing_environment.models import Job
 from computing_environment.managers import JobResultManager
 
@@ -13,7 +14,7 @@ class JobResult(models.Model):
     class Meta:
         app_label = "computing_environment"
 
-    result = models.FileField(upload_to=result_save_directory)
+    result = models.FileField(upload_to=result_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
     job = models.ForeignKey(Job, on_delete=CASCADE, related_name='results')
     avg_processor_usage = models.DecimalField(max_digits=5, decimal_places=2)
     avg_memory_usage = models.DecimalField(max_digits=5, decimal_places=2)

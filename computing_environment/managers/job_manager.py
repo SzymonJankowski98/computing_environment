@@ -10,8 +10,13 @@ class JobManager(models.Manager):
     class Meta:
         app_label = "computing_environment"
     
-    def visible_for_user(self, user):
-        return self.filter(Q(is_private=False) | Q(creator=user.id))
+    def visible_for_user(self, tasks, user):
+        if tasks == 'all':
+            return self.filter(Q(is_private=False) | Q(creator=user.id))
+        elif tasks == 'public':
+            return self.filter(Q(is_private=False))
+        elif tasks == 'private':
+            return self.filter(Q(is_private=True) | Q(creator=user.id))
 
     @transaction.atomic
     def job_to_do(self):
@@ -62,3 +67,6 @@ class JobManager(models.Manager):
 
     def jobs_in_progress(self, start_date=None, end_date=None):
         return self.jobs_in_states([JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS])
+
+    def jobs_failed(self, start_date=None, end_date=None):
+        return self.jobs_in_states(JobStates.FAILED)
