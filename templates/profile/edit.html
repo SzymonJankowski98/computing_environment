@@ -14,7 +14,6 @@
     <div class="w-full lg:w-1/2">
         <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
             {% csrf_token %}
-            {% csrf_token %}
             {% if profile_form.non_field_errors %}
                 <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
                     {{ profile_form.non_field_errors }}

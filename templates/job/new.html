@@ -8,9 +8,8 @@
 
     <div class="flex flex-col items-center w-full">
         <h1 class="text-3xl font-extrabold mt-2 mb-4">New Task</h1>
-
         <div class="flex w-11/12 md:w-5/6 2xl:w-1/2 flex-col items-center border-2 px-20 py-10 rounded-lg shadow-lg bg-white">
-            <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'new_job' %}">
+            <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'new_job' %}" id="job-form">
                 {% csrf_token %}
                 {% if job_form.non_field_errors %}
                     <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
@@ -36,14 +35,13 @@
                     <span class="text-error text-xs">{{ job_form.program.errors }}</span>
                 </div>
 
-                <div class="flex flex-col ">
+                <div class="flex flex-col">
                     <label for="settings" class="text-sm font-bold">{{ job_form.settings.label }}</label>
-                    {{ job_form.settings|addclass:'border border-stale-300 rounded max-h-72 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
-                    {% if job_form.settings.errors %}
-                        <span class="text-error text-xs">
-                            {{ job_form.settings.errors }}Valid JSON should have at least 1 key.
-                        </span>
-                    {% endif %}
+                    {{ job_form.settings|addclass:'hidden settings-field border border-stale-300 rounded max-h-72 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    <div id="settings-editor"></div>
+                    <span class="text-error text-xs" id="settings-error">
+                        {{ job_form.settings.errors }}
+                    </span>
                 </div>
 
                 <div class="flex flex-row items-center mt-4">

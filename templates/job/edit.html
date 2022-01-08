@@ -10,8 +10,7 @@
         <h1 class="text-3xl font-extrabold mt-2 mb-4">Edit Task</h1>
 
         <div class="flex flex-col items-center border-2 px-4 pb-6 pt-4 rounded-lg shadow-lg bg-white w-screen sm:px-10 sm:w-11/12 md:w-5/6 2xl:px-20 2xl:w-1/2">
-
-            <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}">
+            <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}"  id="job-form">
                 {% csrf_token %}
                 {% if job_form.non_field_errors %}
                     <div class="mb-3 p-3 text-error bg-red-100 rounded border border-red-200">
@@ -39,8 +38,9 @@
 
                 <div class="flex flex-col">
                     <label for="settings" class="text-sm font-bold">{{ job_form.settings.label }}</label>
-                    {{ job_form.settings|addclass:'border border-stale-300 rounded px-3 py-2 max-h-40 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
-                    <span class="text-error text-xs">{{ job_form.settings.errors }}</span>
+                    {{ job_form.settings|addclass:'hidden settings-field border border-stale-300 rounded px-3 py-2 max-h-40 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    <div id="settings-editor"></div>
+                    <span class="text-error text-xs" id="settings-error">{{ job_form.settings.errors }}</span>
                 </div>
 
                 <div class="flex flex-row items-center my-4">

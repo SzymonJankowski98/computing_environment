@@ -3,6 +3,7 @@ import '../javascript/dashboard_side_menu'
 import '../javascript/sort-button'
 import '../javascript/active-page'
 import '../javascript/progress-bars'
+import '../javascript/json-editor'
 
 import '../style/tailwind.css';
 import '../style/fonts.css';

@@ -14,6 +14,5 @@ window.onload = () => {
         };
 
         bar.style.width = `${Math.round(progress)}%`;
-        console.log(bar)
     });
 };
