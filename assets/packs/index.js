@@ -1,4 +1,5 @@
 import '../javascript/alerts'
+import '../javascript/dashboard_side_menu'
 import '../javascript/sort-button'
 import '../javascript/active-page'
 import '../javascript/progress-bars'
