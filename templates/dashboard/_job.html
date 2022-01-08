@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="bg-white shadow-sm rounded-lg p-3 cursor-pointer hover:scale-[1.02]" onclick='location.href="{% url 'show_job' job.id %}";' >
+<div class="bg-white shadow-sm rounded-lg p-3 cursor-pointer transition hover:scale-[1.02]" onclick="location.href='{% url 'show_job' job.id %}';" >
     <div class="flex items-center justify-between">
         <div class="p-1 bg-sky-100 rounded-2xl">
             {% if job.language == 'python' %}
