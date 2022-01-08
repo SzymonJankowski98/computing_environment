@@ -12,7 +12,6 @@ module.exports = {
             'primary': '#4338ca',
             'primary-brighter': '#6358ea',
             'primary-darker': '#3730a3',
-            'primary-disabled': '#9790b3',
             'background': '#e2e8f0',
             'error': '#dc2626',
             'warning': '#facc15',
