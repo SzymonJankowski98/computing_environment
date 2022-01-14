@@ -135,7 +135,7 @@ def worker_report(request, id):
             job.memory_usage = data['memory_usage']
             if job.state == JobStates.CHANGED_IN_PROGRESS:
                 serializer = JobSerializer(job)
-                context['job'] = serializer.validated_data
+                context['job'] = serializer.data
                 context['updated'] = True
                 
                 job.continue_execution()
