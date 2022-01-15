@@ -1,11 +1,12 @@
 from django.db import models
-from django.db.models.deletion import CASCADE
+from django.db.models.deletion import CASCADE, SET_NULL
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from computing_environment.models import Job
 from computing_environment.managers import JobResultManager
+from computing_environment.models.worker import Worker
 
 def result_save_directory(instance, filename):
     return 'results/{0}/{1}_{2}'.format(instance.job.id, timezone.now(), filename)
@@ -16,6 +17,7 @@ class JobResult(models.Model):
 
     result = models.FileField(upload_to=result_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
     job = models.ForeignKey(Job, on_delete=CASCADE, related_name='results')
+    worker = models.ForeignKey(Worker, on_delete=SET_NULL, related_name='sub_job', null=True)
     avg_processor_usage = models.DecimalField(max_digits=5, decimal_places=2)
     avg_memory_usage = models.DecimalField(max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
