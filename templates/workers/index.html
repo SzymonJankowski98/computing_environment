@@ -10,7 +10,7 @@
         <h1 class="text-3xl font-extrabold mt-2 mb-4">Workers</h1>
         <div id="journal-scroll" class="overflow-y-scroll flex w-11/12 md:w-3/4 flex-col items-center border-2 px-0 py-4 sm:px-4 lg:px-5 lg:py-10 2xl:px-12 rounded-lg shadow-lg bg-white">
             {% for worker in workers %}
-                {% include 'workers/_worker.html' with worker=worker index=forloop.counter %}
+                {% include 'workers/_worker.html' with worker=worker %}
             {% endfor %}
         </div>
     </div>
