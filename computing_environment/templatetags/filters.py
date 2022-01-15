@@ -1,3 +1,4 @@
+from datetime import date
 from django import template
 
 register = template.Library()
@@ -12,6 +13,11 @@ def only_name(file):
     name = file.split('/')[-1]
     data_name = name.split('_')[0]+"-"+name.split('_')[-1]
     return data_name
+
+@register.filter(name='days_between')
+def days_between(up_date):
+    today = date.today()
+    return (today - up_date).days
 
 @register.filter
 def upto(value, delimiter=None):

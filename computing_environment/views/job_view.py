@@ -49,7 +49,7 @@ def show_job(request, id):
     
     stats = dashboard_stats()
     recent_results = SubJob.objects.recent_results(request.user, 5)
-
+    
     job = get_object_or_404(Job, pk=id)
     if job.is_private and job.creator != request.user:
         raise PermissionDenied()
