@@ -2,10 +2,29 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+
 from computing_environment.models import SubJob
+from computing_environment.views.job_view import edit_job
 
 from ..serializers import SubJobSerializer
 from ..constants import JobStates
+
+@login_required
+@require_http_methods(["POST"])
+def delete_sub_job(request, id):
+    sub_job = get_object_or_404(SubJob, pk=id)
+    if sub_job.job.creator != request.user:
+        raise PermissionDenied()
+    
+    sub_job.delete()
+    messages.success(request, 'Sub task deleted successfully.')
+    return redirect(edit_job, sub_job.job.id)
 
 @api_view(['POST'])
 def send_result(request):

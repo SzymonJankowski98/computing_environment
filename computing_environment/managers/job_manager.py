@@ -36,13 +36,6 @@ class JobManager(models.Manager):
     def job_program(self, id):
         return self.filter(pk=id, state=JobStates.IN_PROGRESS).first()
 
-    def failed_jobs(self):
-        fail_border = timezone.now() - timedelta(minutes=JOB_UNRESPONSIVE_INTERVAL)
-        q = Q(state=JobStates.IN_PROGRESS)
-        q.add(Q(state=JobStates.CHANGED_IN_PROGRESS), Q.OR)
-        q.add(Q(last_worker_call__lte=fail_border), Q.AND)
-        return self.filter(q)
-
     def jobs_in_states(self, state, start_date=None, end_date=None):
         if state and isinstance(state, list):
             q = Q(state=state[0])

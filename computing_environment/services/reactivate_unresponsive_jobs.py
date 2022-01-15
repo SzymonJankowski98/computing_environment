@@ -1,11 +1,12 @@
-from ..models import Job
+from computing_environment.models.sub_job import SubJob
+from ..models import SubJob
 
 def reactivate_unresponsive_jobs():
-    failed_jobs = Job.objects.failed_jobs()
+    failed_jobs = SubJob.objects.failed_jobs()
     
-    for job in failed_jobs:
+    for sub_job in failed_jobs:
         try:
-            job.reactivate()
-            job.save()
+            sub_job.reactivate()
+            sub_job.save()
         except Exception as error:
             print('reactivate_unresponsive_jobs error: %s' % error)

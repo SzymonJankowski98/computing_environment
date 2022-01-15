@@ -25,7 +25,7 @@
                     <div class="flex justify-between w-full flex-col xl:flex-row">
                         <div class="flex">
                             <h2 class="font-semibold mr-2 mb-1">Created:</h2>
-                            <h2>{{ worker.created_at }}</h2>
+                            <h2>{{ worker.created_at|date:"d F Y - g:i" }}</h2>
                         </div>
                         <div class="flex">
                             <h2 class="font-semibold mr-2 mb-1">Updated:</h2>

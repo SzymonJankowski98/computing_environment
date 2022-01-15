@@ -27,6 +27,7 @@ urlpatterns = [
     path('job/<int:id>/edit', edit_job, name='edit_job'),
     path('job/<int:id>/delete', delete_job, name='delete_job'),
     path('workers', show_workers, name="show_workers"),
+    path('sub_job/<int:id>/delete', delete_sub_job, name='delete_sub_job'),
     path('profile', edit_profile, name='edit_profile'),
 
     ## allauth

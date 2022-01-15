@@ -16,8 +16,11 @@ def only_name(file):
 
 @register.filter(name='days_between')
 def days_between(up_date):
+    day = up_date.strftime("%d")
+    month = up_date.strftime("%m")
+    year = up_date.strftime("%Y")
     today = date.today()
-    return (today - up_date).days
+    return (today - date(int(year), int(month), int(day))).days
 
 @register.filter
 def upto(value, delimiter=None):

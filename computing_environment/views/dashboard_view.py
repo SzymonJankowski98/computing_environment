@@ -9,7 +9,6 @@ from computing_environment.models.sub_job import SubJob
 from computing_environment.services import dashboard_stats
 from computing_environment.search_filters import JobFilter
 
-
 @login_required
 def dashboard(request):
     tasks = request.GET.get('tasks', 'all')

@@ -5,9 +5,9 @@
     <div class="bg-primary mx-4 w-full m-3 pt-3 rounded-lg text-slate-300">
         <a href="{% url 'show_workers' %}" class="flex justify-between text-center items-center border-b border-primary-darker px-3 py-1 hover:cursor-pointer hover:bg-primary-darker">
             <img class="w-9 ml-1 my-2" src="{% static 'computer.svg' %}" /> 
-            <p class="font-main font-extrabold  text-sm">Computers Available</p>
+            <p class="font-main font-extrabold  text-sm">Available Machines</p>
             <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
-                {{ 0 }}
+                {{ stats.workers }}
             </div>
         </a>
         <div class="flex justify-between text-center items-center border-b border-primary-darker px-3 py-1">
