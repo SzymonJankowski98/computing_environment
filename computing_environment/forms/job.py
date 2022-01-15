@@ -35,6 +35,23 @@ class JobForm(forms.ModelForm):
     
     def clean_settings(self):
         settings = self.cleaned_data['settings']
+        if not settings:
+            raise forms.ValidationError("JSON cannot be empty")
+        try:
+            json.loads(settings)
+        except:
+            raise forms.ValidationError("Invalid JSON")
+        if not type(json.loads(settings)) == list:
+            raise forms.ValidationError("JSON outer element must be a list")
+
+        return settings
+
+class EditJobForm(JobForm):
+    def clean_settings(self):
+        settings = self.cleaned_data['settings']
+        print(settings)
+        if settings == '':
+            return settings
         try:
             json.loads(settings)
         except:

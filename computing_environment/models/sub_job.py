@@ -43,7 +43,7 @@ class SubJob(models.Model):
     def mark_as_in_progress(self):
         self.last_worker_call = timezone.now()
 
-    @transition(field=state, source=[SubJobStates.AVAILABLE, SubJobStates.COMPLETE, SubJobStates.FAILED], target=SubJobStates.AVAILABLE)
+    @transition(field=state, source=[SubJobStates.AVAILABLE,  SubJobStates.IN_PROGRESS, SubJobStates.COMPLETE, SubJobStates.FAILED], target=SubJobStates.AVAILABLE)
     def job_changed(self):
         self.processor_usage = None
         self.memory_usage = None

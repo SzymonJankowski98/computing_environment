@@ -21,13 +21,18 @@ window.onload = () => {
     document.querySelector('.jsoneditor-poweredBy').remove();
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        try {
-            settingsField.value = JSON.stringify(editor.get());
-            console.log(settingsField.value)
+        if (editor.getText() != '') { 
+            try {
+                settingsField.value = JSON.stringify(editor.get());
+                console.log(settingsField.value)
+                form.submit();
+            } catch (error) {
+                let settingsError = form.querySelector('#settings-error');
+                settingsError.textContent = "Invalid JSON";
+            }
+        } else {
+            settingsField.value = '';
             form.submit();
-        } catch (error) {
-            let settingsError = form.querySelector('#settings-error');
-            settingsError.textContent = "Invalid JSON";
         }
     })
 };

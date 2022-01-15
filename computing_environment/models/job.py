@@ -39,15 +39,11 @@ class Job(models.Model):
     def mark_as_in_progress(self):
         pass
     
-    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.CHANGED_IN_PROGRESS)
-    def job_changed_in_progress(self):
+    @transition(field=state, source=[JobStates.AVAILABLE,  JobStates.IN_PROGRESS, JobStates.COMPLETE], target=JobStates.AVAILABLE)
+    def job_changed(self):
         pass
 
-    @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
-    def continue_execution(self):
-        pass
-
-    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
+    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.AVAILABLE)
     def reactivate(self):
         pass
 

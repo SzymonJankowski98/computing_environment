@@ -15,7 +15,7 @@ from rest_framework import status
 
 from computing_environment.models.sub_job import SubJob
 from ..serializers import JobSerializer, JobReportSerializer
-from computing_environment.forms import JobForm
+from computing_environment.forms import JobForm, EditJobForm
 from computing_environment.models.job import Job
 from computing_environment.models import SubJob
 from computing_environment.services import dashboard_stats
@@ -61,7 +61,7 @@ def show_job(request, id):
     job_results = SubJob.objects.filter(job=job)
     context = { 'job': job, 'job_results': job_results, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
-    print(job_results)
+
     return render(request, 'job/show.html', context)
 
 @login_required
@@ -76,20 +76,20 @@ def edit_job(request, id):
         raise PermissionDenied()
 
     if request.POST:
-        job_form = JobForm(request.POST, request.FILES, instance=job)
+        job_form = EditJobForm(request.POST, request.FILES, instance=job)
         if job_form.is_valid():
             job_form.save()
-            if job.state == JobStates.IN_PROGRESS:
-                job.job_changed_in_progress()
-            else:
-                job.job_changed()
+            job.job_changed()
+            if job_form.cleaned_data['settings'] != '':
+                for s in json.loads(job_form.cleaned_data['settings']):
+                    SubJob.objects.create(job=job, settings=s)
             job.save()
 
             return redirect(dashboard)
     else:
-        job_form = JobForm(instance=job)
+        job_form = EditJobForm(instance=job)
 
-    context = { 'job': job, 'job_form': job_form, 'current_user': request.user,
+    context = { 'job': job, 'sub_jobs': job.results.all(), 'job_form': job_form, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
     return render(request, 'job/edit.html', context)
 
