@@ -12,9 +12,11 @@ from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from computing_environment.managers import sub_job_manager
 
 from computing_environment.models.sub_job import SubJob
-from ..serializers import JobSerializer, JobReportSerializer
+from computing_environment.models.worker import Worker
+from ..serializers import JobSerializer, JobReportSerializer, SubJobSerializer, WorkerSerializer
 from computing_environment.forms import JobForm, EditJobForm
 from computing_environment.models.job import Job
 from computing_environment.models import SubJob
@@ -105,12 +107,32 @@ def delete_job(request, id):
 
 @api_view(['GET'])
 def job_to_do(request):
-    job = Job.objects.job_to_do()
-    if job:
-        serializer = JobSerializer(job)
+    sub_job = SubJob.objects.sub_job_to_do()
+    if sub_job:
+        worker = Worker.objects.create()
+        sub_job.worker = worker
+        sub_job.save()
+        serializer = SubJobSerializer(sub_job)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def job_to_do_registered(request, id):
+    worker = Worker.objects.filter(pk=id).first()
+    if worker:
+        sub_job = SubJob.objects.sub_job_to_do()
+        if sub_job:
+            sub_job.worker = worker
+            sub_job.save()
+            sub_job_serializer = SubJobSerializer(sub_job)
+            return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
+
+        content = { "error" : "Resource not found" }
+        return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+    content = { "error" : "Worker not found" }
     return Response(content, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
@@ -128,25 +150,22 @@ def get_program(request, id):
 
 @api_view(['POST'])
 def worker_report(request, id):
-    job = Job.objects.job_in_progress(id)
-    if job:
+    sub_job = SubJob.objects.job_in_progress(id)
+    if sub_job:
         job_report_serializer = JobReportSerializer(data=request.data)
         if job_report_serializer.is_valid():
-            context = { 'updated': False}
-
             data = job_report_serializer.data
-            job.processor_usage = data['processor_usage']
-            job.memory_usage = data['memory_usage']
-            if job.state == JobStates.CHANGED_IN_PROGRESS:
-                serializer = JobSerializer(job)
-                context['job'] = serializer.data
-                context['updated'] = True
-                
-                job.continue_execution()
-            job.last_worker_call = timezone.now()
-            job.save()
+            sub_job.processor_usage = data['processor_usage']
+            sub_job.memory_usage = data['memory_usage']
+            sub_job.worker.processor = data['processor']
+            sub_job.worker.ram = data['ram']
+            sub_job.last_worker_call = timezone.now()
+            sub_job.worker.save()
+            sub_job.save()
 
-            return Response(context, status=status.HTTP_200_OK)
+            sub_job_serializer = SubJobSerializer(sub_job)
+
+            return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
 
         return Response(job_report_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

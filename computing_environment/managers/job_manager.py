@@ -17,15 +17,6 @@ class JobManager(models.Manager):
             return self.filter(Q(is_private=False))
         elif tasks == 'private':
             return self.filter(Q(is_private=True) | Q(creator=user.id))
-
-    @transaction.atomic
-    def job_to_do(self):
-        job = self.filter(Q(state=JobStates.AVAILABLE)).order_by('updated_at').select_for_update().first()
-        if not job:
-            return None
-        job.mark_as_in_progress()
-        job.save()
-        return job
     
     def job_in_progress(self, id):
         q = Q(state=JobStates.IN_PROGRESS)
