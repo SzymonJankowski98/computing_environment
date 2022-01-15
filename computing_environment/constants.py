@@ -3,6 +3,11 @@ class JobStates(object):
     IN_PROGRESS = 'in_progress'
     CHANGED_IN_PROGRESS = 'changed_in_progress'
     COMPLETE = 'complete'
+
+class SubJobStates(object):
+    AVAILABLE = 'available'
+    IN_PROGRESS = 'in_progress'
+    COMPLETE = 'complete'
     FAILED = 'failed'
 
 JOB_UNRESPONSIVE_INTERVAL = 2 # minutes
@@ -12,4 +17,4 @@ JOB_PAGINATION = 16
 LANGUAGES = (
     ('python', 'Python'),
     ('java', 'Java')
-)
+) 

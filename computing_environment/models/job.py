@@ -21,12 +21,8 @@ class Job(models.Model):
     creator = models.ForeignKey(User, null=True, on_delete=SET_NULL)
     language = models.CharField(max_length=63, choices=LANGUAGES)
     program = models.FileField(upload_to=program_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
-    settings = models.JSONField(default=dict, blank=True)
     is_private = models.BooleanField(default=False)
     state = FSMField(default=JobStates.AVAILABLE, protected=True)
-    last_worker_call = models.DateTimeField(null=True, blank=True)
-    processor_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
-    memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -41,12 +37,6 @@ class Job(models.Model):
 
     @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
-        self.last_worker_call = timezone.now()
-
-    @transition(field=state, source=[JobStates.AVAILABLE, JobStates.COMPLETE, JobStates.FAILED], target=JobStates.AVAILABLE)
-    def job_changed(self):
-        processor_usage = None
-        memory_usage = None
         pass
     
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.CHANGED_IN_PROGRESS)
@@ -55,18 +45,12 @@ class Job(models.Model):
 
     @transition(field=state, source=JobStates.CHANGED_IN_PROGRESS, target=JobStates.IN_PROGRESS)
     def continue_execution(self):
-        self.last_worker_call = timezone.now()
+        pass
 
     @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.CHANGED_IN_PROGRESS], target=JobStates.AVAILABLE)
     def reactivate(self):
-        processor_usage = None
-        memory_usage = None
         pass
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)
     def complete(self):
-        pass
-
-    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.FAILED)
-    def fail(self):
         pass

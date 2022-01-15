@@ -1,3 +1,5 @@
+import json
+
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.views.decorators.http import require_http_methods
@@ -30,10 +32,12 @@ def new_job(request):
     if request.POST:
         job_form = JobForm(request.POST, request.FILES)
 
-        if job_form.is_valid():
+        if job_form.is_valid() and job_form.cleaned_data['settings']:
             new_job = job_form.save(commit=False)
             new_job.creator = request.user
             new_job.save()
+            for s in json.loads(job_form.cleaned_data['settings']):
+                SubJob.objects.create(job=new_job, settings=s)
 
             return redirect('dashboard')
         print(job_form.errors)
