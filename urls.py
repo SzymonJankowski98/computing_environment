@@ -29,6 +29,7 @@ urlpatterns = [
     path('workers', show_workers, name="show_workers"),
     path('sub_job/<int:id>/delete', delete_sub_job, name='delete_sub_job'),
     path('profile', edit_profile, name='edit_profile'),
+    path("download/<int:id>", download,  name="download"),
 
     ## allauth
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),
@@ -59,8 +60,7 @@ urlpatterns = [
     path("v1/jobs/job_to_do/<int:id>", job_to_do_registered, name="job_to_do"),
     path("v1/jobs/<int:id>/get_program", get_program, name="get_program"),
     path("v1/jobs/<int:id>/worker_report", worker_report, name="worker_report"),
-    path("v1/job_results", send_result, name="send_result"),
-    path("download/<int:id>", download,  name="download")
+    path("v1/jobs/<int:id>/send_result", send_result, name="send_result")
 ]
 
 handler404 = error_404

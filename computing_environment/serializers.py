@@ -1,4 +1,5 @@
 from django.db.models import fields
+from django.core.validators import FileExtensionValidator
 from computing_environment.models.job import Job
 from computing_environment.models.worker import Worker
 from computing_environment.models.sub_job import SubJob
@@ -20,8 +21,13 @@ class SubJobSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = SubJob
-        fields = ['id', 'job', 'worker', 'settings', 'processor_usage', 'memory_usage', 'avg_processor_usage', 'avg_memory_usage']
+        fields = ['id', 'job', 'worker', 'settings', 'processor_usage', 'memory_usage']
 
+class SubJobResultSerializer(serializers.Serializer):
+    failed = serializers.BooleanField(default=False)
+    result = serializers.FileField(validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
+    avg_processor_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
+    avg_memory_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
 
 class JobReportSerializer(serializers.Serializer):
     processor_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
