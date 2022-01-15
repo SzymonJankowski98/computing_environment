@@ -2,17 +2,17 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from computing_environment.models import JobResult
+from computing_environment.models import SubJob
 
-from ..serializers import JobResultSerializer
+from ..serializers import SubJobSerializer
 from ..constants import JobStates
 
 @api_view(['POST'])
 def send_result(request):
-    job_result_serializer = JobResultSerializer(data=request.data)
+    job_result_serializer = SubJobSerializer(data=request.data)
     if job_result_serializer.is_valid():
         job_result_data = job_result_serializer.validated_data
-        job_result = JobResult(**job_result_data)
+        job_result = SubJob(**job_result_data)
         if job_result.job.state == JobStates.IN_PROGRESS:
             job_result.job.complete()
             job_result.job.save()

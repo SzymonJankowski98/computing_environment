@@ -11,11 +11,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from computing_environment.models.job_result import JobResult
+from computing_environment.models.sub_job import SubJob
 from ..serializers import JobSerializer, JobReportSerializer
 from computing_environment.forms import JobForm
 from computing_environment.models.job import Job
-from computing_environment.models import JobResult
+from computing_environment.models import SubJob
 from computing_environment.services import dashboard_stats
 from .dashboard_view import dashboard
 from ..constants import JobStates
@@ -25,7 +25,7 @@ from ..constants import JobStates
 def new_job(request):
 
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
+    recent_results = SubJob.objects.recent_results(request.user, 5)
 
     if request.POST:
         job_form = JobForm(request.POST, request.FILES)
@@ -48,13 +48,13 @@ def new_job(request):
 def show_job(request, id):
     
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
+    recent_results = SubJob.objects.recent_results(request.user, 5)
 
     job = get_object_or_404(Job, pk=id)
     if job.is_private and job.creator != request.user:
         raise PermissionDenied()
 
-    job_results = JobResult.objects.filter(job=job)
+    job_results = SubJob.objects.filter(job=job)
     context = { 'job': job, 'job_results': job_results, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
     print(job_results)
@@ -64,7 +64,7 @@ def show_job(request, id):
 def edit_job(request, id):
     
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
+    recent_results = SubJob.objects.recent_results(request.user, 5)
 
 
     job = get_object_or_404(Job, pk=id)

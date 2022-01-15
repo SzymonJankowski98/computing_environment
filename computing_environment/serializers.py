@@ -1,6 +1,6 @@
 from django.db.models.fields import DecimalField
 from computing_environment.models.job import Job
-from computing_environment.models.job_result import JobResult
+from computing_environment.models.sub_job import SubJob
 from rest_framework import serializers
 
 class JobSerializer(serializers.ModelSerializer):
@@ -8,9 +8,9 @@ class JobSerializer(serializers.ModelSerializer):
         model = Job
         fields = ['id', 'language', 'program', 'settings']
 
-class JobResultSerializer(serializers.ModelSerializer):
+class SubJobSerializer(serializers.ModelSerializer):
     class Meta:
-        model = JobResult
+        model = SubJob
         fields = ['result', 'job', 'avg_processor_usage', 'avg_memory_usage']
 
 

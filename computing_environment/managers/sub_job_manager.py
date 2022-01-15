@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 
-class JobResultManager(models.Manager):
+class SubJobManager(models.Manager):
     class Meta:
         app_label = "computing_environment"
     

@@ -5,13 +5,13 @@ from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from computing_environment.models import Job
-from computing_environment.managers import JobResultManager
+from computing_environment.managers import SubJobManager
 from computing_environment.models.worker import Worker
 
 def result_save_directory(instance, filename):
     return 'results/{0}/{1}_{2}'.format(instance.job.id, timezone.now(), filename)
 
-class JobResult(models.Model):
+class SubJob(models.Model):
     class Meta:
         app_label = "computing_environment"
 
@@ -23,7 +23,7 @@ class JobResult(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    objects = JobResultManager()
+    objects = SubJobManager()
 
     def execution_time(self):
         return self.job.updated_at - self.updated_at
