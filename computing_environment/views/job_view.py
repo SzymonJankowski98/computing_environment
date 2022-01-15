@@ -12,9 +12,11 @@ from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from computing_environment.managers import sub_job_manager
 
 from computing_environment.models.sub_job import SubJob
-from ..serializers import JobSerializer, JobReportSerializer
+from computing_environment.models.worker import Worker
+from ..serializers import JobSerializer, JobReportSerializer, SubJobSerializer, WorkerSerializer
 from computing_environment.forms import JobForm, EditJobForm
 from computing_environment.models.job import Job
 from computing_environment.models import SubJob
@@ -105,12 +107,32 @@ def delete_job(request, id):
 
 @api_view(['GET'])
 def job_to_do(request):
-    job = Job.objects.job_to_do()
-    if job:
-        serializer = JobSerializer(job)
+    sub_job = SubJob.objects.sub_job_to_do()
+    if sub_job:
+        worker = Worker.objects.create()
+        sub_job.worker = worker
+        sub_job.save()
+        serializer = SubJobSerializer(sub_job)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def job_to_do_registered(request, id):
+    worker = Worker.objects.filter(pk=id).first()
+    if worker:
+        sub_job = SubJob.objects.sub_job_to_do()
+        if sub_job:
+            sub_job.worker = worker
+            sub_job.save()
+            sub_job_serializer = SubJobSerializer(sub_job)
+            return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
+
+        content = { "error" : "Resource not found" }
+        return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+    content = { "error" : "Worker not found" }
     return Response(content, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
