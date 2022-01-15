@@ -44,6 +44,7 @@
                             <th>Task id</th>
                             <th>state</th>
                             <th>settings</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -52,10 +53,20 @@
                                     <td>{{ sub_job.id }}</td>
                                     <td>{{ sub_job.state }}</td>
                                     <td>{{ sub_job.settings }}</td>
+                                    <td>
+                                        <form></form>
+                                        <form class="w-full flex flex-col items-center" method="post" action="{% url 'delete_sub_job' sub_job.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="bg-error text-slate-200 rounded-md p-2 font-main text-xs 
+                                                    font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-2">
+                                                Delete sub task
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
-                      </table>
+                    </table>
                 </div>
 
                 <div class="flex flex-col">
