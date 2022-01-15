@@ -12,7 +12,7 @@ from django.contrib import messages
 from computing_environment.models import SubJob
 from computing_environment.views.job_view import edit_job
 
-from ..serializers import SubJobSerializer
+from ..serializers import SubJobResultSerializer
 from ..constants import JobStates
 
 @login_required
@@ -27,17 +27,26 @@ def delete_sub_job(request, id):
     return redirect(edit_job, sub_job.job.id)
 
 @api_view(['POST'])
-def send_result(request):
-    job_result_serializer = SubJobSerializer(data=request.data)
-    if job_result_serializer.is_valid():
-        job_result_data = job_result_serializer.validated_data
-        job_result = SubJob(**job_result_data)
-        if job_result.job.state == JobStates.IN_PROGRESS:
-            job_result.job.complete()
-            job_result.job.save()
-            job_result_serializer.save()
-            return Response(job_result_serializer.data, status=status.HTTP_201_CREATED)
-        content = { "error": "Job is not in progress or program changed" }
-        return Response(content, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+def send_result(request, id):
+    sub_job = SubJob.objects.job_in_progress(id)
+    if sub_job:
+        job_result_serializer = SubJobResultSerializer(data=request.data)
+        if job_result_serializer.is_valid():
+            if sub_job.state == JobStates.IN_PROGRESS:
+                data = job_result_serializer.data
+                sub_job.result = request.FILES.get('result')
+                sub_job.avg_processor_usage = data['avg_processor_usage']
+                sub_job.avg_memory_usage = data['avg_memory_usage']
+                if 'failed' in data and data['failed']:
+                    sub_job.fail()
+                else:
+                    sub_job.complete()
+                sub_job.save()
+                return Response(job_result_serializer.data, status=status.HTTP_201_CREATED)
+            content = { "error": "Job is not in progress" }
+            return Response(content, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    return Response(job_result_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(job_result_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
