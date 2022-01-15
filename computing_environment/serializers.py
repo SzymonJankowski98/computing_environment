@@ -20,9 +20,11 @@ class SubJobSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = SubJob
-        fields = ['result', 'job', 'worker', 'settings', 'processor_usage', 'memory_usage', 'avg_processor_usage', 'avg_memory_usage']
+        fields = ['id', 'job', 'worker', 'settings', 'processor_usage', 'memory_usage', 'avg_processor_usage', 'avg_memory_usage']
 
 
 class JobReportSerializer(serializers.Serializer):
     processor_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
     memory_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
+    processor = serializers.CharField(required=True, max_length=254)
+    ram = serializers.DecimalField(required=True, max_digits=10, decimal_places=0)

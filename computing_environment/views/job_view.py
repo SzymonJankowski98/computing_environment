@@ -150,25 +150,22 @@ def get_program(request, id):
 
 @api_view(['POST'])
 def worker_report(request, id):
-    job = Job.objects.job_in_progress(id)
-    if job:
+    sub_job = SubJob.objects.job_in_progress(id)
+    if sub_job:
         job_report_serializer = JobReportSerializer(data=request.data)
         if job_report_serializer.is_valid():
-            context = { 'updated': False}
-
             data = job_report_serializer.data
-            job.processor_usage = data['processor_usage']
-            job.memory_usage = data['memory_usage']
-            if job.state == JobStates.CHANGED_IN_PROGRESS:
-                serializer = JobSerializer(job)
-                context['job'] = serializer.data
-                context['updated'] = True
-                
-                job.continue_execution()
-            job.last_worker_call = timezone.now()
-            job.save()
+            sub_job.processor_usage = data['processor_usage']
+            sub_job.memory_usage = data['memory_usage']
+            sub_job.worker.processor = data['processor']
+            sub_job.worker.ram = data['ram']
+            sub_job.last_worker_call = timezone.now()
+            sub_job.worker.save()
+            sub_job.save()
 
-            return Response(context, status=status.HTTP_200_OK)
+            sub_job_serializer = SubJobSerializer(sub_job)
+
+            return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
 
         return Response(job_report_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
