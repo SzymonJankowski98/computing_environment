@@ -19,7 +19,7 @@ class SubJob(models.Model):
         app_label = "computing_environment"
 
     result = models.FileField(upload_to=result_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
-    job = models.ForeignKey(Job, on_delete=CASCADE, related_name='results')
+    job = models.ForeignKey(Job, on_delete=CASCADE, related_name='sub_jobs')
     worker = models.ForeignKey(Worker, on_delete=SET_NULL, related_name='sub_job', null=True)
     settings = models.JSONField(default=dict, blank=True)
     state = FSMField(default=SubJobStates.AVAILABLE, protected=True)

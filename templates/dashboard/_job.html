@@ -1,4 +1,5 @@
 {% load static %}
+{% load filters %}
 
 <div class="bg-white shadow-sm rounded-lg p-3 cursor-pointer transition hover:scale-[1.02]" onclick="location.href='{% url 'show_job' job.id %}';" >
     <div class="flex items-center justify-between">
@@ -25,7 +26,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="flex justify-between items-center mt-2">
+    <div class="flex justify-between items-center mt-4">
         <div class="text-xxs">
             {% include 'dashboard/_state_label.html' with state=job.state %}
         </div>
@@ -37,45 +38,20 @@
         <span class="bg-gray-100 text-gray-500 font-main text-xxs font-bold rounded-lg uppercase py-1 px-2">
             public
         </span>
-
         {% endif %}
     </div>
-    <div>
-        <span class="text-primary font-main text-xs">
-            {% if job.state == 'in_progress' %} Current {% else %} Avg. {% endif %} processor usage: 
-            <span class="font-bold">
-                
-                {% if job.state == 'complete' or job.state == 'failed' %}
-                    {{ job.last_result.avg_processor_usage }}
-                {% else %}
-                    {% if job.processor_usage %} {{ job.processor_usage }}% {% else %} --- {% endif %}
-                {% endif %}
-            </span>
+    <div class="flex flex-col mt-3">
+        <span class="text-primary font-main text-xs mb-1">
+            Subtask Completion Percentage: {{ job.complete_percent }}%
         </span>
-        <div class="h-2 w-full rounded-lg bg-gray-100">
+        <div class="h-2 w-full rounded-lg bg-gray-100 flex flex-col">
             <div 
-                data-progress="{% if job.state == 'complete' or job.state == 'failed' %} {{ job.last_result.avg_processor_usage }} {% else %} {{ job.processor_usage }} {% endif %}"
-                class="h-full rounded-lg progress-bar">
-            </div>
-        </div>
-        <span class="text-primary font-main text-xs">
-            {% if job.state == 'in_progress' %} Current {% else %} Avg. {% endif %} memory usage: 
-            <span class="font-bold">
-                {% if job.state == 'complete' or job.state == 'failed' %}
-                    {{ job.last_result.avg_memory_usage }}
-                {% else %}
-                    {% if job.memory_usage %} {{ job.memory_usage }}% {% else %} --- {% endif %}
-                {% endif %}
-            </span>
-        </span>
-        <div class="h-2 w-full rounded-lg bg-gray-100">
-            <div
-                data-progress="{% if job.state == 'complete' or job.state == 'failed' %} {{ job.last_result.avg_memory_usage }} {% else %} {{ job.memory_usage }} {% endif %}"
-                class="h-full rounded-lg progress-bar">
+                data-progress="{{ job.complete_percent }}"
+                class="h-full rounded-lg percentage-bar">
             </div>
         </div>
     </div>
-    <div class="flex justify-end items-center mt-2">
+    <div class="flex justify-end items-center mt-4">
         <span class="bg-sky-100 text-slate-500 font-main text-xxs font-bold rounded-lg uppercase py-1 px-2">
             {{ job.created_at }}
         </span>

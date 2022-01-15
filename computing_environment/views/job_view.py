@@ -89,7 +89,7 @@ def edit_job(request, id):
     else:
         job_form = EditJobForm(instance=job)
 
-    context = { 'job': job, 'sub_jobs': job.results.all(), 'job_form': job_form, 'current_user': request.user,
+    context = { 'job': job, 'sub_jobs': job.sub_jobs.all(), 'job_form': job_form, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
     return render(request, 'job/edit.html', context)
 

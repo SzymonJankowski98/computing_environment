@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', () => {
     document.querySelectorAll('.progress-bar').forEach(bar => {
         const progress = parseFloat(bar.dataset.progress);
         if (isNaN(progress)) return;
@@ -15,4 +15,17 @@ window.onload = () => {
 
         bar.style.width = `${Math.round(progress)}%`;
     });
-};
+
+    document.querySelectorAll('.percentage-bar').forEach(bar => {
+        const progress = parseFloat(bar.dataset.progress);
+        if (isNaN(progress)) return;
+
+        if (progress >= 100) {
+            bar.style.background = '#74ec00';
+        } else {
+            bar.style.background = '#01bbef';
+        };
+
+        bar.style.width = `${Math.round(progress)}%`;
+    });
+});

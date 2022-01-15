@@ -15,6 +15,15 @@ class SubJobManager(models.Manager):
             q.add(Q(job__creator=user), Q.OR)
 
         return self.select_related('job').filter(q).order_by('-created_at')[:limit]
+
+    def all_subtasks_of_job(self, this_job):
+        q = Q(job=this_job)
+        return self.select_related('job').filter(q).order_by('state')
+
+    def completed_subtasks_of_job(self, this_job):
+        q = Q(job=this_job)
+        q.add(Q(state=SubJobStates.COMPLETE), Q.AND)
+        return self.select_related('job').filter(q).order_by('state')
     
     @transaction.atomic
     def sub_job_to_do(self):

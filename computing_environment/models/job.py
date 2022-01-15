@@ -3,7 +3,7 @@ from django.db.models.deletion import SET_NULL
 from django_fsm import FSMField, transition
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
-from ..constants import JobStates, LANGUAGES
+from ..constants import JobStates, LANGUAGES, SubJobStates
 from ..exceptions import WrongLanguage
 from ..managers import JobManager
 
@@ -26,8 +26,22 @@ class Job(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_all_subtasks(self):
+        return self.sub_jobs.count()
+
+    def get_completed_subtasks(self):
+        return self.sub_jobs.filter(state=SubJobStates.COMPLETE).count()
+
+    def complete_percent(self):
+        all = self.get_all_subtasks()
+        if all == 0: 
+            return 0
+        else:
+            completed = self.get_completed_subtasks()
+            return round((completed / all) * 100, 2)
+
     def last_result(self):
-        self.results.order_by('-updated_at').first()
+        self.sub_jobs.order_by('-updated_at').first()
 
     def save(self, *args, **kwargs):
         if self.language in map(lambda l: l[0], LANGUAGES):
