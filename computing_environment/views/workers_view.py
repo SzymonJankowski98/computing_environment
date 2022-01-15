@@ -13,7 +13,7 @@ from computing_environment.search_filters import JobFilter
 
 @login_required
 def show_workers(request):
-    workers = Worker.objects.all()
+    workers = Worker.objects.latest_reports()
 
     stats = dashboard_stats()
     recent_results = SubJob.objects.recent_results(request.user, 5)

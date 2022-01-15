@@ -48,13 +48,13 @@
                           </tr>
                         </thead>
                         <tbody>
+                            <form></form>
                             {% for sub_job in sub_jobs %}
                                 <tr>
                                     <td>{{ sub_job.id }}</td>
                                     <td>{{ sub_job.state }}</td>
                                     <td>{{ sub_job.settings }}</td>
                                     <td>
-                                        <form></form>
                                         <form class="w-full flex flex-col items-center" method="post" action="{% url 'delete_sub_job' sub_job.id %}">
                                             {% csrf_token %}
                                             <button type="submit" class="bg-error text-slate-200 rounded-md p-2 font-main text-xs 
