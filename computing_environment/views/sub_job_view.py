@@ -8,11 +8,12 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.utils import timezone
 
-from computing_environment.models import SubJob
+from computing_environment.models import SubJob, Worker
 from computing_environment.views.job_view import edit_job
 
-from ..serializers import SubJobResultSerializer
+from ..serializers import SubJobResultSerializer, JobReportSerializer, SubJobSerializer
 from ..constants import JobStates
 
 @login_required
@@ -28,6 +29,64 @@ def delete_sub_job(request, id):
         sub_job.job.save()
     messages.success(request, 'Sub task deleted successfully.')
     return redirect(edit_job, sub_job.job.id)
+
+@api_view(['GET'])
+def job_to_do(request):
+    sub_job = SubJob.objects.sub_job_to_do()
+    if sub_job:
+        worker = Worker.objects.create()
+        sub_job.worker = worker
+        sub_job.save()
+        serializer = SubJobSerializer(sub_job)
+        sub_job.job.mark_as_in_progress()
+        sub_job.job.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def job_to_do_registered(request, id):
+    worker = Worker.objects.filter(pk=id).first()
+    if worker:
+        sub_job = SubJob.objects.sub_job_to_do()
+        if sub_job:
+            sub_job.worker = worker
+            sub_job.save()
+            sub_job_serializer = SubJobSerializer(sub_job)
+            sub_job.job.mark_as_in_progress()
+            sub_job.job.save()
+            return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
+
+        content = { "error" : "Resource not found" }
+        return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+    content = { "error" : "Worker not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def worker_report(request, id):
+    sub_job = SubJob.objects.job_in_progress(id)
+    if sub_job:
+        job_report_serializer = JobReportSerializer(data=request.data)
+        if job_report_serializer.is_valid():
+            data = job_report_serializer.data
+            sub_job.processor_usage = data['processor_usage']
+            sub_job.memory_usage = data['memory_usage']
+            sub_job.worker.processor = data['processor']
+            sub_job.worker.ram = data['ram']
+            sub_job.last_worker_call = timezone.now()
+            sub_job.worker.save()
+            sub_job.save()
+
+            sub_job_serializer = SubJobSerializer(sub_job)
+
+            return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
+
+        return Response(job_report_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    content = { "error" : "Resource not found" }
+    return Response(content, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def send_result(request, id):
