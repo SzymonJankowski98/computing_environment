@@ -10,11 +10,12 @@ class SubJobManager(models.Manager):
         app_label = "computing_environment"
     
     def recent_results(self, user=None, limit=10):
-        q = Q(job__is_private=False)
-        if user:
-            q.add(Q(job__creator=user), Q.OR)
-
-        return self.select_related('job').filter(q).order_by('-created_at')[:limit]
+        # q = Q(job__is_private=False)
+        # if user:
+        #     q.add(Q(job__creator=user), Q.OR)
+        q = ~Q(result='')
+        return self.filter(q).order_by('-updated_at')[:limit]
+        # return self.select_related('job').filter(q).order_by('-created_at')[:limit]
 
     def all_subtasks_of_job(self, this_job):
         q = Q(job=this_job)
