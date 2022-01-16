@@ -28,12 +28,11 @@ def download_all(request, id):
     if job.is_private and job.creator != request.user:
         raise PermissionDenied()
 
-
-
     with ZipFile('all_download.zip', 'w') as zipObj:
         for sub in job.get_completed_subtasks():
-            zipObj.write(os.path.basename(sub.result.path))
-    zipObj.close()
-    response = HttpResponse(zipObj, content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename("all_download.zip")
+            zipObj.write(sub.result.path, os.path.basename(sub.result.path))
+
+    response = HttpResponse(open('all_download.zip', "rb").read(), content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(f"all_download.zip")
+    os.remove('all_download.zip')
     return response
