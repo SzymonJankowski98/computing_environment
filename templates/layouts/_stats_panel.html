@@ -30,15 +30,22 @@
                             </span>
                             {% endif %}
                         </p>
+                       
+                       
                         <p class="font-main text-xs text-slate-200">
-                        {{ result.result.name|only_name }}         
-                        <!-- {% include 'shared/download.html'  with result=result %} -->
+                            {{ result.result.name|only_name }}
+                            <!-- {% include 'shared/download.html'  with result=result %} -->
                         </p>
+                        
+
                     </div>
-                    <div class="ml-auto">
-                        <p class="font-main font-bold py-1 px-1 text-xs ">
+                    <div class="ml-auto flex flex-col items-end ">
+                        <p class="font-main font-bold py-1 px-1 text-xs mb-1">
                             {{ result.updated_at|timesince|upto:","}} ago
-                        </p>    
+                        </p>  
+                        <div class="text-xxs ">
+                         {% include 'dashboard/_state_label.html' with state=result.state  %}
+                        </div>
                     </div>    
                 </div>
         </div>
