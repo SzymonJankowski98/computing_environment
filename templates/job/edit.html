@@ -53,7 +53,11 @@
                                 {% for sub_job in sub_jobs %}
                                     <tr class="border-b hover:bg-slate-50">
                                         <td class="font-semibold">{{ sub_job.id }}</td>
-                                        <td class="text-sm font-main">{{ sub_job.state|upper }}</td>
+                                        <td class="text-sm font-main">
+                                            <div class="text-xs">
+                                                {% include 'dashboard/_state_label.html' with state=job.state %}
+                                            </div>
+                                        </td>
                                         <td>{{ sub_job.settings }}</td>
                                         <td>
                                             <form class="w-full flex flex-col items-center" method="post" action="{% url 'delete_sub_job' sub_job.id %}">
