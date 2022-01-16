@@ -4,10 +4,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from computing_environment.constants import JOB_PAGINATION
 
 from computing_environment.models.job import Job
-from computing_environment.models import JobResult
+from computing_environment.models import SubJob
+from computing_environment.models.sub_job import SubJob
 from computing_environment.services import dashboard_stats
 from computing_environment.search_filters import JobFilter
-
 
 @login_required
 def dashboard(request):
@@ -32,7 +32,7 @@ def dashboard(request):
         jobs = paginator.page(paginator.num_pages)
 
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
+    recent_results = SubJob.objects.recent_results(request.user, 5)
 
     context = {
         'jobs': jobs, 'current_user': request.user,

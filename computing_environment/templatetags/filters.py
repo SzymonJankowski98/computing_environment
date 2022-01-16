@@ -1,3 +1,4 @@
+from datetime import datetime
 from django import template
 
 register = template.Library()
@@ -12,6 +13,12 @@ def only_name(file):
     name = file.split('/')[-1]
     data_name = name.split('_')[0]+"-"+name.split('_')[-1]
     return data_name
+
+@register.filter(name='minutes_between')
+def minutes_between(up_date):
+    today = datetime.now(up_date.tzinfo)
+    secs_between = (today - datetime(up_date.year, up_date.month, up_date.day, up_date.hour, up_date.minute, up_date.second, tzinfo=up_date.tzinfo)).seconds
+    return secs_between / 60
 
 @register.filter
 def upto(value, delimiter=None):

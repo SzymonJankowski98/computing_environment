@@ -1,3 +1,5 @@
+import json
+
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.views.decorators.http import require_http_methods
@@ -5,17 +7,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from django.utils import timezone
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from computing_environment.models.job_result import JobResult
-from ..serializers import JobSerializer, JobReportSerializer
-from computing_environment.forms import JobForm
+from computing_environment.models.sub_job import SubJob
+from computing_environment.forms import JobForm, EditJobForm
 from computing_environment.models.job import Job
-from computing_environment.models import JobResult
+from computing_environment.models import SubJob
 from computing_environment.services import dashboard_stats
 from .dashboard_view import dashboard
 from ..constants import JobStates
@@ -25,15 +25,17 @@ from ..constants import JobStates
 def new_job(request):
 
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
+    recent_results = SubJob.objects.recent_results(request.user, 5)
 
     if request.POST:
         job_form = JobForm(request.POST, request.FILES)
 
-        if job_form.is_valid():
+        if job_form.is_valid() and job_form.cleaned_data['settings']:
             new_job = job_form.save(commit=False)
             new_job.creator = request.user
             new_job.save()
+            for s in json.loads(job_form.cleaned_data['settings']):
+                SubJob.objects.create(job=new_job, settings=s)
 
             return redirect('dashboard')
         print(job_form.errors)
@@ -48,23 +50,23 @@ def new_job(request):
 def show_job(request, id):
     
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
-
+    recent_results = SubJob.objects.recent_results(request.user, 5)
+    
     job = get_object_or_404(Job, pk=id)
     if job.is_private and job.creator != request.user:
         raise PermissionDenied()
 
-    job_results = JobResult.objects.filter(job=job)
+    job_results = SubJob.objects.filter(job=job)
     context = { 'job': job, 'job_results': job_results, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
-    print(job_results)
+
     return render(request, 'job/show.html', context)
 
 @login_required
 def edit_job(request, id):
     
     stats = dashboard_stats()
-    recent_results = JobResult.objects.recent_results(request.user, 5)
+    recent_results = SubJob.objects.recent_results(request.user, 5)
 
 
     job = get_object_or_404(Job, pk=id)
@@ -72,20 +74,26 @@ def edit_job(request, id):
         raise PermissionDenied()
 
     if request.POST:
-        job_form = JobForm(request.POST, request.FILES, instance=job)
+        job_form = EditJobForm(request.POST, request.FILES, instance=job)
         if job_form.is_valid():
-            job_form.save()
-            if job.state == JobStates.IN_PROGRESS:
-                job.job_changed_in_progress()
-            else:
+            if 'program' in job_form.changed_data or 'language' in job_form.changed_data:
+                for sub_job in job.sub_jobs.all():
+                    sub_job.job_changed()
+                    sub_job.save()
                 job.job_changed()
+            job_form.save()
+            if job_form.cleaned_data['settings'] != '':
+                for s in json.loads(job_form.cleaned_data['settings']):
+                    SubJob.objects.create(job=job, settings=s)
+                if job.state == JobStates.COMPLETE:
+                    job.more_sub_jobs()
             job.save()
 
             return redirect(dashboard)
     else:
-        job_form = JobForm(instance=job)
+        job_form = EditJobForm(instance=job)
 
-    context = { 'job': job, 'job_form': job_form, 'current_user': request.user,
+    context = { 'job': job, 'sub_jobs': job.sub_jobs.all(), 'job_form': job_form, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
     return render(request, 'job/edit.html', context)
 
@@ -100,16 +108,6 @@ def delete_job(request, id):
     return redirect(dashboard)
 
 @api_view(['GET'])
-def job_to_do(request):
-    job = Job.objects.job_to_do()
-    if job:
-        serializer = JobSerializer(job)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    content = { "error" : "Resource not found" }
-    return Response(content, status=status.HTTP_404_NOT_FOUND)
-
-@api_view(['GET'])
 def get_program(request, id):
     job = Job.objects.job_program(id)
     content = { "error" : "Resource not found" }
@@ -120,31 +118,4 @@ def get_program(request, id):
             return HttpResponse(response, status=status.HTTP_200_OK)
         content = { "error": "Program file doesn't exist" }
 
-    return Response(content, status=status.HTTP_404_NOT_FOUND)
-
-@api_view(['POST'])
-def worker_report(request, id):
-    job = Job.objects.job_in_progress(id)
-    if job:
-        job_report_serializer = JobReportSerializer(data=request.data)
-        if job_report_serializer.is_valid():
-            context = { 'updated': False}
-
-            data = job_report_serializer.data
-            job.processor_usage = data['processor_usage']
-            job.memory_usage = data['memory_usage']
-            if job.state == JobStates.CHANGED_IN_PROGRESS:
-                serializer = JobSerializer(job)
-                context['job'] = serializer.validated_data
-                context['updated'] = True
-                
-                job.continue_execution()
-            job.last_worker_call = timezone.now()
-            job.save()
-
-            return Response(context, status=status.HTTP_200_OK)
-
-        return Response(job_report_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    content = { "error" : "Resource not found" }
     return Response(content, status=status.HTTP_404_NOT_FOUND)

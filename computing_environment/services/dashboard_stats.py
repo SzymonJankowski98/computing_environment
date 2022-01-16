@@ -1,11 +1,14 @@
-from computing_environment.models import Job
+from computing_environment.models.worker import Worker
+from computing_environment.models import SubJob
 
 def dashboard_stats():
+
     stats = {
-        'available': Job.objects.jobs_available().count(),
-        'in_progress': Job.objects.jobs_in_progress().count(),
-        'completed': Job.objects.jobs_completed().count(),
-        'failed': Job.objects.jobs_failed().count()
+        'workers': Worker.objects.active().count(),
+        'available': SubJob.objects.jobs_available().count(),
+        'in_progress': SubJob.objects.jobs_in_progress().count(),
+        'completed': SubJob.objects.jobs_completed().count(),
+        'failed': SubJob.objects.jobs_failed().count()
     }
     
     return stats

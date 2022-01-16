@@ -17,15 +17,6 @@ class JobManager(models.Manager):
             return self.filter(Q(is_private=False))
         elif tasks == 'private':
             return self.filter(Q(is_private=True) | Q(creator=user.id))
-
-    @transaction.atomic
-    def job_to_do(self):
-        job = self.filter(Q(state=JobStates.AVAILABLE)).order_by('updated_at').select_for_update().first()
-        if not job:
-            return None
-        job.mark_as_in_progress()
-        job.save()
-        return job
     
     def job_in_progress(self, id):
         q = Q(state=JobStates.IN_PROGRESS)
@@ -35,13 +26,6 @@ class JobManager(models.Manager):
 
     def job_program(self, id):
         return self.filter(pk=id, state=JobStates.IN_PROGRESS).first()
-
-    def failed_jobs(self):
-        fail_border = timezone.now() - timedelta(minutes=JOB_UNRESPONSIVE_INTERVAL)
-        q = Q(state=JobStates.IN_PROGRESS)
-        q.add(Q(state=JobStates.CHANGED_IN_PROGRESS), Q.OR)
-        q.add(Q(last_worker_call__lte=fail_border), Q.AND)
-        return self.filter(q)
 
     def jobs_in_states(self, state, start_date=None, end_date=None):
         if state and isinstance(state, list):
