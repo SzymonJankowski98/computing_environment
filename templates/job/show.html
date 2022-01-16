@@ -5,11 +5,10 @@
 {% block head_title %}Job Preview{% endblock %}
 
 {% block mid_content %}
-    <div class="flex flex-col items-center mt-8 overflow-hidden pb-2">
-        
+    <div class="flex flex-col items-center mt-8 overflow-hidden pb-4">
 
         <!-- <h1 class="text-3xl font-extrabold mt-6 mb-10">{{ job.name }}</h1> -->
-        <div class="flex flex-col items-center border-2  px-4 pb-6 pt-4 mt-16 rounded-lg shadow-lg bg-white w-screen sm:px-10 sm:w-11/12 md:w-5/6 2xl:px-20 2xl:w-8/12">
+        <div class="flex flex-col items-center border-2  px-4 pb-6 pt-4 mt-16 rounded-lg shadow-lg bg-white w-screen sm:px-10 sm:w-11/12 md:max-h-[51rem] md:w-5/6 2xl:px-20 2xl:w-8/12">
             <div class="flex gap-4 w-full mb-4">
                 <div class="p-1 bg-sky-100 border-slate-300 border-4 rounded-3xl -mt-10 h-fit">
                     {% if job.language == 'python' %}
@@ -35,8 +34,9 @@
                 </div> 
             </div>
 
-            <div class="flex flex-col items-center px-6 py-4">
-                <h2 class="text-xl font-bold mb-2">Task results</h2>
+            <h2 class="text-xl font-bold my-2">Task results</h2>
+
+            <div id="journal-scroll" class="overflow-y-scroll flex flex-col items-center px-6 py-4 w-11/12">
                 {% if job_results.count == 0 %}<p class="mt-4">There are no results for this task yet</p>{% endif %}
                 {% for result in job_results %}
                     <p class="text-primary hover:underline hover:cursor-pointer">
