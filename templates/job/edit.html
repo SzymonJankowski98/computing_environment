@@ -10,7 +10,7 @@
         
         <h1 class="text-3xl font-extrabold mt-2 mb-4">Edit Task</h1>
 
-        <div id="journal-scroll" class="overflow-y-scroll flex flex-col items-center border-2 px-7 pb-6 pt-4 rounded-lg shadow-lg bg-white w-screen sm:px-10 sm:w-11/12 md:w-5/6 2xl:px-10 2xl:w-9/12">
+        <div id="journal-scroll" class="overflow-y-scroll flex flex-col items-center border-2 px-7 pb-6 pt-4 rounded-lg shadow-lg bg-white w-screen sm:px-10 sm:w-11/12 md:w-5/6 2xl:px-10 2xl:w-8/12">
             <form class="w-full" method="post" enctype="multipart/form-data" action="{% url 'edit_job' job.id %}"  id="job-form">
                 {% csrf_token %}
                 {% if job_form.non_field_errors %}
