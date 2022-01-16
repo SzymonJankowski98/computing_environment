@@ -33,7 +33,7 @@
 
                 <div class="flex flex-col">
                     <label for="program" class="text-sm font-bold">{{ job_form.program.label }}<span class="text-primary"> *</span></label>
-                    {{ job_form.program|addclass:'border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
+                    {{ job_form.program|addclass:'file:bg-primary file:text-slate-200 file:font-main file:text-base file:py-1 file:rounded-md file:px-3 file:border-0 file:hover:cursor-pointer file:hover:bg-primary-darker file:hover:text-white file:font-bold file:mr-2 file:transition file:duration-100 file:ease-out file:shadow-sm hover:cursor-pointer border border-stale-300 rounded mb-4 px-3 py-2 focus:outline-none focus:ring-primary focus:border-primary focus:ring-1 sm:text-sm' }}
                     <span class="text-error text-xs">{{ job_form.program.errors }}</span>
                 </div>
 
@@ -98,7 +98,7 @@
 
                 <div class="flex flex-col items-center">
                     <button type="submit" class="bg-accept text-slate-200 rounded-md w-3/4 py-1 font-main text-lg 
-                        font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-5">
+                        font-bold hover:bg-green-700 hover:text-white transition duration-100 ease-out shadow-sm mt-5">
                     Update Task
                     </button>
                 </div>
@@ -107,7 +107,7 @@
             <form class="w-full flex flex-col items-center" method="post" action="{% url 'delete_job' job.id %}">
                 {% csrf_token %}
                 <button type="submit" class="bg-error text-slate-200 rounded-md w-3/4 py-1 font-main text-lg 
-                        font-bold hover:bg-primary-darker hover:text-white transition duration-100 ease-out shadow-sm mt-2">
+                        font-bold hover:bg-red-700 hover:text-white transition duration-100 ease-out shadow-sm mt-2">
                     Delete Task
                 </button>
             </form>
