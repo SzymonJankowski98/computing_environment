@@ -80,11 +80,17 @@ def edit_job(request, id):
     if request.POST:
         job_form = EditJobForm(request.POST, request.FILES, instance=job)
         if job_form.is_valid():
+            if 'program' in job_form.changed_data or 'language' in job_form.changed_data:
+                for sub_job in job.sub_jobs.all():
+                    sub_job.job_changed()
+                    sub_job.save()
+                job.job_changed()
             job_form.save()
-            job.job_changed()
             if job_form.cleaned_data['settings'] != '':
                 for s in json.loads(job_form.cleaned_data['settings']):
                     SubJob.objects.create(job=job, settings=s)
+                if job.state == JobStates.COMPLETE:
+                    job.more_sub_jobs()
             job.save()
 
             return redirect(dashboard)
@@ -113,6 +119,8 @@ def job_to_do(request):
         sub_job.worker = worker
         sub_job.save()
         serializer = SubJobSerializer(sub_job)
+        sub_job.job.mark_as_in_progress()
+        sub_job.job.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     content = { "error" : "Resource not found" }
@@ -127,6 +135,8 @@ def job_to_do_registered(request, id):
             sub_job.worker = worker
             sub_job.save()
             sub_job_serializer = SubJobSerializer(sub_job)
+            sub_job.job.mark_as_in_progress()
+            sub_job.job.save()
             return Response(sub_job_serializer.data, status=status.HTTP_200_OK)
 
         content = { "error" : "Resource not found" }

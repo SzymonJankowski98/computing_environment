@@ -1,5 +1,6 @@
 from .user import *
 from django.db.models.deletion import SET_NULL
+from django.db.models import Q
 from django_fsm import FSMField, transition
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
@@ -30,7 +31,12 @@ class Job(models.Model):
         return self.sub_jobs.count()
 
     def get_completed_subtasks(self):
-        return self.sub_jobs.filter(state=SubJobStates.COMPLETE).count()
+        q = Q(state=SubJobStates.COMPLETE)
+        q.add(Q(state=SubJobStates.FAILED), Q.OR)
+        return self.sub_jobs.filter(q).count()
+
+    def get_in_progress_subtasks(self):
+        return self.sub_jobs.filter(state=SubJobStates.IN_PROGRESS).count()
 
     def complete_percent(self):
         all = self.get_all_subtasks()
@@ -49,7 +55,7 @@ class Job(models.Model):
         else:
             raise WrongLanguage
 
-    @transition(field=state, source=JobStates.AVAILABLE, target=JobStates.IN_PROGRESS)
+    @transition(field=state, source=[JobStates.AVAILABLE, JobStates.IN_PROGRESS], target=JobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
         pass
     
@@ -59,6 +65,10 @@ class Job(models.Model):
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.AVAILABLE)
     def reactivate(self):
+        pass
+
+    @transition(field=state, source=JobStates.COMPLETE, target=JobStates.IN_PROGRESS)
+    def more_sub_jobs(self):
         pass
 
     @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)

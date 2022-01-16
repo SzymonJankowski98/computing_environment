@@ -23,6 +23,9 @@ def delete_sub_job(request, id):
         raise PermissionDenied()
     
     sub_job.delete()
+    if sub_job.job.complete_percent() == 100:
+        sub_job.job.complete()
+        sub_job.job.save()
     messages.success(request, 'Sub task deleted successfully.')
     return redirect(edit_job, sub_job.job.id)
 
@@ -42,6 +45,9 @@ def send_result(request, id):
                 else:
                     sub_job.complete()
                 sub_job.save()
+                if sub_job.job.complete_percent() == 100:
+                    sub_job.job.complete()
+                    sub_job.job.save()
                 return Response(job_result_serializer.data, status=status.HTTP_201_CREATED)
             content = { "error": "Job is not in progress" }
             return Response(content, status=status.HTTP_405_METHOD_NOT_ALLOWED)
