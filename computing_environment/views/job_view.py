@@ -1,4 +1,5 @@
 import json
+from sre_parse import State
 
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
@@ -18,7 +19,7 @@ from computing_environment.models.job import Job
 from computing_environment.models import SubJob
 from computing_environment.services import dashboard_stats
 from .dashboard_view import dashboard
-from ..constants import JobStates
+from ..constants import JobStates, SubJobStates
 
 
 @login_required
@@ -56,7 +57,8 @@ def show_job(request, id):
     if job.is_private and job.creator != request.user:
         raise PermissionDenied()
 
-    job_results = SubJob.objects.filter(job=job)
+    job_results = job.finished_ordered()
+
     context = { 'job': job, 'job_results': job_results, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
 

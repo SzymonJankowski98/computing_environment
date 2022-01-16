@@ -27,24 +27,31 @@ class Job(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def get_all_subtasks(self):
-        return self.sub_jobs.count()
-
     def get_completed_subtasks(self):
         q = Q(state=SubJobStates.COMPLETE)
         q.add(Q(state=SubJobStates.FAILED), Q.OR)
-        return self.sub_jobs.filter(q).count()
+        return self.sub_jobs.filter(q)
+
+    def get_not_completed_subtasks(self):
+        q = Q(state=SubJobStates.IN_PROGRESS)
+        q.add(Q(state=SubJobStates.AVAILABLE), Q.OR)
+        return self.sub_jobs.filter(q)
 
     def get_in_progress_subtasks(self):
         return self.sub_jobs.filter(state=SubJobStates.IN_PROGRESS).count()
 
     def complete_percent(self):
-        all = self.get_all_subtasks()
+        all = self.sub_jobs.count()
         if all == 0: 
             return 0
         else:
-            completed = self.get_completed_subtasks()
+            completed = self.get_completed_subtasks().count()
             return round((completed / all) * 100, 2)
+
+    def finished_ordered(self):
+        part1 = self.get_completed_subtasks().order_by("-updated_at")
+        part2 = self.get_not_completed_subtasks().order_by("created_at")
+        return part1.union(part2)
 
     def last_result(self):
         self.sub_jobs.order_by('-updated_at').first()

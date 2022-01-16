@@ -30,6 +30,7 @@ urlpatterns = [
     path('sub_job/<int:id>/delete', delete_sub_job, name='delete_sub_job'),
     path('profile', edit_profile, name='edit_profile'),
     path("download/<int:id>", download,  name="download"),
+    path("download_all/<int:id>", download_all,  name="download_all"),
 
     ## allauth
     path('accounts/signup/<str:token>', view=custom_signup_view, name='account_signup'),

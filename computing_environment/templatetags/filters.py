@@ -20,6 +20,10 @@ def minutes_between(up_date):
     secs_between = (today - datetime(up_date.year, up_date.month, up_date.day, up_date.hour, up_date.minute, up_date.second, tzinfo=up_date.tzinfo)).seconds
     return secs_between / 60
 
+@register.filter(name='modulo')
+def modulo(num, val=60):
+    return num % val
+
 @register.filter
 def upto(value, delimiter=None):
     return value.split(delimiter)[0]
