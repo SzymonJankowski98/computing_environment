@@ -33,4 +33,5 @@ class JobReportSerializer(serializers.Serializer):
     processor_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
     memory_usage = serializers.DecimalField(required=True, max_digits=5, decimal_places=2)
     processor = serializers.CharField(required=True, max_length=254)
-    ram = serializers.DecimalField(required=True, max_digits=10, decimal_places=0)
+    ram = serializers.CharField(required=True, max_length=10)
+    # ram = serializers.DecimalField(required=True, max_digits=10, decimal_places=0)

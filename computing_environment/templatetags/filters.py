@@ -10,8 +10,8 @@ def addclass(value, arg):
 
 @register.filter(name='only_name')
 def only_name(file):
-    name = file.split('/')[-1]
-    data_name = name.split('_')[0]+"-"+name.split('_')[-1]
+    name = file.split('/')[-1].split('_')
+    data_name = name[-1] # name[0]+"-"+name[-1]
     return data_name
 
 @register.filter(name='minutes_between')
