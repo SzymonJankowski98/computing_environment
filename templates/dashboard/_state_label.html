@@ -1,10 +1,12 @@
+{% load filters %}
+
 {% if state == 'available' %}
     <span class="bg-yellow-100 text-yellow-600 font-main font-bold rounded-lg uppercase py-1 px-2">
         {{ state }}
     </span>
 {% elif state == 'in_progress' %}
     <span class="bg-blue-100 text-blue-600 font-main font-bold rounded-lg uppercase py-1 px-2">
-        {{ state }}
+        {{ state|replace_floor }}
     </span>
 {% elif state == 'complete' %}
     <span class="bg-green-100 text-green-600 font-main font-bold rounded-lg uppercase py-1 px-2">

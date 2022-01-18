@@ -61,18 +61,18 @@
                                 Show Settings
                             </button>
                         </div>
-                        <p class="flex justify-center flex-wrap text-primary hover:underline hover:cursor-pointer w-2/12">
+                        <p class="flex justify-center flex-wrap text-primary w-2/12">
                             {% if result.state != "complete" and result.state != "failed" %}
-                                <span>- - -</span>
+                                <span class="text-black hover:cursor-auto hover:text-black">- - -</span>
                             {% else %}
-                                <a href="{% url 'download' result.id %}">
+                                <a class="hover:underline hover:cursor-pointer" href="{% url 'download' result.id %}">
                                     {{ result.result.name|only_name|truncatechars:23 }}
                                 </a>
                             {% endif %}
                         </p>
                         <div class="flex justify-center items-center w-1/12 relative">
                             <img class="w-14 absolute z-10" src="{% static 'computa.svg' %}" alt="">
-                            {% if result.state != "complete" and result.state != "failed" %}
+                            {% if result.state == "available" %}
                                 <span class="z-20 text-white mb-5 font-bold">- - -</span>
                             {% else %}
                                 <p class="z-20 text-white mb-5 font-bold">{{result.worker.id}}</p>
@@ -133,7 +133,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div id="show_settings_{{result.id}}" class="hidden w-full break-all font-main text-base font-semibold ml-10 mb-2">
+                    <div id="show_settings_{{result.id}}" class="hidden w-11/12 break-all font-main text-base font-semibold ml-10 mb-2">
                         {{ result.settings }}
                     </div>
                 {% endfor %}

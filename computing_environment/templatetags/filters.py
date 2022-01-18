@@ -24,6 +24,10 @@ def minutes_between(up_date):
 def modulo(num, val=60):
     return num % val
 
+@register.filter(name='replace_floor')
+def replace_floor(text):
+    return text.replace('_', ' ')
+
 @register.filter
 def upto(value, delimiter=None):
     return value.split(delimiter)[0]
