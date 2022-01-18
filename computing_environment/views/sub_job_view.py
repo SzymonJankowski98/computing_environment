@@ -24,8 +24,12 @@ def delete_sub_job(request, id):
         raise PermissionDenied()
     
     sub_job.delete()
-    if sub_job.job.complete_percent() == 100:
+    completion = sub_job.job.complete_percent()
+    if completion == 100:
         sub_job.job.complete()
+        sub_job.job.save()
+    elif completion == 0:
+        sub_job.job.job_changed()
         sub_job.job.save()
     messages.success(request, 'Sub task deleted successfully.')
     return redirect(edit_job, sub_job.job.id)
