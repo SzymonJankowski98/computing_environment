@@ -78,6 +78,6 @@ class Job(models.Model):
     def more_sub_jobs(self):
         pass
 
-    @transition(field=state, source=JobStates.IN_PROGRESS, target=JobStates.COMPLETE)
+    @transition(field=state, source=[JobStates.IN_PROGRESS, JobStates.COMPLETE], target=JobStates.COMPLETE)
     def complete(self):
         pass
