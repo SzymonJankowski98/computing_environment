@@ -77,6 +77,7 @@ def worker_report(request, id):
             data = job_report_serializer.data
             sub_job.processor_usage = data['processor_usage']
             sub_job.memory_usage = data['memory_usage']
+            sub_job.worker.ip_address = data['ip_address']
             sub_job.worker.processor = data['processor']
             sub_job.worker.ram = data['ram']
             sub_job.last_worker_call = timezone.now()
