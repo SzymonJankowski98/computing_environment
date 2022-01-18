@@ -5,7 +5,7 @@
         {{ state }}
     </span>
 {% elif state == 'in_progress' %}
-    <span class="bg-blue-100 text-blue-600 font-main font-bold rounded-lg uppercase py-1 px-2">
+    <span class="bg-blue-100 text-blue-600 font-main font-bold rounded-lg uppercase py-1 px-2 whitespace-nowrap">
         {{ state|replace_floor }}
     </span>
 {% elif state == 'complete' %}
