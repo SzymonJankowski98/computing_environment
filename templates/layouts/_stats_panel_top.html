@@ -31,13 +31,13 @@
                 {{ stats.completed }}
             </div>
         </div>
-        <div class="flex justify-between text-center items-center px-3 py-1">
+        <a href="{% url 'show_failed' %}" class="flex justify-between text-center items-center px-3 py-1 hover:cursor-pointer hover:bg-primary-darker">
             <img class="w-9 ml-1 my-2" src="{% static 'failed.png' %}" />
             <p class="font-main font-extrabold text-sm">Tasks Failed</p>
             <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
               {{ stats.failed }}
             </div>
-        </div>
+        </a>
     </div>
     
  </div>

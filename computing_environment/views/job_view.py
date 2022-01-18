@@ -19,7 +19,7 @@ from computing_environment.models.job import Job
 from computing_environment.models import SubJob
 from computing_environment.services import dashboard_stats
 from .dashboard_view import dashboard
-from ..constants import JobStates, SubJobStates
+from ..constants import JobStates
 
 
 @login_required
@@ -63,6 +63,19 @@ def show_job(request, id):
                 'stats': stats, 'recent_results': recent_results }
 
     return render(request, 'job/show.html', context)
+
+@login_required
+def show_failed(request):
+    stats = dashboard_stats()
+    recent_results = SubJob.objects.recent_results(request.user, 5)
+
+    failed_tasks = SubJob.objects.get_failed_subtasks(request.user)
+    
+    context = { 'failed_tasks': failed_tasks, 'current_user': request.user,
+                'stats': stats, 'recent_results': recent_results }
+
+    return render(request, 'job/show_failed.html', context)
+
 
 @login_required
 def edit_job(request, id):

@@ -26,6 +26,12 @@ class SubJobManager(models.Manager):
         q = Q(job=this_job)
         q.add(Q(state=SubJobStates.COMPLETE), Q.AND)
         return self.select_related('job').filter(q).order_by('state')
+
+    def get_failed_subtasks(self, user=None):
+        q1 = Q(state=SubJobStates.FAILED)
+        q2 = Q(job__creator=user.id)
+        q2.add(Q(job__is_private=False), Q.OR)
+        return self.select_related('job').filter(q2).filter(q1).order_by('-updated_at')
     
     @transaction.atomic
     def sub_job_to_do(self):
