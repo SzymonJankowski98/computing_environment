@@ -5,4 +5,11 @@ function show_settings(id) {
     settings.classList.toggle("hidden");
 }
 
+function expand_all_settings() {
+    document.querySelectorAll('.setting').forEach( settingRow => {
+        settingRow.classList.toggle("hidden");
+    })
+}
+
 window.show_settings = show_settings
+window.expand_all_settings = expand_all_settings

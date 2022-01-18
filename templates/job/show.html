@@ -133,15 +133,20 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div id="show_settings_{{result.id}}" class="hidden w-11/12 break-all font-main text-base font-semibold ml-10 mb-2">
+                    <div id="show_settings_{{result.id}}" class="setting hidden w-11/12 break-all font-main text-base font-semibold ml-10 mb-2">
                         {{ result.settings }}
                     </div>
                 {% endfor %}
                 <div class="w-full border-b"></div>
             </div>
-            <a href="{% url 'download_all' job.id %}" class="w-1/6 px-2 py-1 mt-4 text-center font-bold bg-primary font-main text-slate-200 rounded-md transition hover:bg-primary-darker hover:text-white">
-                Download All
-            </a>
+            <div class="flex w-11/12 justify-center">
+                <button onclick="expand_all_settings()" class="w-1/6 px-2 mx-8 py-1 mt-4 text-center font-bold bg-primary font-main text-slate-200 rounded-md transition hover:bg-primary-darker hover:text-white">
+                    Expand All Settings
+                </button>
+                <a href="{% url 'download_all' job.id %}" class="w-1/6 mx-8 px-2 py-1 mt-4 text-center font-bold bg-primary font-main text-slate-200 rounded-md transition hover:bg-primary-darker hover:text-white">
+                    Download All Results
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}
