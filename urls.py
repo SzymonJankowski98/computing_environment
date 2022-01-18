@@ -15,7 +15,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from computing_environment.views import *
-from computing_environment.views.workers_view import show_workers
 from allauth.account import views
 
 urlpatterns = [
@@ -27,6 +26,7 @@ urlpatterns = [
     path('job/<int:id>/edit', edit_job, name='edit_job'),
     path('job/<int:id>/delete', delete_job, name='delete_job'),
     path('workers', show_workers, name="show_workers"),
+    path('worker/<int:id>', show_worker, name='show_worker'),
     path('failed_jobs', show_failed, name='show_failed'),
     path('sub_job/<int:id>/delete', delete_sub_job, name='delete_sub_job'),
     path('profile', edit_profile, name='edit_profile'),
