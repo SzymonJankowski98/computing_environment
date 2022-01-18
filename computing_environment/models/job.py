@@ -1,3 +1,4 @@
+from itertools import chain
 from .user import *
 from django.db.models.deletion import SET_NULL
 from django.db.models import Q
@@ -50,8 +51,8 @@ class Job(models.Model):
 
     def finished_ordered(self):
         part1 = self.get_completed_subtasks().order_by("-updated_at")
-        part2 = self.get_not_completed_subtasks().order_by("created_at")
-        return part1.union(part2)
+        part2 = self.get_not_completed_subtasks().order_by("-updated_at")
+        return list(chain(part1, part2))
 
     def last_result(self):
         self.sub_jobs.order_by('-updated_at').first()
