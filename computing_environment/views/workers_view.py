@@ -29,7 +29,7 @@ def show_worker(request, id):
 
     stats = dashboard_stats()
     recent_results = SubJob.objects.recent_results(request.user, 5)
-    worker_results = SubJob.objects.get_worker_subtasks(id)
+    worker_results = SubJob.objects.get_worker_subtasks(id, request.user)
 
     context = {
         'worker': worker, 'worker_results':worker_results,

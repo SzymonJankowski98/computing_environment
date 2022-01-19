@@ -30,7 +30,7 @@
                 {% if failed_tasks.count == 0 %}<p class="mt-4">There are no subs for this task yet</p>{% endif %}
                 {% for sub in failed_tasks %}
                     <div class="flex font-main items-center py-4 border-t w-full">
-                        <a href="{% url 'show_job' sub.job.id %}" class="font-bold w-[9.6666%] text-center font-main bg-slate-200 px-2 py-1 rounded-md hover:bg-slate-100 transition">
+                        <a href="{% url 'show_job' sub.job.id %}?sub={{ sub.id }}#{{ sub.id }}" class="font-bold w-[9.6666%] text-center font-main bg-slate-200 px-2 py-1 rounded-md hover:bg-slate-100 transition">
                             {{ sub.job.name|truncatechars:12 }}
                         </a>
                         <h2 class="font-bold w-[5%] text-center">{{ sub.id }}</h2>

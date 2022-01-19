@@ -41,7 +41,7 @@
                 <h2 class="w-[12.6666%]">Task Name</h2>
                 <h2 class="w-1/12">SubTask ID</h2>
                 <h2 class="w-1/12">Status</h2>
-                <h2 class="w-2/12">Settings</h2>
+                <h2 class="w-[12.6666%]">Settings</h2>
                 <h2 class="w-[12.6666%]">Results</h2>
                 <h2 class="w-2/12">Usage</h2>
                 <h2 class="w-2/12">Execution Time</h2>
@@ -59,7 +59,7 @@
                         <div class="text-xs w-1/12 mx-1 flex justify-center items-center">
                             {% include 'dashboard/_state_label.html' with state=result.state %}
                         </div>
-                        <div class="w-2/12 flex justify-center">
+                        <div class="w-[12.6666%] flex justify-center">
                             <button id="button_settings_{{result.id}}" onclick="show_settings({{result.id}})" class="px-2 py-1 bg-primary font-main text-slate-200 rounded-md transition hover:bg-primary-darker hover:text-white">
                                 Show Settings
                             </button>
