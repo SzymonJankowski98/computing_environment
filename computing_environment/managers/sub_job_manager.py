@@ -33,7 +33,7 @@ class SubJobManager(models.Manager):
         q2.add(Q(job__is_private=False), Q.OR)
         return self.select_related('job').filter(q2).filter(q1).order_by('-updated_at')
     
-    def get_worker_subtask(self, id):
+    def get_worker_subtasks(self, id):
         q = Q(worker=id)
         q.add(~Q(state=SubJobStates.AVAILABLE), Q.AND)
         return self.select_related('job').filter(q).order_by('-updated_at')

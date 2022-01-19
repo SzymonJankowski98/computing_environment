@@ -1,4 +1,5 @@
 {% load static %}
+{% load filters %}
 
 <div class="bg-primary mx-4 mt-4 w-full[-8rem] md:h-fit md:w-72 rounded-lg flex items-center flex-col">
     <h2 class="text-2xl font-bold text-slate-300">Statistics</h2>
@@ -31,13 +32,19 @@
                 {{ stats.completed }}
             </div>
         </div>
-        <a href="{% url 'show_failed' %}" class="flex justify-between text-center items-center px-3 py-1 hover:cursor-pointer hover:bg-primary-darker">
+        <a href="{% url 'show_failed' %}" class="flex justify-between text-center items-center px-3 py-1  border-b border-primary-darker hover:cursor-pointer hover:bg-primary-darker">
             <img class="w-9 ml-1 my-2" src="{% static 'failed.png' %}" />
             <p class="font-main font-extrabold text-sm">Tasks Failed</p>
             <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
               {{ stats.failed }}
             </div>
         </a>
+        <div class="flex justify-between text-center border-b border-primary-darker items-center px-3 py-2">
+            <p class="font-main font-extrabold text-sm">Execution Time</p>
+            <div class=" px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-xs flex items-center justify-center">
+                {{ stats.et|nice_timedelta }}
+            </div>
+        </div>
     </div>
     
  </div>
