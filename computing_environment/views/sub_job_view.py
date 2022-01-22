@@ -109,6 +109,8 @@ def send_result(request, id):
                 else:
                     sub_job.complete()
                 sub_job.save()
+                sub_job.worker.worked_time += sub_job.execution_time()
+                sub_job.worker.save()
                 if sub_job.job.complete_percent() == 100:
                     sub_job.job.complete()
                     sub_job.job.save()

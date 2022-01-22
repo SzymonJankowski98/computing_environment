@@ -6,7 +6,8 @@ def dashboard_stats():
     subjobs = SubJob.objects.all()
     et=timedelta(0)
     for sub in subjobs:
-        et+=sub.execution_time()
+        if sub.worker:
+            et+=sub.worker.worked_time
 
     stats = {
         'workers': Worker.objects.active().count(),

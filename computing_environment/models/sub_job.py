@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.utils import timezone
@@ -28,19 +29,23 @@ class SubJob(models.Model):
     memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     avg_processor_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     avg_memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
+    started_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = SubJobManager()
 
     def execution_time(self):
-        return self.updated_at - self.created_at
+        if not self.started_at:
+            return timedelta(0)
+        return self.updated_at - self.started_at
 
     def download_link(self):
         return mark_safe('<a href="{0}{1}">{1}</a>'.format(settings.MEDIA_URL, self.result))
     
     @transition(field=state, source=SubJobStates.AVAILABLE, target=SubJobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
+        self.started_at = timezone.now()
         self.last_worker_call = timezone.now()
 
     @transition(field=state, source=[SubJobStates.AVAILABLE,  SubJobStates.IN_PROGRESS, SubJobStates.COMPLETE, SubJobStates.FAILED], target=SubJobStates.AVAILABLE)
