@@ -24,7 +24,7 @@
 
                     <div class="ml-2 ">
                         <p class="font-main font-bold" > {{ result.job.name|truncatechars:9  }}
-                            {% if result.job.creator == current_user %}
+                            {% if result.job.is_private %}
                             <span class="text-orange-500 font-main text-xxs my-1 align-middle">    
                                 private
                             </span>
