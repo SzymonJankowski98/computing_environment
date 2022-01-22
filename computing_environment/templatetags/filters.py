@@ -42,25 +42,38 @@ def param_replace(context, **kwargs):
     return d.urlencode()
 
 @register.filter(name='nice_timedelta')
+def nice_timedelta(seconds):
+
+    if seconds > 3600:
+        hours = seconds // 3600
+        return hours
+
+    if seconds > 60:
+        min = seconds // 60
+        return min
+
+    return seconds
+   
+@register.filter(name='nice_timedelta')
 def nice_timedelta(timedelta):
     seconds = timedelta
     nice_time = ""
 
-    # if seconds > 86400:
-    #     days = seconds // 86400
-    #     nice_time += f"{int(days)} days"
-    #     seconds = seconds - days*86400
+    if seconds > 86400:
+        days = seconds // 86400
+        nice_time += f"{int(days)} days "
+        seconds = seconds - days*86400
 
     if seconds > 3600:
         hours = seconds // 3600
-        nice_time += f"{int(hours)}"
+        nice_time += f"{int(hours)} h "
         seconds = seconds - hours*3600
 
-    # if seconds > 60:
-    #     minutes = seconds // 60
-    #     nice_time += f"{int(minutes)}m "
-    #     seconds = seconds - minutes*60
+    if seconds > 60:
+        minutes = seconds // 60
+        nice_time += f"{int(minutes)} min "
+        seconds = seconds - minutes*60
 
-    # if seconds > 0:
-    #     nice_time += f"{int(seconds)}s "
+    if seconds > 0:
+        nice_time += f"{int(seconds)} s "
     return nice_time

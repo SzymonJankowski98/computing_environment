@@ -3,19 +3,13 @@ from computing_environment.models import SubJob
 from datetime import timedelta
 
 def dashboard_stats():
-    subjobs = SubJob.objects.all()
-    et=timedelta(0)
-    for sub in subjobs:
-        if sub.worker:
-            et+=sub.worker.worked_time
-
     stats = {
         'workers': Worker.objects.active().count(),
         'available': SubJob.objects.jobs_available().count(),
         'in_progress': SubJob.objects.jobs_in_progress().count(),
         'completed': SubJob.objects.jobs_completed().count(),
         'failed': SubJob.objects.jobs_failed().count(),
-        'et': et.seconds
+        'et': Worker.objects.total_execution_time()
     }
     
     return stats

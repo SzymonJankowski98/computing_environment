@@ -43,7 +43,7 @@
             <img class="w-9 ml-1 my-2" src="{% static 'hourglass.svg' %}" />
             <p class="font-main font-extrabold  text-sm">Processing Hours</p>
             <div class="w-9 px-3 py-1 rounded-full bg-background text-primary-darker font-main font-extrabold text-lg flex items-center justify-center">
-                {{ stats.et|nice_timedelta }}
+                {% widthratio stats.et 3600 1 %}
             </div>
         </div>
     </div>
