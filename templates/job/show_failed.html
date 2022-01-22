@@ -98,7 +98,7 @@
                             {% if sub.state != "complete" and sub.state != "failed" %}
                                 <span>- - -</span>
                             {% else %}
-                                {{ result.execution_time.seconds|nice_timedelta }}
+                                {{ sub.execution_time.seconds|nice_timedelta }}
                             {% endif %}
                         </p>
                         <div class="w-28 flex flex-col items-center">
