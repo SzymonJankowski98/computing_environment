@@ -42,19 +42,6 @@ def param_replace(context, **kwargs):
     return d.urlencode()
 
 @register.filter(name='nice_timedelta')
-def nice_timedelta(seconds):
-
-    if seconds > 3600:
-        hours = seconds // 3600
-        return hours
-
-    if seconds > 60:
-        min = seconds // 60
-        return min
-
-    return seconds
-   
-@register.filter(name='nice_timedelta')
 def nice_timedelta(timedelta):
     seconds = timedelta
     nice_time = ""
