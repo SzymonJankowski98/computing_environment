@@ -128,7 +128,7 @@
                             {% if result.state != "complete" and result.state != "failed" %}
                                 <span>- - -</span>
                             {% else %}
-                                {% widthratio result.execution_time.seconds 60 1 %} min {{ result.execution_time.seconds|modulo }} s
+                                {{ result.execution_time.seconds|nice_timedelta }}
                             {% endif %}
                         </p>
                         <div class="w-28 flex flex-col items-center">
