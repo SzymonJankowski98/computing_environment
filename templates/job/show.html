@@ -20,8 +20,7 @@
                 </div>
                     <!-- <h2 class="font-bold uppercase">{{ job.language }}</h2> -->
                 <div class="flex flex-row justify-between sm:items-end lg:items-start w-full sm:flex-col -mt-2">
-                    <div class="flex">
-
+                    <div class="flex items-center">
                         <h1 class="text-3xl font-extrabold mb-1 ml-4 sm:ml-0">{{ job.name }}</h1>
                         {% if job.creator == current_user %}
                         <a href="{% url 'edit_job' job.id %}" class="ml-2">
