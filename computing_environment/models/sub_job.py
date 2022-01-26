@@ -23,7 +23,7 @@ class SubJob(models.Model):
     job = models.ForeignKey(Job, on_delete=CASCADE, related_name='sub_jobs')
     worker = models.ForeignKey(Worker, on_delete=SET_NULL, related_name='sub_job', null=True)
     settings = models.JSONField(default=dict, blank=True)
-    state = FSMField(default=SubJobStates.AVAILABLE, protected=True)
+    state = FSMField(default=SubJobStates.AVAILABLE, protected=True, editable = False)
     last_worker_call = models.DateTimeField(null=True, blank=True)
     processor_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)

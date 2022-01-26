@@ -24,7 +24,7 @@ class Job(models.Model):
     language = models.CharField(max_length=63, choices=LANGUAGES)
     program = models.FileField(upload_to=program_save_directory, validators=[FileExtensionValidator(allowed_extensions=['zip', 'rar'])])
     is_private = models.BooleanField(default=False)
-    state = FSMField(default=JobStates.AVAILABLE, protected=True)
+    state = FSMField(default=JobStates.AVAILABLE, protected=True, editable = False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
