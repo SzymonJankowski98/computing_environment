@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.utils import timezone
@@ -12,7 +13,7 @@ from computing_environment.models.worker import Worker
 from ..constants import SubJobStates
 
 def result_save_directory(instance, filename):
-    return 'results/{0}/{1}_{2}'.format(instance.job.id, timezone.now(), filename)
+    return 'results/{0}/{1}_{2}'.format(instance.id, timezone.now(), filename)
 
 class SubJob(models.Model):
     class Meta:
@@ -22,25 +23,29 @@ class SubJob(models.Model):
     job = models.ForeignKey(Job, on_delete=CASCADE, related_name='sub_jobs')
     worker = models.ForeignKey(Worker, on_delete=SET_NULL, related_name='sub_job', null=True)
     settings = models.JSONField(default=dict, blank=True)
-    state = FSMField(default=SubJobStates.AVAILABLE, protected=True)
+    state = FSMField(default=SubJobStates.AVAILABLE, protected=True, editable = False)
     last_worker_call = models.DateTimeField(null=True, blank=True)
     processor_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     avg_processor_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
     avg_memory_usage = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
+    started_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = SubJobManager()
 
     def execution_time(self):
-        return self.job.updated_at - self.updated_at
+        if not self.started_at:
+            return timedelta(0)
+        return self.updated_at - self.started_at
 
     def download_link(self):
         return mark_safe('<a href="{0}{1}">{1}</a>'.format(settings.MEDIA_URL, self.result))
     
     @transition(field=state, source=SubJobStates.AVAILABLE, target=SubJobStates.IN_PROGRESS)
     def mark_as_in_progress(self):
+        self.started_at = timezone.now()
         self.last_worker_call = timezone.now()
 
     @transition(field=state, source=[SubJobStates.AVAILABLE,  SubJobStates.IN_PROGRESS, SubJobStates.COMPLETE, SubJobStates.FAILED], target=SubJobStates.AVAILABLE)

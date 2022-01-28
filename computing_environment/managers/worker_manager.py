@@ -8,6 +8,15 @@ class WorkerManager(models.Manager):
     class Meta:
         app_label = "computing_environment"
 
+    def total_execution_time(self):
+        workers = self.all()
+        et=timedelta(0)
+
+        for worker in workers:
+            et += worker.worked_time
+
+        return et.seconds
+
     def latest_reports(self):
         return self.all().order_by('-updated_at')
 

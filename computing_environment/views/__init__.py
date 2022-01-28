@@ -6,3 +6,4 @@ from .sub_job_view import *
 from .error_view import *
 from .download_view import *
 from .profile_view import *
+from .workers_view import *

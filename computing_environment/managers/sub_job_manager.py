@@ -13,8 +13,10 @@ class SubJobManager(models.Manager):
         q = Q(job__is_private=False)
         if user:
             q.add(Q(job__creator=user), Q.OR)
+        q.add(Q(state=SubJobStates.COMPLETE), Q.AND)
+        q.add(Q(state=SubJobStates.FAILED), Q.OR)
 
-        return self.select_related('job').filter(q).order_by('-created_at')[:limit]
+        return self.select_related('job').filter(q).order_by('-updated_at')[:limit]
 
     def all_subtasks_of_job(self, this_job):
         q = Q(job=this_job)
@@ -24,7 +26,20 @@ class SubJobManager(models.Manager):
         q = Q(job=this_job)
         q.add(Q(state=SubJobStates.COMPLETE), Q.AND)
         return self.select_related('job').filter(q).order_by('state')
+
+    def get_failed_subtasks(self, user=None):
+        q1 = Q(state=SubJobStates.FAILED)
+        q2 = Q(job__creator=user.id)
+        q2.add(Q(job__is_private=False), Q.OR)
+        return self.select_related('job').filter(q2).filter(q1).order_by('-updated_at')
     
+    def get_worker_subtasks(self, id, user=None):
+        q = Q(worker=id)
+        q.add(~Q(state=SubJobStates.AVAILABLE), Q.AND)
+        q2 = Q(job__creator=user.id)
+        q2.add(Q(job__is_private=False), Q.OR)
+        return self.select_related('job').filter(q2).filter(q).order_by('-updated_at')
+
     @transaction.atomic
     def sub_job_to_do(self):
         job = self.filter(Q(state=SubJobStates.AVAILABLE)).order_by('updated_at').select_for_update().first()

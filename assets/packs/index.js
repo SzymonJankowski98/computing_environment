@@ -5,6 +5,7 @@ import '../javascript/active-page'
 import '../javascript/progress-bars'
 import '../javascript/json-editor'
 import '../javascript/language-helper'
+import '../javascript/show-settings'
 
 import '../style/tailwind.css';
 import '../style/fonts.css';

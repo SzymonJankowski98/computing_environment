@@ -1,4 +1,5 @@
 import json
+from sre_parse import State
 
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
@@ -56,11 +57,25 @@ def show_job(request, id):
     if job.is_private and job.creator != request.user:
         raise PermissionDenied()
 
-    job_results = SubJob.objects.filter(job=job)
+    job_results = job.finished_ordered()
+
     context = { 'job': job, 'job_results': job_results, 'current_user': request.user,
                 'stats': stats, 'recent_results': recent_results }
 
     return render(request, 'job/show.html', context)
+
+@login_required
+def show_failed(request):
+    stats = dashboard_stats()
+    recent_results = SubJob.objects.recent_results(request.user, 5)
+
+    failed_tasks = SubJob.objects.get_failed_subtasks(request.user)
+    
+    context = { 'failed_tasks': failed_tasks, 'current_user': request.user,
+                'stats': stats, 'recent_results': recent_results }
+
+    return render(request, 'job/show_failed.html', context)
+
 
 @login_required
 def edit_job(request, id):

@@ -64,8 +64,37 @@ admin.site.register(Invitation, InvitationAdmin)
 
 from .models import Job
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('name', 'creator', 'filename', 'state', 'is_private', 'created_at', 'updated_at')
+    list_display = ('id', 'name', 'creator', 'filename', 'state', 'is_private', 'created_at', 'updated_at')
+    
     def filename(self, obj):
         return str(obj.program).split('_')[-1]
-   
+
 admin.site.register(Job, JobAdmin)
+
+from .models import SubJob
+from django.urls import reverse
+from django.utils.html import format_html
+class SubJobAdmin(admin.ModelAdmin):
+    list_display = ('id', 'link_to_job', 'link_to_worker', 'state', 'processor_usage',
+                    'memory_usage','avg_processor_usage','avg_memory_usage','started_at', 
+                    'created_at','last_worker_call')
+    
+    @admin.display(description="Job")
+    def link_to_job(self, obj):
+        link = reverse("admin:computing_environment_job_change", args=[obj.job.id])
+        return format_html('<a href="{}">{}</a>', link, obj.job)
+
+    @admin.display(description="Worker")
+    def link_to_worker(self, obj):
+        link = reverse("admin:computing_environment_worker_change", args=[obj.worker.id])
+        return format_html('<a href="{}">{}</a>', link, obj.worker)
+
+admin.site.register(SubJob,SubJobAdmin)
+
+
+from .models import Worker
+class WorkerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'ip_address', 'processor', 'ram', 
+                    'worked_time', 'created_at','updated_at')
+
+admin.site.register(Worker,WorkerAdmin)
