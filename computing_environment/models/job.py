@@ -10,8 +10,7 @@ from ..exceptions import WrongLanguage
 from ..managers import JobManager
 
 def program_save_directory(instance, filename):
-    creator_id = instance.creator.id or 'no_author'
-    return 'programs/{0}/{1}_{2}'.format(creator_id, timezone.now(), filename)
+    return 'programs/{0}/{1}_{2}'.format(instance.id, timezone.now(), filename)
 
 class Job(models.Model):
     class Meta:

@@ -13,7 +13,7 @@ from computing_environment.models.worker import Worker
 from ..constants import SubJobStates
 
 def result_save_directory(instance, filename):
-    return 'results/{0}/{1}_{2}'.format(instance.job.id, timezone.now(), filename)
+    return 'results/{0}/{1}_{2}'.format(instance.id, timezone.now(), filename)
 
 class SubJob(models.Model):
     class Meta:
